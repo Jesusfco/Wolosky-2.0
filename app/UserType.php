@@ -4,7 +4,7 @@ namespace Wolosky;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserDetail extends Model {
+class UserType extends Model {
 
     protected $fillable = [
         'name',
