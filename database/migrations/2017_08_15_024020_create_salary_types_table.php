@@ -14,7 +14,7 @@ class CreateSalaryTypesTable extends Migration
     public function up()
     {
         Schema::create('salary_types', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('description');
         });
     }

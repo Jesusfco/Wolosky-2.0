@@ -14,7 +14,7 @@ class CreateMonthlyPaymentsTable extends Migration
     public function up()
     {
         Schema::create('monthly_payments', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->double('amount');
             $table->string('description');
         });
