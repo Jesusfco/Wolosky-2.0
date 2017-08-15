@@ -1,29 +1,24 @@
 <?php
 
-namespace App;
+namespace Wolosky;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
-{
+class User extends Authenticatable {
+
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'name', 'email', 'password',
+        'email', 'password', 'userDetailId'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function userDetail() {
+        return $this->hasOne('Wolosky\UserDetail', 'id', 'userDetailId');
+    }
+
 }
