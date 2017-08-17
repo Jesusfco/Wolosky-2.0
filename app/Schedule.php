@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Schedule extends Model {
 
+    protected $table = "schedules";
+
     protected $fillable = [
         'description',
         'day',
@@ -13,5 +15,7 @@ class Schedule extends Model {
         'checkOut',
         'userId'
     ];
+
+    public $timestamps = false;
 
 }
