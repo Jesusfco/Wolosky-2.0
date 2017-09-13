@@ -15,4 +15,6 @@ class Payment extends Model {
         'date'
     ];
 
+    protected $table = 'payment';
+
 }

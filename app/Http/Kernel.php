@@ -18,6 +18,11 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \Wolosky\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+
+//        \Wolosky\Http\Middleware\Cors::class,
+
+        \Barryvdh\Cors\HandleCors::class,
+
     ];
 
     /**
@@ -34,11 +39,18 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \Wolosky\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+
+
+
         ],
 
         'api' => [
             'throttle:60,1',
             'bindings',
+//
+//            \Wolosky\Http\Middleware\Cors::class,
+
+            \Barryvdh\Cors\HandleCors::class,
         ],
     ];
 

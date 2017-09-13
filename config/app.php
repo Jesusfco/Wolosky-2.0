@@ -177,6 +177,9 @@ return [
         Wolosky\Providers\EventServiceProvider::class,
         Wolosky\Providers\RouteServiceProvider::class,
 
+
+        Barryvdh\Cors\ServiceProvider::class,
+
     ],
 
     /*

@@ -15,11 +15,13 @@ class CreateSalariesTable extends Migration
     {
         Schema::create('salaries', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->double('amount');
             $table->integer('salaryTypeId');
             $table->integer('userId');
+            $table->timestamps();
         });
+
     }
 
     /**
