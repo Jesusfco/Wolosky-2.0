@@ -15,8 +15,8 @@ class CreateRecordsTable extends Migration
     {
         Schema::create('records', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->dateTime('checkIn');
-            $table->dateTime('checkOut');
+            $table->time('checkIn');
+            $table->time('checkOut');
             $table->integer('workedHours');
             $table->integer('extraHours');
             $table->integer('scheduleId');

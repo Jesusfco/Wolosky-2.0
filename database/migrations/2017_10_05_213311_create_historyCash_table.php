@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSalaryTypesTable extends Migration
+class CreateHistoryCashTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateSalaryTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('salary_types', function (Blueprint $table) {
+        Schema::create('historyCash', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('description')->nullable();
+            $table->double('amount');
+            $table->double('allow');
+            $table->timestamps();
         });
     }
 
@@ -27,6 +28,6 @@ class CreateSalaryTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('salary_types');
+        Schema::dropIfExists('historyCash');
     }
 }

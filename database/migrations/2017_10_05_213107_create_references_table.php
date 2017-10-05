@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSalaryTypesTable extends Migration
+class CreateReferencesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,14 @@ class CreateSalaryTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('salary_types', function (Blueprint $table) {
+        Schema::create('references', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('user_id');
+            $table->string('relationship');
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->string('phone');
+            $table->string('email')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -27,6 +31,6 @@ class CreateSalaryTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('salary_types');
+        Schema::dropIfExists('references');
     }
 }

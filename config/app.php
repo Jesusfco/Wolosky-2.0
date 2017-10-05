@@ -178,7 +178,7 @@ return [
         Wolosky\Providers\RouteServiceProvider::class,
 
 
-        Barryvdh\Cors\ServiceProvider::class,
+//        Barryvdh\Cors\ServiceProvider::class,
 
     ],
 

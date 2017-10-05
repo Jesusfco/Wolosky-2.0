@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSalaryTypesTable extends Migration
+class CreateCashTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateSalaryTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('salary_types', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('description')->nullable();
+        Schema::create('cash', function (Blueprint $table) {
+            $table->increments('id');
+            $table->double('amount');
         });
     }
 
@@ -27,6 +26,6 @@ class CreateSalaryTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('salary_types');
+        Schema::dropIfExists('cash');
     }
 }

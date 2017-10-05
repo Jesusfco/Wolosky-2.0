@@ -18,8 +18,10 @@ class CreateReceiptTable extends Migration
             $table->integer('userId');
             $table->double('amount');
             $table->dateTime('date');
-            $table->string('description');
-
+            $table->string('description')->nullable();
+            $table->integer('type');
+            $table->integer('days')->nullable();
+            $table->timestamps();
         });
     }
 

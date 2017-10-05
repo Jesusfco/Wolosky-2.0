@@ -20,8 +20,11 @@ class CreateUsersTable extends Migration
             $table->binary('fingerprint')->nullable();
             $table->string('name')->unique();
             $table->string('img')->nullable();
+            $table->string('curp')->nullable();
             $table->date('birthday')->nullable();
+            $table->string('placeBirth')->nullable();
             $table->string('gender');
+            $table->string('insurance')->nullable();
             $table->string('phone')->nullable();
             $table->string('street')->nullable();
             $table->string('hauseNumber')->nullable();
@@ -30,6 +33,7 @@ class CreateUsersTable extends Migration
             $table->integer('monthlyPaymentId')->nullable();
             $table->integer('userTypeId');
             $table->integer('salaryId')->nullable();
+            $table->integer('status')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

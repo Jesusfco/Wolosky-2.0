@@ -16,11 +16,11 @@ class CreateSchedulesTable extends Migration
         Schema::create('schedules', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('day');
+            $table->integer('day');
             $table->time('checkIn');
             $table->time('checkOut');
             $table->integer('userId');
-            $table->integer('userId');
+            $table->string('type');
         });
     }
 
