@@ -3,6 +3,7 @@
 namespace Wolosky\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Wolosky\MonthlyPayment;
 use Wolosky\User;
 use Wolosky\Schedule;
 use Wolosky\Salary;
@@ -10,7 +11,7 @@ use Wolosky\Payment;
 
 class UsersController extends Controller
 {
-    public function getUsers()
+    public function get()
     {
         return User::all();
     }
@@ -21,7 +22,9 @@ class UsersController extends Controller
     }
 
 
-    public function createUser(Request $request){
+    public function create(Request $request){
+
+        $newUser = $request->user;
 
         $user = new User();
 
@@ -36,71 +39,42 @@ class UsersController extends Controller
         $user->city = $request[0]['city'];
         $user->userTypeId = $request[0]['userTypeId'];
 
+
         $user->save();
 
-        //Pagos de trabajadores
-        if($user->userTypeId == 1) {
 
-            $salary = new Salary();
-
-            $salary->amount = $request[3]['amount'];
-            $salary->salaryTypeId = $request[3]['salaryTypeId'];
-            $salary->description = $request[3]['description'];
-            $salary->userId = $user->id;
-
-            $salary->save();
-
-        }//Fin if para Pagos Trabajadores
-
-
-        //Asignar pagos a los gimnastas
-        else if($user->userTypeId == 2) {
-
-            $payment = new Payment();
-
-            $payment->amount = $request[2]['amount'];
-            $payment->date = $request[2]['date'];
-            $payment->description = $request[2]['description'];
-            $payment->userId = $user->id;
-
-            $payment->save();
-
-        }   //Fin else if de pagos a gimnastas
-
-        //Asignar Contraseña
-        else if($user->userTypeId == 3) {
-
-        }//Fin else If Asignar Contraseña
-
-
-        //Asignar Schedules
-        if( $user->userTypeId < 3) {
-
-            $day = 1;
-
-            foreach($request[1] as $horario){
-
-                if($horario['active'] == true) {
-
-                    $schedule = new Schedule();
-
-                    $schedule->checkIn = $horario['checkIn'];
-                    $schedule->checkOut = $horario['checkOut'];
-                    $schedule->userId = $user->id;
-                    $schedule->day = $day;
-
-                    $schedule->save();
-
-                }
-
-                $day++;
-
-            }
-        } //Fin de asignar Schedules
-
-        return response()->json($user);
 
         return $request->user;
+    }
+
+    public function createSchedule($schedules, $id){
+        foreach($schedules as $x){
+            $schedule = new Schedule();
+            $schedule->userId = $id;
+            $schedule->checkIn = $x->checkIn;
+            $schedule->checkOut =  $x->checkOut;
+            $schedule->desccription =  $x->description;
+            $schedule->day =  $x->day;
+            $schedule->save();
+        }
+    }
+
+    public function createSalary($salary){
+        $newSalary = new Salary();
+        $newSalary->amount =  $salary->amount;
+        $newSalary->bonus = $salary->bonus;
+        $newSalary->salaryTypeId =  $salary->type;
+        $newSalary->description = $salary->description;
+        $newSalary->save();
+        return $newSalary->id;
+    }
+
+    public function createMonthlyPayment($payment){
+        $monthlyPayment = new MonthlyPayment();
+        $monthlyPayment->amount = $payment->amount;
+        $monthlyPayment->description = $payment->description;
+        $monthlyPayment->save();
+        return $monthlyPayment->id;
     }
 
 

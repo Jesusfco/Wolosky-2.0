@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('curp')->nullable();
             $table->date('birthday')->nullable();
             $table->string('placeBirth')->nullable();
-            $table->string('gender');
+            $table->smallInteger('gender');
             $table->string('insurance')->nullable();
             $table->string('phone')->nullable();
             $table->string('street')->nullable();
@@ -33,7 +33,7 @@ class CreateUsersTable extends Migration
             $table->integer('monthlyPaymentId')->nullable();
             $table->integer('userTypeId');
             $table->integer('salaryId')->nullable();
-            $table->integer('status')->nullable();
+            $table->boolean('active')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 //});
 
 Route::post('login', 'LoginController@signin');
-Route::post('login/check', 'LoginController@checkAuth');
+Route::get('login/check', 'LoginController@checkAuth');
 
-Route::get('user/getUser', 'UsersController@getUsers');
-Route::post('user/createUser', 'UsersController@createUser');
+Route::get('user', 'UsersController@get');
+Route::post('user', 'UsersController@create');

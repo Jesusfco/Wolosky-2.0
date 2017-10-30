@@ -27,12 +27,12 @@ class userTypeTableSeeder extends Seeder
         ]);
 
         DB::table('user_types')->insert([
-            'name' => 'Administrador',
+            'name' => 'Super Escritor',
             'description' => NULL,
         ]);
 
         DB::table('user_types')->insert([
-            'name' => 'Super Administrador',
+            'name' => 'Administrador',
             'description' => NULL,
         ]);
     }

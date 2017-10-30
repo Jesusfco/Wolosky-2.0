@@ -32,16 +32,32 @@ class UserTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'JESUS FCO CORTES',
             'email' => 'jfcr@live.com',
-            'password' => bcrypt('prueba'),
+            'password' => bcrypt('secret'),
             'img' => NULL,
             'birthday' => Carbon::create('1995', '09', '23'),
-            'gender' => 'M',
+            'gender' => 1,
             'phone' => 9611221222,
             'street' => NULL,
             'hauseNumber' => NULL,
             'city' => 'Tuxtla Gtz',
             'colony' => NULL,
-            'userTypeId' => 10,
+            'userTypeId' => 5,
+
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'DIANA TOLEDO',
+            'email' => 'bexan1818@hotmail.com',
+            'password' => bcrypt('secret'),
+            'img' => NULL,
+            'birthday' => Carbon::create('1996', '1', '23'),
+            'gender' => 2,
+            'phone' => 9611221222,
+            'street' => NULL,
+            'hauseNumber' => NULL,
+            'city' => 'Tuxtla Gtz',
+            'colony' => NULL,
+            'userTypeId' => 5,
 
         ]);
     }
