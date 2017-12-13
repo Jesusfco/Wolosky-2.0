@@ -1,4 +1,4 @@
-<?php
+e<?php
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,7 +15,7 @@ class CreateReceiptTable extends Migration
     {
         Schema::create('receipt', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('userId');
+            $table->integer('user_id');
             $table->double('amount');
             $table->dateTime('date');
             $table->string('description')->nullable();

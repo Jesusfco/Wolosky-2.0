@@ -8,6 +8,7 @@ use Wolosky\User;
 use Wolosky\Schedule;
 use Wolosky\Salary;
 use Wolosky\Payment;
+use Wolosky\Reference;
 
 class UsersController extends Controller
 {
@@ -40,6 +41,11 @@ class UsersController extends Controller
         $user->userTypeId = $newUser['userTypeId'];
 
         $user->save();
+
+        if($user->userTypeId <= 3){
+            $this->createSchedule($request->schedules, $user->id);
+            $this->createReferences
+        }
 
         return response()->json($request->user);
     }
@@ -76,6 +82,23 @@ class UsersController extends Controller
         $monthlyPayment->save();
         return $monthlyPayment->id;
     }
+
+    public function createReferences($references, $id){
+
+        foreach($references as $x){
+
+            $reference =  new Reference();
+
+            $reference->user_id =  $id;
+            $reference->name = $x['name'];
+            $reference->phone = $x['phone'];
+            $reference->email = $x['email'];
+            $reference->relationship = $x['relationship'];
+
+            $reference->save();
+        }
+        
+    } //Fin
 
 
 }

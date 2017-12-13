@@ -22,6 +22,11 @@ class userTypeTableSeeder extends Seeder
         ]);
 
         DB::table('user_types')->insert([
+            'name' => 'Caja',
+            'description' => NULL,
+        ]);
+
+        DB::table('user_types')->insert([
             'name' => 'Escritor',
             'description' => NULL,
         ]);

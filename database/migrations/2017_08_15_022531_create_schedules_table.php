@@ -19,7 +19,7 @@ class CreateSchedulesTable extends Migration
             $table->integer('day');
             $table->time('checkIn');
             $table->time('checkOut');
-            $table->integer('userId');
+            $table->integer('user_id');
             $table->string('type');
         });
     }
