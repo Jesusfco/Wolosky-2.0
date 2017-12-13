@@ -13,7 +13,7 @@ class UsersController extends Controller
 {
     public function get()
     {
-        return User::all();
+        return response()->json(User::all());
     }
 
     public function searchUser(Request $request)
@@ -23,31 +23,30 @@ class UsersController extends Controller
 
 
     public function create(Request $request){
-
-        $newUser = $request->user;
+        
+        $newUser = $request->user;        
 
         $user = new User();
 
-        $user->name = $request[0]['name'];
-        $user->email = $request[0]['email'];
-        $user->birthday = $request[0]['birthday'];
-        $user->gender = $request[0]['gender'];
-//        $user->phone = $request[0]['phone'];
-        $user->street = $request[0]['street'];
-        $user->hauseNumber = $request[0]['hauseNumber'];
-        $user->colony = $request[0]['colony'];
-        $user->city = $request[0]['city'];
-        $user->userTypeId = $request[0]['userTypeId'];
-
+        $user->name = $newUser['name'];
+        $user->email = $newUser['email'];
+        $user->birthday = $newUser['birthday'];
+        $user->gender = $newUser['gender'];
+//        $user->phone = $newUser['phone'];
+        $user->street = $newUser['street'];
+        $user->hauseNumber = $newUser['hauseNumber'];
+        $user->colony = $newUser['colony'];
+        $user->city = $newUser['city'];
+        $user->userTypeId = $newUser['userTypeId'];
 
         $user->save();
 
-
-
-        return $request->user;
+        return response()->json($request->user);
     }
 
     public function createSchedule($schedules, $id){
+        
+
         foreach($schedules as $x){
             $schedule = new Schedule();
             $schedule->userId = $id;
@@ -56,6 +55,7 @@ class UsersController extends Controller
             $schedule->desccription =  $x->description;
             $schedule->day =  $x->day;
             $schedule->save();
+
         }
     }
 
