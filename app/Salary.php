@@ -9,8 +9,8 @@ class Salary extends Model {
     protected $fillable = [
         'description',
         'amount',
-        'salaryTypeId',
-        'userId'
+        'bonus',
+        'salaryTypeId',        
     ];
 
 }

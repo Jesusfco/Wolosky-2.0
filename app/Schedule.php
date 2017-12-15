@@ -13,7 +13,9 @@ class Schedule extends Model {
         'day',
         'checkIn',
         'checkOut',
-        'userId'
+        'user_id',
+        'type',
+        'active'
     ];
 
     public $timestamps = false;

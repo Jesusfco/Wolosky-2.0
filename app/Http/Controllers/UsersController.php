@@ -33,19 +33,32 @@ class UsersController extends Controller
         $user->email = $newUser['email'];
         $user->birthday = $newUser['birthday'];
         $user->gender = $newUser['gender'];
-//        $user->phone = $newUser['phone'];
+        $user->phone = $newUser['phone'];
         $user->street = $newUser['street'];
         $user->hauseNumber = $newUser['hauseNumber'];
         $user->colony = $newUser['colony'];
         $user->city = $newUser['city'];
         $user->userTypeId = $newUser['userTypeId'];
 
+        if($newUser['password'] != NULL) 
+            $user->password = bcrypt($newUser['password']);
+
         $user->save();
 
         if($user->userTypeId <= 3){
             $this->createSchedule($request->schedules, $user->id);
-            $this->createReferences
-        }
+            $this->createReferences($request->references, $user->id);
+
+            if($user->userTypeId == 1)
+                $user->monthlyPaymentId = $this->createMonthlyPayment($request->monthlyPayment); 
+
+            else {
+                $user->salaryId = $this->createSalary($request->salary);
+            }
+            
+            $user->save();
+
+        }        
 
         return response()->json($request->user);
     }
@@ -55,11 +68,13 @@ class UsersController extends Controller
 
         foreach($schedules as $x){
             $schedule = new Schedule();
-            $schedule->userId = $id;
-            $schedule->checkIn = $x->checkIn;
-            $schedule->checkOut =  $x->checkOut;
-            $schedule->desccription =  $x->description;
-            $schedule->day =  $x->day;
+            $schedule->user_id = $id;
+            $schedule->checkIn = $x['checkIn'];
+            $schedule->checkOut =  $x['checkOut'];
+            // $schedule->description =  $x['description'];
+            $schedule->day =  $x['day'];
+            $schedule->type = 1;
+            $schedule->active =  $x['active'];
             $schedule->save();
 
         }
@@ -67,18 +82,18 @@ class UsersController extends Controller
 
     public function createSalary($salary){
         $newSalary = new Salary();
-        $newSalary->amount =  $salary->amount;
-        $newSalary->bonus = $salary->bonus;
-        $newSalary->salaryTypeId =  $salary->type;
-        $newSalary->description = $salary->description;
+        $newSalary->amount =  $salary['amount'];
+        $newSalary->bonus = $salary['bonus'];
+        $newSalary->salaryTypeId =  $salary['type'];
+        $newSalary->description = $salary['description'];
         $newSalary->save();
         return $newSalary->id;
     }
 
     public function createMonthlyPayment($payment){
         $monthlyPayment = new MonthlyPayment();
-        $monthlyPayment->amount = $payment->amount;
-        $monthlyPayment->description = $payment->description;
+        $monthlyPayment->amount = $payment['amount'];
+        $monthlyPayment->description = $payment['description;'];
         $monthlyPayment->save();
         return $monthlyPayment->id;
     }
@@ -98,7 +113,19 @@ class UsersController extends Controller
             $reference->save();
         }
         
-    } //Fin
+    } 
+
+    public function checkUniqueEmail($request){
+        $user =  User::where('email', $request->email)->first();
+        if($user == NULL) return response()->json(true);
+        else return response()->json(false);
+    }
+
+    public function checkUniqueName($request){
+        $user =  User::where('name', $request->name)->first();
+        if($user == NULL) return response()->json(true);
+        else return response()->json(false);
+    }
 
 
 }

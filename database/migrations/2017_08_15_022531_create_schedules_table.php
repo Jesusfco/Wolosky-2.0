@@ -17,10 +17,11 @@ class CreateSchedulesTable extends Migration
             $table->bigIncrements('id');
 
             $table->integer('day');
-            $table->time('checkIn');
-            $table->time('checkOut');
+            $table->time('checkIn')->nullable();
+            $table->time('checkOut')->nullable();
             $table->integer('user_id');
             $table->string('type');
+            $table->boolean('active');
         });
     }
 

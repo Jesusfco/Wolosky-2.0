@@ -14,10 +14,11 @@ class CreateSalariesTable extends Migration
     public function up()
     {
         Schema::create('salaries', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('description')->nullable();
+            $table->bigIncrements('id');            
             $table->double('amount');
-            $table->double('bonus');            
+            $table->double('bonus');    
+            $table->string('description')->nullable();    
+            $table->integer('salaryTypeId');    
             $table->timestamps();
         });
 

@@ -35,3 +35,4 @@ class RelationshipsTableSeeder extends Seeder
              'name' => 'Otro',             
          ]);
      }
+}
