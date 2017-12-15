@@ -115,13 +115,13 @@ class UsersController extends Controller
         
     } 
 
-    public function checkUniqueEmail($request){
+    public function checkUniqueEmail(Request $request){
         $user =  User::where('email', $request->email)->first();
         if($user == NULL) return response()->json(true);
         else return response()->json(false);
     }
 
-    public function checkUniqueName($request){
+    public function checkUniqueName(Request $request){
         $user =  User::where('name', $request->name)->first();
         if($user == NULL) return response()->json(true);
         else return response()->json(false);

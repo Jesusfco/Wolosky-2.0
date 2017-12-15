@@ -22,3 +22,5 @@ Route::get('login/check', 'LoginController@checkAuth');
 
 Route::get('user', 'UsersController@get');
 Route::post('user', 'UsersController@create');
+Route::post('user/uniqueEmail', 'UsersController@checkUniqueEmail');
+Route::post('user/uniqueName', 'UsersController@checkUniqueName');
