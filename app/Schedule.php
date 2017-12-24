@@ -18,6 +18,6 @@ class Schedule extends Model {
         'active'
     ];
 
-    public $timestamps = false;
+    // public $timestamps = true;
 
 }

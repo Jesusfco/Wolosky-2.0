@@ -22,6 +22,7 @@ class CreateSchedulesTable extends Migration
             $table->integer('user_id');
             $table->string('type');
             $table->boolean('active');
+            $table->timestamps();
         });
     }
 

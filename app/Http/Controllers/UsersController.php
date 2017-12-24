@@ -12,9 +12,16 @@ use Wolosky\Reference;
 
 class UsersController extends Controller
 {
-    public function get()
+    public function get(Request $request)
     {
-        return response()->json(User::all());
+        $users =  User::where('name', 'LIKE', '%'. $request->search .'%')->get();
+
+        return response()->json($users);
+        return response()->json($request->search);
+    }
+
+    public function showUser($id){
+        return response()->json(User::find($id));
     }
 
     public function searchUser(Request $request)
@@ -24,6 +31,7 @@ class UsersController extends Controller
 
 
     public function create(Request $request){
+
         
         $newUser = $request->user;        
 
@@ -39,6 +47,14 @@ class UsersController extends Controller
         $user->colony = $newUser['colony'];
         $user->city = $newUser['city'];
         $user->userTypeId = $newUser['userTypeId'];
+
+        // if(isset($newUser['img'])) {
+        //     ini_set('memory_limit','256M');
+        //     $img = $newUser['img'];
+        //     $file_route = time().'_'. $img->getClientOriginalName();
+        //     return $file_route;
+        // }
+        // else { return 'no hay'; }
 
         if($newUser['password'] != NULL) 
             $user->password = bcrypt($newUser['password']);
@@ -60,7 +76,7 @@ class UsersController extends Controller
 
         }        
 
-        return response()->json($request->user);
+        return response()->json($user);
     }
 
     public function createSchedule($schedules, $id){
@@ -84,7 +100,7 @@ class UsersController extends Controller
         $newSalary = new Salary();
         $newSalary->amount =  $salary['amount'];
         $newSalary->bonus = $salary['bonus'];
-        $newSalary->salaryTypeId =  $salary['type'];
+        $newSalary->salaryTypeId =  $salary['salaryTypeId'];
         $newSalary->description = $salary['description'];
         $newSalary->save();
         return $newSalary->id;
@@ -93,7 +109,7 @@ class UsersController extends Controller
     public function createMonthlyPayment($payment){
         $monthlyPayment = new MonthlyPayment();
         $monthlyPayment->amount = $payment['amount'];
-        $monthlyPayment->description = $payment['description;'];
+        $monthlyPayment->description = $payment['description'];
         $monthlyPayment->save();
         return $monthlyPayment->id;
     }
@@ -114,6 +130,27 @@ class UsersController extends Controller
         }
         
     } 
+
+    public function updateUser(Request $request){
+        
+        $newUser = $request->user;        
+
+        $user =  User::find($newUser['id']);
+
+        $user->name = $newUser['name'];
+        $user->email = $newUser['email'];
+        $user->birthday = $newUser['birthday'];
+        $user->gender = $newUser['gender'];
+        $user->phone = $newUser['phone'];
+        $user->street = $newUser['street'];
+        $user->hauseNumber = $newUser['hauseNumber'];
+        $user->colony = $newUser['colony'];
+        $user->city = $newUser['city'];
+        $user->userTypeId = $newUser['userTypeId'];
+
+        $user->save();
+        return response()->json($user);
+    }
 
     public function checkUniqueEmail(Request $request){
         $user =  User::where('email', $request->email)->first();

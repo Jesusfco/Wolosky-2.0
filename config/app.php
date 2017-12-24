@@ -163,6 +163,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+        
 
         /*
          * Package Service Providers...
@@ -178,7 +179,7 @@ return [
         Wolosky\Providers\EventServiceProvider::class,
         Wolosky\Providers\RouteServiceProvider::class,
 
-
+        Intervention\Image\ImageServiceProvider::class,
 //        Barryvdh\Cors\ServiceProvider::class,
 
     ],
@@ -230,6 +231,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 

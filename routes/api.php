@@ -20,7 +20,8 @@ use Illuminate\Http\Request;
 Route::post('login', 'LoginController@signin');
 Route::get('login/check', 'LoginController@checkAuth');
 
-Route::get('user', 'UsersController@get');
+Route::post('userSearch', 'UsersController@get');
+Route::get('user/{id}', 'UsersController@showUser');
 Route::post('user', 'UsersController@create');
 Route::post('user/uniqueEmail', 'UsersController@checkUniqueEmail');
 Route::post('user/uniqueName', 'UsersController@checkUniqueName');
