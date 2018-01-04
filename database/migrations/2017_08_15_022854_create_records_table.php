@@ -13,17 +13,16 @@ class CreateRecordsTable extends Migration
      */
     public function up()
     {
-        Schema::create('records', function (Blueprint $table) {
+        Schema::create('record', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->time('checkIn');
-            $table->time('checkOut');
-            $table->integer('workedHours');
-            $table->integer('extraHours');
-            $table->integer('scheduleId');
+            $table->time('checkOut')->nullable();
+            $table->integer('workedHours')->nullable();
+            $table->integer('extraHours')->nullable();
+            $table->integer('user_id');
             $table->dateTime('date');
-            $table->string('observation');
-            $table->string('status');
-            $table->string('confirmation');
+            $table->string('observation')->nullable();
+            $table->integer('status')->default(1);            
         });
     }
 
@@ -34,6 +33,6 @@ class CreateRecordsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('records');
+        Schema::dropIfExists('record');
     }
 }

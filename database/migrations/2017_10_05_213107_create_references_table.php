@@ -16,9 +16,9 @@ class CreateReferencesTable extends Migration
         Schema::create('references', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
-            $table->string('relationship');
+            $table->string('relationship_id');
             $table->string('name');
-            $table->string('phone');
+            $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->timestamps();
         });

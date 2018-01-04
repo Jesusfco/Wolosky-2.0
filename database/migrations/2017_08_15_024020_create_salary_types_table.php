@@ -13,7 +13,7 @@ class CreateSalaryTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('salary_types', function (Blueprint $table) {
+        Schema::create('salary_type', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('description')->nullable();
@@ -27,6 +27,6 @@ class CreateSalaryTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('salary_types');
+        Schema::dropIfExists('salary_type');
     }
 }

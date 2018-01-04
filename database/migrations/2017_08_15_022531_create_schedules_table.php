@@ -15,12 +15,11 @@ class CreateSchedulesTable extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->bigIncrements('id');
-
-            $table->integer('day');
+            $table->integer('dayId');
             $table->time('checkIn')->nullable();
             $table->time('checkOut')->nullable();
             $table->integer('user_id');
-            $table->string('type');
+            $table->integer('type')->default(1);
             $table->boolean('active');
             $table->timestamps();
         });

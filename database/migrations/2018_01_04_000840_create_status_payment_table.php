@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMonthlyPaymentsTable extends Migration
+class CreateStatusPaymentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateMonthlyPaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('monthlyPayment', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->double('amount');
-            $table->string('description')->nullable();
-            $table->timestamps();
+        Schema::create('status_payment', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
         });
     }
 
@@ -28,6 +26,6 @@ class CreateMonthlyPaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('monthlyPayment');
+        Schema::dropIfExists('status_payment');
     }
 }
