@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
-use Wolosky\User;
+
 
 class UserTableSeeder extends Seeder
 {
@@ -31,10 +31,10 @@ class UserTableSeeder extends Seeder
 //
         DB::table('users')->insert([
             'name' => 'JESUS FCO CORTES',
-            'email' => 'jfcr@live.com',
+            'email' => 'JFCR@LIVE.COM',
             'password' => bcrypt('secret'),
             'img' => NULL,
-            'birthday' => Carbon::create('1995', '09', '23'),
+            'birthday' => Carbon::create('1995', '11', '22'),
             'gender' => 1,
             'phone' => 9611221222,
             'street' => NULL,
@@ -46,11 +46,11 @@ class UserTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'DIANA TOLEDO',
-            'email' => 'bexan1818@hotmail.com',
+            'name' => 'ARTURO CORDERO',
+            'email' => 'ARTURH.SW@GMAIL.COM',
             'password' => bcrypt('secret'),
             'img' => NULL,
-            'birthday' => Carbon::create('1996', '1', '23'),
+            'birthday' => Carbon::create('1995', '1', '23'),
             'gender' => 2,
             'phone' => 9611221222,
             'street' => NULL,

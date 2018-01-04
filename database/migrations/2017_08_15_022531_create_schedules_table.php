@@ -13,7 +13,7 @@ class CreateSchedulesTable extends Migration
      */
     public function up()
     {
-        Schema::create('schedules', function (Blueprint $table) {
+        Schema::create('schedule', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('dayId');
             $table->time('checkIn')->nullable();
@@ -32,6 +32,6 @@ class CreateSchedulesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('schedules');
+        Schema::dropIfExists('schedule');
     }
 }

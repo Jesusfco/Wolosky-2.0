@@ -13,7 +13,7 @@ class CreateReferencesTable extends Migration
      */
     public function up()
     {
-        Schema::create('references', function (Blueprint $table) {
+        Schema::create('reference', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->string('relationship_id');
@@ -31,6 +31,6 @@ class CreateReferencesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('references');
+        Schema::dropIfExists('reference');
     }
 }

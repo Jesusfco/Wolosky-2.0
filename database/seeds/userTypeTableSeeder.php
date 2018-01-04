@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class userTypeTableSeeder extends Seeder
+class UserTypeTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,32 +11,32 @@ class userTypeTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('user_types')->insert([
-            'name' => 'Alumno',
+        DB::table('user_type')->insert([
+            'name' => 'Alumno/a',
             'description' => NULL,
         ]);
 
-        DB::table('user_types')->insert([
-            'name' => 'Empleado',
+        DB::table('user_type')->insert([
+            'name' => 'Maestro/a',
             'description' => NULL,
         ]);
 
-        DB::table('user_types')->insert([
-            'name' => 'Caja',
+        DB::table('user_type')->insert([
+            'name' => 'Cajero/a',
             'description' => NULL,
         ]);
 
-        DB::table('user_types')->insert([
+        DB::table('user_type')->insert([
             'name' => 'Escritor',
             'description' => NULL,
         ]);
 
-        DB::table('user_types')->insert([
+        DB::table('user_type')->insert([
             'name' => 'Super Escritor',
             'description' => NULL,
         ]);
 
-        DB::table('user_types')->insert([
+        DB::table('user_type')->insert([
             'name' => 'Administrador',
             'description' => NULL,
         ]);

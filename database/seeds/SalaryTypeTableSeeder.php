@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class salaryTypesTableSeeder extends Seeder
+class SalaryTypeTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,12 +11,12 @@ class salaryTypesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('salary_types')->insert([
+        DB::table('salary_type')->insert([
             'name' => 'Hora',
             'description' => NULL,
         ]);
 
-        DB::table('salary_types')->insert([
+        DB::table('salary_type')->insert([
             'name' => 'Día',
             'description' => NULL,
         ]);

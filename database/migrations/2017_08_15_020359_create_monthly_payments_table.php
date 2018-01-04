@@ -13,7 +13,7 @@ class CreateMonthlyPaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('monthlyPayment', function (Blueprint $table) {
+        Schema::create('monthly_payment', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->double('amount');
             $table->string('description')->nullable();
@@ -28,6 +28,6 @@ class CreateMonthlyPaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('monthlyPayment');
+        Schema::dropIfExists('monthly_payment');
     }
 }

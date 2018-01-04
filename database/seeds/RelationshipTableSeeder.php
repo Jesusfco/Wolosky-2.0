@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class RelationshipsTableSeeder extends Seeder
+class RelationshipTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,27 +11,27 @@ class RelationshipsTableSeeder extends Seeder
      */
      public function run()
      {
-         DB::table('relationships')->insert([
+         DB::table('relationship')->insert([
              'name' => 'Padre/Madre',             
          ]);
  
-         DB::table('relationships')->insert([
+         DB::table('relationship')->insert([
              'name' => 'Hermano/a',
          ]);
  
-         DB::table('relationships')->insert([
+         DB::table('relationship')->insert([
              'name' => 'Familiares',
          ]);
  
-         DB::table('relationships')->insert([
+         DB::table('relationship')->insert([
              'name' => 'Amigos',
          ]);
  
-         DB::table('relationships')->insert([
+         DB::table('relationship')->insert([
              'name' => 'Compañeros de trabajo',             
          ]);
  
-         DB::table('relationships')->insert([
+         DB::table('relationship')->insert([
              'name' => 'Otro',             
          ]);
      }
