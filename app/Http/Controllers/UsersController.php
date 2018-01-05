@@ -12,6 +12,8 @@ use Wolosky\Reference;
 
 class UsersController extends Controller
 {
+    public function __construct(){ $this->middleware('admin'); }
+
     public function get(Request $request)
     {
         $users =  User::where('name', 'LIKE', '%'. $request->search .'%')->get();

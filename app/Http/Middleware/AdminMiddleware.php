@@ -3,8 +3,11 @@
 namespace Wolosky\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use JWTAuth;
 
-class Admin
+class AdminMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,9 +20,9 @@ class Admin
     {
         if(! $user = JWTAuth::parseToken()->authenticate()) {
             return response()->json(['message' => 'User not found'], 404);
-        }else if(! Auth::user()->active == 1) {
+        }else if(! Auth::user()->status == 1) {
             return response()->json(['message' => 'User disable'], 403);
-        }else if(Auth::user()->type >= 5) {
+        }else if(Auth::user()->userTypeId >= 6) {
             return $next($request);
         }
         return response()->json(['message' => 'User dont have credentials'], 402);

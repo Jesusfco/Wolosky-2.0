@@ -33,7 +33,7 @@ class CreateUsersTable extends Migration
             $table->integer('monthlyPaymentId')->nullable();
             $table->integer('userTypeId');
             $table->integer('salaryId')->nullable();
-            $table->boolean('active')->default(true);
+            $table->integer('status')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

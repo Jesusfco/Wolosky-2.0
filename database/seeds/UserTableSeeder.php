@@ -41,7 +41,8 @@ class UserTableSeeder extends Seeder
             'hauseNumber' => NULL,
             'city' => 'Tuxtla Gtz',
             'colony' => NULL,
-            'userTypeId' => 5,
+            'userTypeId' => 6,
+            'status' => 1,
 
         ]);
 
@@ -57,7 +58,8 @@ class UserTableSeeder extends Seeder
             'hauseNumber' => NULL,
             'city' => 'Tuxtla Gtz',
             'colony' => NULL,
-            'userTypeId' => 5,
+            'userTypeId' => 6,
+            'status' => 1,
 
         ]);
     }
