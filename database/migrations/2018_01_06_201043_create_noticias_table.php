@@ -22,7 +22,7 @@ class CreateNoticiasTable extends Migration
             $table->text('youtube');
             $table->date('fecha');
             $table->string('imagen');
-            $table->timestamps()->nullable();
+            $table->timestamps();
         });
     }
 
