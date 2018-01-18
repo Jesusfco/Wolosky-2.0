@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Schedule extends Model {
 
-    protected $table = "schedules";
+    protected $table = "schedule";
 
     protected $fillable = [
         'description',
-        'day',
-        'checkIn',
-        'checkOut',
+        'day_id',
+        'check_in',
+        'check_out',
         'user_id',
         'type',
         'active'

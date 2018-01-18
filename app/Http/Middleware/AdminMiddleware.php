@@ -22,7 +22,7 @@ class AdminMiddleware
             return response()->json(['message' => 'User not found'], 404);
         }else if(! Auth::user()->status == 1) {
             return response()->json(['message' => 'User disable'], 403);
-        }else if(Auth::user()->userTypeId >= 6) {
+        }else if(Auth::user()->user_type_id >= 6) {
             return $next($request);
         }
         return response()->json(['message' => 'User dont have credentials'], 402);

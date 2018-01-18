@@ -8,8 +8,8 @@ class Payment extends Model {
 
     protected $fillable = [
         'id',
-        'userId',
-        'paymentTypeId',
+        'user_id',
+        'payment_type_id',
         'description',
         'amount',
         'date'

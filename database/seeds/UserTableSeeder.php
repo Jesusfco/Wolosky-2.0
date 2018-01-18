@@ -41,7 +41,7 @@ class UserTableSeeder extends Seeder
             'hauseNumber' => NULL,
             'city' => 'Tuxtla Gtz',
             'colony' => NULL,
-            'userTypeId' => 6,
+            'user_type_id' => 6,
             'status' => 1,
 
         ]);
@@ -52,13 +52,13 @@ class UserTableSeeder extends Seeder
             'password' => bcrypt('secret'),
             'img' => NULL,
             'birthday' => Carbon::create('1995', '1', '23'),
-            'gender' => 2,
+            'gender' => 1,
             'phone' => 9611221222,
             'street' => NULL,
             'hauseNumber' => NULL,
             'city' => 'Tuxtla Gtz',
             'colony' => NULL,
-            'userTypeId' => 6,
+            'user_type_id' => 6,
             'status' => 1,
 
         ]);

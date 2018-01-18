@@ -48,7 +48,7 @@ class UsersController extends Controller
         $user->hauseNumber = $newUser['hauseNumber'];
         $user->colony = $newUser['colony'];
         $user->city = $newUser['city'];
-        $user->userTypeId = $newUser['userTypeId'];
+        $user->user_type_id = $newUser['user_type_id'];
 
         // if(isset($newUser['img'])) {
         //     ini_set('memory_limit','256M');
@@ -63,15 +63,15 @@ class UsersController extends Controller
 
         $user->save();
 
-        if($user->userTypeId <= 3){
+        if($user->user_type_id <= 3){
             $this->createSchedule($request->schedules, $user->id);
             $this->createReferences($request->references, $user->id);
 
-            if($user->userTypeId == 1)
-                $user->monthlyPaymentId = $this->createMonthlyPayment($request->monthlyPayment); 
+            if($user->user_type_id == 1)
+                $user->monthly_payment_id = $this->createMonthlyPayment($request->monthlyPayment); 
 
             else {
-                $user->salaryId = $this->createSalary($request->salary);
+                $user->salary_id = $this->createSalary($request->salary);
             }
             
             $user->save();
@@ -87,12 +87,12 @@ class UsersController extends Controller
         foreach($schedules as $x){
             $schedule = new Schedule();
             $schedule->user_id = $id;
-            $schedule->checkIn = $x['checkIn'];
-            $schedule->checkOut =  $x['checkOut'];
+            $schedule->check_in = $x['check_in'];
+            $schedule->check_out =  $x['check_out'];
             // $schedule->description =  $x['description'];
-            $schedule->day =  $x['day'];
+            $schedule->day_id =  $x['day_id'];
             $schedule->type = 1;
-            $schedule->active =  $x['active'];
+            $schedule->active =  $x['active']; 
             $schedule->save();
 
         }
@@ -102,7 +102,7 @@ class UsersController extends Controller
         $newSalary = new Salary();
         $newSalary->amount =  $salary['amount'];
         $newSalary->bonus = $salary['bonus'];
-        $newSalary->salaryTypeId =  $salary['salaryTypeId'];
+        $newSalary->salary_type_id =  $salary['salary_type_id'];
         $newSalary->description = $salary['description'];
         $newSalary->save();
         return $newSalary->id;
@@ -126,7 +126,7 @@ class UsersController extends Controller
             $reference->name = $x['name'];
             $reference->phone = $x['phone'];
             $reference->email = $x['email'];
-            $reference->relationship = $x['relationship'];
+            $reference->relationship_id  = $x['relationship_id'];
 
             $reference->save();
         }

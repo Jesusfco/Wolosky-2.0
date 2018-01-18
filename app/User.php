@@ -20,11 +20,11 @@ class User extends Authenticatable {
         'phone',
         'street',
         'houseNumber',
-        'colony',
+        'colony', 
         'city',
-        'monthlyPaymentId',
-        'userTypeId',
-        'salaryId'
+        'monthly_payment_id',
+        'user_type_id',
+        'salary_id'
     ];
 
     protected $hidden = [
