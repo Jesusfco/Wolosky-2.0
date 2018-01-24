@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+#padreParallax{
+	height: 100vh;
+}
+
+.tituloNoticia {
+    font-family: 'Oswald', sans-serif;
+}
+
+#agrandamiento { 
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+#agrandamiento:hover { 
+    -moz-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+    opacity: .8;
+}
+
+.queEs {
+	max-width: 1000px;
+}
+.queEs img  { 
+    display: block;
+    width: 100%;
+    
+}
+.queEs div{ 
+    padding: 0;
+}
+
+.portada1 { 
+	font-family: 'Dancing Script', cursive; 
+	font-size:700%; 
+	color: white;
+	margin-top: 0%;
+}
+.videoSection{
+	max-width: 1400px;
+}
+.slogan {  
+	font-family: 'Roboto', sans-serif;
+	font-weight: lighter;
+}
+
+/*Esto es para la seccion Blog*/
+.blogContent {
+	width: 100%;
+	max-width: 1400px;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-flow: row wrap;
+}
+
+
+.blog {
+	width: 33%;
+	padding: 1%;
+}
+
+@media screen and (max-width: 1000px){
+	#padreParallax{
+		height: 50vh;
+	}
+
+	.blog {
+		width: 50%;
+	}
+}
+
+@media screen and (max-width: 600px){
+	#padreParallax{
+		height: 100vh;
+	}
+
+	.blog {
+		width: 100%;
+	}
+}
+
+.row { 
+	font-family: 'Roboto', sans-serif; }
+.maps { 
+ 			display: block;
+	width: 100%;
+	margin: 0 auto;
+	height: 50vh;
+ }
+
+
+ .mapa { 
+	display: block;
+	width: 100%;
+	margin: 0 auto;
+
+	 }
+
+.direccion p{
+    margin-top: 0;    
+    margin-bottom: 0;    
+    color:#888;
+}	 
+
+
+.right ul { 
+	color: white; }
+.roboto { 
+	font-family: 'Roboto', sans-serif }
+
+.portada1 { 
+ margin-top:0px;
+
+}
+
+#logo1 { 
+    display: block;
+    margin: 100px auto;
+    width: 40%;
+	max-width: 500px;
+}
+@media screen and (max-width: 880px)  { 
+	.portada1 {  
+
+		font-size:450%; 
+	}
+
+	.slogan {  
+		font-size: 200%;
+		
+	}
+
+}
+
+ @media screen and (max-width: 480px) { 
+
+ 	.portada1 {
+
+		font-size:400%; 
+	}
+
+	.slogan {  
+		font-size: 150%;
+		
+	}
+        
+        .slogan2 {  
+		font-size: 200%;
+		
+	}
+        .descripcionC { 
+            font-size: 100%;
+        }
+        #logo1 {             
+            width: 70%;
+			margin: 20px auto;
+        }
+
+ }
+ 

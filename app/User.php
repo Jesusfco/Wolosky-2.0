@@ -17,6 +17,7 @@ class User extends Authenticatable {
         'img',
         'birthday',
         'gender',
+        'insurance',
         'phone',
         'street',
         'houseNumber',
@@ -24,7 +25,8 @@ class User extends Authenticatable {
         'city',
         'monthly_payment_id',
         'user_type_id',
-        'salary_id'
+        'salary_id',
+        'status'
     ];
 
     protected $hidden = [

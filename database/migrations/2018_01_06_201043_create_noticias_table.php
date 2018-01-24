@@ -13,10 +13,10 @@ class CreateNoticiasTable extends Migration
      */
     public function up()
     {
-        Schema::create('nocitias', function (Blueprint $table) {
+        Schema::create('noticias', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->string('titulo')->unique();
+            $table->integer('user_id')->nullable();
+            $table->string('titulo');
             $table->text('resumen');
             $table->text('texto');
             $table->text('youtube');

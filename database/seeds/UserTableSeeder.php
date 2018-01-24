@@ -38,7 +38,7 @@ class UserTableSeeder extends Seeder
             'gender' => 1,
             'phone' => 9611221222,
             'street' => NULL,
-            'hauseNumber' => NULL,
+            'houseNumber' => NULL,
             'city' => 'Tuxtla Gtz',
             'colony' => NULL,
             'user_type_id' => 6,
@@ -47,7 +47,7 @@ class UserTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'REBECA WOLOSKY',
+            'name' => 'REBEKA WOLOSKY',
             'email' => 'WOLOSKYREBE@GMAIL.COM',
             'password' => bcrypt('shany'),
             'img' => NULL,
@@ -55,7 +55,7 @@ class UserTableSeeder extends Seeder
             'gender' => 2,
             'phone' => NULL,
             'street' => NULL,
-            'hauseNumber' => NULL,
+            'houseNumber' => NULL,
             'city' => 'Tuxtla Gtz',
             'colony' => NULL,
             'user_type_id' => 6,
@@ -72,7 +72,7 @@ class UserTableSeeder extends Seeder
             'gender' => 1,
             'phone' => 9611221222,
             'street' => NULL,
-            'hauseNumber' => NULL,
+            'houseNumber' => NULL,
             'city' => 'Tuxtla Gtz',
             'colony' => NULL,
             'user_type_id' => 6,

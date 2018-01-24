@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('insurance')->nullable();
             $table->string('phone')->nullable();
             $table->string('street')->nullable();
-            $table->string('hauseNumber')->nullable();
+            $table->string('houseNumber')->nullable();
             $table->string('colony')->nullable();
             $table->string('city')->nullable()->default('TUXTLA GTZ');
             $table->integer('monthly_payment_id')->nullable();

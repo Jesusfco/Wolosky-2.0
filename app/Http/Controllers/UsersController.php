@@ -43,20 +43,15 @@ class UsersController extends Controller
         $user->email = $newUser['email'];
         $user->birthday = $newUser['birthday'];
         $user->gender = $newUser['gender'];
-        $user->phone = $newUser['phone'];
+        $user->phone = $newUser['phone'];        
+        $user->insurance = $newUser['insurance'];
+        $user->curp = $newUser['curp'];
+        $user->placeBirth = $newUser['placeBirth'];
         $user->street = $newUser['street'];
-        $user->hauseNumber = $newUser['hauseNumber'];
+        $user->houseNumber = $newUser['houseNumber'];
         $user->colony = $newUser['colony'];
         $user->city = $newUser['city'];
         $user->user_type_id = $newUser['user_type_id'];
-
-        // if(isset($newUser['img'])) {
-        //     ini_set('memory_limit','256M');
-        //     $img = $newUser['img'];
-        //     $file_route = time().'_'. $img->getClientOriginalName();
-        //     return $file_route;
-        // }
-        // else { return 'no hay'; }
 
         if($newUser['password'] != NULL) 
             $user->password = bcrypt($newUser['password']);

@@ -1,0 +1,2 @@
+[16-Mar-2017 11:53:53 America/Mexico_City] PHP Notice:  Undefined variable: qry in /home/woloskyg/public_html/cron/cron.php on line 9
+[16-Mar-2017 11:53:53 America/Mexico_City] PHP Warning:  mysqli_query(): Empty query in /home/woloskyg/public_html/cron/cron.php on line 9
