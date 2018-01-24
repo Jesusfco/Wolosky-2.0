@@ -128,25 +128,33 @@ class UsersController extends Controller
         
     } 
 
-    public function updateUser(Request $request){
+    public function updateUser(Request $request, $id){
+
+        $user = User::find($id);
         
-        $newUser = $request->user;        
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->birthday = $request->birthday;
+        $user->gender = $request->gender;
+        $user->phone = $request->phone;        
+        $user->insurance = $request->insurance;
+        $user->curp = $request->curp;
+        $user->placeBirth = $request->placeBirth;
+        $user->street = $request->street;
+        $user->houseNumber = $request->houseNumber;
+        $user->colony = $request->colony;
+        $user->city = $request->city;
+        $user->user_type_id = $request->user_type_id;
 
-        $user =  User::find($newUser['id']);
-
-        $user->name = $newUser['name'];
-        $user->email = $newUser['email'];
-        $user->birthday = $newUser['birthday'];
-        $user->gender = $newUser['gender'];
-        $user->phone = $newUser['phone'];
-        $user->street = $newUser['street'];
-        $user->hauseNumber = $newUser['hauseNumber'];
-        $user->colony = $newUser['colony'];
-        $user->city = $newUser['city'];
-        $user->userTypeId = $newUser['userTypeId'];
+        if($request->password != NULL) 
+            $user->password = bcrypt($request->password);
 
         $user->save();
         return response()->json($user);
+    }
+
+    public function updateSchedule(Request $request){
+        
     }
 
     public function checkUniqueEmail(Request $request){
