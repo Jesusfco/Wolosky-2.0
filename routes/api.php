@@ -23,6 +23,9 @@ Route::get('login/check', 'LoginController@checkAuth');
 Route::post('userSearch', 'UsersController@get');
 Route::get('user/{id}', 'UsersController@showUser');
 Route::post('user', 'UsersController@create');
-Route::post('user/{id}', 'UsersController@updateUser');
+Route::post('user/edit/{id}', 'UsersController@updateUser');
 Route::post('user/uniqueEmail', 'UsersController@checkUniqueEmail');
 Route::post('user/uniqueName', 'UsersController@checkUniqueName');
+
+Route::get('user/schedules/{id}', 'UsersController@getSchedules');
+Route::post('user/schedules/{id}', 'UsersController@updateSchedules');

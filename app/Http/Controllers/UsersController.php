@@ -153,8 +153,25 @@ class UsersController extends Controller
         return response()->json($user);
     }
 
-    public function updateSchedule(Request $request){
-        
+    public function getSchedules($id){
+        $schedules = Schedule::where('user_id', $id)->get();
+        return response()->json($schedules);
+    }
+
+    public function updateSchedules(Request $request, $id){
+        foreach($request->schedules as $x){
+            $schedule = Schedule::find($x['id']);
+
+            $schedule->check_in = $x['check_in'];
+            $schedule->check_out =  $x['check_out'];
+            // $schedule->description =  $x['description'];
+            // $schedule->day_id =  $x['day_id'];
+            // $schedule->type = 1;
+            $schedule->active =  $x['active']; 
+            $schedule->save();
+        }
+
+        return response()->json('success');
     }
 
     public function checkUniqueEmail(Request $request){
