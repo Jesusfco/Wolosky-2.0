@@ -47,6 +47,23 @@ class UserTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
+            'name' => 'REBECA WOLOSKY',
+            'email' => 'WOLOSKYREBE@GMAIL.COM',
+            'password' => bcrypt('shany'),
+            'img' => NULL,
+            'birthday' => Carbon::create('1995', '1', '23'),
+            'gender' => 2,
+            'phone' => NULL,
+            'street' => NULL,
+            'hauseNumber' => NULL,
+            'city' => 'Tuxtla Gtz',
+            'colony' => NULL,
+            'user_type_id' => 6,
+            'status' => 1,
+
+        ]);
+
+        DB::table('users')->insert([
             'name' => 'ARTURO CORDERO',
             'email' => 'ARTURH.SW@GMAIL.COM',
             'password' => bcrypt('secret'),
