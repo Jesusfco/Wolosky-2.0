@@ -29,9 +29,10 @@ class CreateUsersTable extends Migration
             $table->string('street')->nullable();
             $table->string('houseNumber')->nullable();
             $table->string('colony')->nullable();
-            $table->string('city')->nullable()->default('TUXTLA GTZ');
-            $table->integer('monthly_payment_id')->nullable();
+            $table->string('city')->nullable()->default('TUXTLA GUTIERREZ');
             $table->integer('user_type_id');
+            $table->integer('creator_user_id')->nullable();
+            $table->integer('monthly_payment_id')->nullable();            
             $table->integer('salary_id')->nullable();
             $table->integer('status')->default(1);
             $table->rememberToken();

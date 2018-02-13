@@ -15,20 +15,6 @@ class UserTableSeeder extends Seeder
     public function run()
     {
 
-//        factory(User::class, 150)->create();
-
-//        $strings = array(
-//            'Masculino',
-//            'Femenino',
-//        );
-//        $key = array_rand($strings);
-//
-//        $phone = '';
-//
-//        for($i = 0; $i < 7; $i++) {
-//            $phone .= mt_rand(0, 9);
-//        }
-//
         DB::table('users')->insert([
             'name' => 'JESUS FCO CORTES',
             'email' => 'JFCR@LIVE.COM',
@@ -43,6 +29,7 @@ class UserTableSeeder extends Seeder
             'colony' => NULL,
             'user_type_id' => 6,
             'status' => 1,
+            'creator_user_id' => 1
 
         ]);
 
@@ -60,24 +47,25 @@ class UserTableSeeder extends Seeder
             'colony' => NULL,
             'user_type_id' => 6,
             'status' => 1,
+            'creator_user_id' => 1
 
         ]);
 
-        DB::table('users')->insert([
-            'name' => 'ARTURO CORDERO',
-            'email' => 'ARTURH.SW@GMAIL.COM',
-            'password' => bcrypt('secret'),
-            'img' => NULL,
-            'birthday' => Carbon::create('1995', '1', '23'),
-            'gender' => 1,
-            'phone' => 9611221222,
-            'street' => NULL,
-            'houseNumber' => NULL,
-            'city' => 'Tuxtla Gtz',
-            'colony' => NULL,
-            'user_type_id' => 6,
-            'status' => 1,
+        // DB::table('users')->insert([
+        //     'name' => 'ARTURO CORDERO',
+        //     'email' => 'ARTURH.SW@GMAIL.COM',
+        //     'password' => bcrypt('secret'),
+        //     'img' => NULL,
+        //     'birthday' => Carbon::create('1995', '1', '23'),
+        //     'gender' => 1,
+        //     'phone' => 9611221222,
+        //     'street' => NULL,
+        //     'houseNumber' => NULL,
+        //     'city' => 'Tuxtla Gtz',
+        //     'colony' => NULL,
+        //     'user_type_id' => 6,
+        //     'status' => 1,
 
-        ]);
+        // ]);
     }
 }

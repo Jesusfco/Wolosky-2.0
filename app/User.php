@@ -23,8 +23,9 @@ class User extends Authenticatable {
         'houseNumber',
         'colony', 
         'city',
-        'monthly_payment_id',
         'user_type_id',
+        'creator_user_id',
+        'monthly_payment_id',        
         'salary_id',
         'status'
     ];

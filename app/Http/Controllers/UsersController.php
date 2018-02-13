@@ -9,17 +9,36 @@ use Wolosky\Schedule;
 use Wolosky\Salary;
 use Wolosky\Payment;
 use Wolosky\Reference;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UsersController extends Controller
 {
-    public function __construct(){ $this->middleware('admin'); }
+    // public function __construct(){ $this->middleware('admin'); }
 
     public function get(Request $request)
     {
-        $users =  User::where('name', 'LIKE', '%'. $request->search .'%')->get();
+        $creator = JWTAuth::parseToken()->authenticate();
+
+        if($creator->user_type_id == 6){
+            
+            $users = User::where('name', 'LIKE', '%'. $request->searchWord .'%')
+                        ->select('id', 'name', 'phone', 'gender', 'user_type_id')
+                        ->orderBy('name', 'ASC')
+                        ->paginate($request->items);
+
+        } else if($creator->user_type_id == 3){
+
+            $users =  User::where([
+                            ['name', 'LIKE', '%'. $request->searchWord .'%'],
+                            ['user_type_id', '=', 1],
+                            ])
+                            ->select('id', 'name', 'phone', 'gender', 'user_type_id')
+                            ->orderBy('name', 'ASC')
+                            ->paginate($request->items);
+        }
 
         return response()->json($users);
-        return response()->json($request->search);
+        
     }
 
     public function showUser($id){
@@ -33,7 +52,9 @@ class UsersController extends Controller
 
 
     public function create(Request $request){
+        
 
+        $creator = JWTAuth::parseToken()->authenticate();
         
         $newUser = $request->user;        
 
@@ -52,6 +73,7 @@ class UsersController extends Controller
         $user->colony = $newUser['colony'];
         $user->city = $newUser['city'];
         $user->user_type_id = $newUser['user_type_id'];
+        $user->creator_user_id = $creator->id;
 
         if($newUser['password'] != NULL) 
             $user->password = bcrypt($newUser['password']);

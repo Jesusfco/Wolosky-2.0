@@ -24,6 +24,8 @@
 <br>
 
     <div class="blogContent">
+
+    
         @foreach($noticias as $n)
             <div class='blog'>
 
