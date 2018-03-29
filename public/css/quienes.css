@@ -1,0 +1,97 @@
+#fondoquienes { 
+    display: block;
+    z-index: -10;
+    width:  100%;
+	height: 80vh;
+    position: fixed;
+    
+        
+}
+#fondoquienes img { 
+    width: 100%;
+}
+
+
+#contenedorPrincipal { 
+    width: 100%;
+    display: block;
+    margin-bottom: 0px;
+    padding-bottom: 0;
+    background-color: white;
+}
+
+#profesora img { 
+    
+}
+
+.tit { 
+	font-weight: 300;
+
+}
+.contenido { 
+	margin-top: 0;
+}  
+
+
+
+.icon-wolosky { 
+	font-size: 60px;  
+}
+
+
+ .chico { 
+ 	display: none;}
+.grande { 
+	display: block;
+	margin:0 auto;
+}
+.s6 h5 { 
+	text-align: justify; }
+
+.valores ul { 
+	display: block;
+	margin: 0 auto; 
+	text-align: center;
+	list-style: none;
+	font-size: 35px;
+	color:white;
+	font-weight: 100;
+	padding-bottom: 30px;
+}
+
+.valores img { 
+	width: 30px;	
+}
+
+
+.display1 {     
+    display: none;
+}
+.display2 { 
+    display: none;
+}
+@media screen and (max-width: 1000px) {
+	#fondoquienes {
+		height: auto;
+	}
+	#fondoquienes img{
+		position: static;
+	}
+}
+
+@media screen and (max-width: 600px) {
+
+
+ 		.chico {  
+ 			display: block;
+ 		}
+
+ 		.grande { 
+ 			display: none; }
+                .display2 {     
+                    display: block;
+                }
+                .display1 { 
+                    display: none;
+                }
+}	

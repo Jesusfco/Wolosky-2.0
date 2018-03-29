@@ -18,7 +18,7 @@ class CreateSalaryTable extends Migration
             $table->double('amount');
             $table->double('bonus')->default(0);    
             $table->string('description')->nullable();    
-            $table->integer('salaryTypeId');    
+            $table->integer('salary_type_id');    
             $table->timestamps();
         });
 

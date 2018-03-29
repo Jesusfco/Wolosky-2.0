@@ -7,12 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Record extends Model {
 
     protected $fillable = [
-        'checkIn',
-        'checkOut',
-        'workedHours',
-        'extraHours',
-        'scheduleId',
-        'date',
+        'check_in',
+        'check_Out',
+        'worked_hours',
+        'extra_hours',        
+        'date', 
         'observation',
         'status',
         'confirmation'

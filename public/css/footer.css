@@ -1,0 +1,64 @@
+ footer { 
+  	background-image: url("footerbackground.jpg");			  	
+	width: 100%;
+	color: white;
+	background-size: 100% 100%;		    
+}
+
+.redes { 
+	text-align: center; 
+	}
+.redesimagenes  { 
+	margin: 0 auto;
+}
+
+.redesimagenes img  { 
+	width: 70px;
+	padding: 10px;
+}
+.logofooter { 
+	
+  font-size: 100px;
+	
+}
+ 
+.footer-copyright { 
+
+}
+
+
+
+ @media screen and (max-width: 800px)  { 
+  	.redesimagenes img { 
+  		width: 50px;	
+  		padding: 4px; 
+  	} 
+
+  	.logofooter { 
+  		width: 70%; }
+
+    
+}
+
+  
+  
+  @media screen and (max-width: 450px)  { 
+  	.redesimagenes img { 
+  		width: 50px;	
+  		padding: 4px; 
+  	} 
+
+    .footer-copyright .derechos{ 
+      align: center;
+
+}
+
+
+
+
+}
+
+  
+ 
+
+ 

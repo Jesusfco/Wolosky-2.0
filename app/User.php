@@ -17,14 +17,17 @@ class User extends Authenticatable {
         'img',
         'birthday',
         'gender',
+        'insurance',
         'phone',
         'street',
         'houseNumber',
-        'colony',
+        'colony', 
         'city',
-        'monthlyPaymentId',
-        'userTypeId',
-        'salaryId'
+        'user_type_id',
+        'creator_user_id',
+        'monthly_payment_id',        
+        'salary_id',
+        'status'
     ];
 
     protected $hidden = [

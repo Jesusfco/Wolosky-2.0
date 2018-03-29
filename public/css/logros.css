@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+
+.content { 
+width: 87%;
+margin: 0 auto;
+max-width: 1200px;
+}
+
+.notaPrincipal{
+    overflow: hidden;
+    position: relative;
+}
+.notaPrincipal-img {
+    background-color: black;
+  }
+.notaPrincipal-img img{
+    width: 100%;
+    z-index: 1;
+    overflow: hidden;
+    
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+  }
+.notaPrincipal-img:hover img {
+  -moz-transform: scale(1.1) rotate(4deg);
+  -webkit-transform: scale(1.1) rotate(4deg);
+  transform: scale(1.1) rotate(4deg);
+  opacity: .6;
+  z-index: 1;
+}
+.notaPrincipal-titulo{    
+    color: #ffffff;
+    font-family: 'Oswald', sans-serif;    
+    width: auto        ;
+    height: auto;
+    
+    z-index: 12;
+    position: absolute;
+    bottom: 0;
+    
+    
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.notaPrincipal-titulo h3 { 
+    background-color: rgba(0,0,0,.5);
+    font-size: 55px;
+    z-index: 12;
+    margin: 0;
+    color: white;
+    padding: 3px;
+    padding-left: 15px;
+    text-shadow: 4px 4px 4px #000000;
+   
+}
+
+.tituloNoticia { 
+    color: black;
+    font-family: 'Oswald', sans-serif;
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.tituloNoticia:hover { 
+    color: #b9151b;
+    
+}
+
+
+.icon-wolosky { 
+	font-size: 60px;  }  
+
+
+
+    .portada  { 
+	position: fixed;	
+	z-index: -100;
+ }
+
+ .contenido { 
+ 	margin-top: 530px;
+  }
+  .divImg img { 
+      -moz-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  }
+  .divImg:hover img {
+  -moz-transform: scale(1.1) rotate(4deg);
+  -webkit-transform: scale(1.1) rotate(4deg);
+  transform: scale(1.1) rotate(4deg);
+  z-index: -1;          
+}
+
+.social h5 { 
+    background-color: #B71C1C;
+    text-align: center; 
+    padding: 6px;
+    color: white;
+}
+
+@media screen and (max-width: 1000px) { 
+    .contenido { 
+ 	margin-top: 400px;
+    }
+}
+
+@media screen and (max-width: 860px) { 
+    .contenido { 
+ 	margin-top: 380px;
+    }
+}
+
+@media screen and (max-width: 600px) { 
+
+    .notaPrincipal-titulo h3 {     
+        font-size: 25px;       
+    }
+  
+  .content { 
+    width: 100%;
+
+    }
+  
+}  
+ 	 
+@media screen and (max-width: 400px) { 
+    .contenido { 
+ 	margin-top: 150px;
+  }
+}

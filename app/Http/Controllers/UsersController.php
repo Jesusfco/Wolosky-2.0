@@ -9,17 +9,36 @@ use Wolosky\Schedule;
 use Wolosky\Salary;
 use Wolosky\Payment;
 use Wolosky\Reference;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UsersController extends Controller
 {
-    public function __construct(){ $this->middleware('admin'); }
+    // public function __construct(){ $this->middleware('admin'); }
 
     public function get(Request $request)
     {
-        $users =  User::where('name', 'LIKE', '%'. $request->search .'%')->get();
+        $creator = JWTAuth::parseToken()->authenticate();
+
+        if($creator->user_type_id == 6){
+            
+            $users = User::where('name', 'LIKE', '%'. $request->searchWord .'%')
+                        ->select('id', 'name', 'phone', 'gender', 'user_type_id')
+                        ->orderBy('name', 'ASC')
+                        ->paginate($request->items);
+
+        } else if($creator->user_type_id == 3){
+
+            $users =  User::where([
+                            ['name', 'LIKE', '%'. $request->searchWord .'%'],
+                            ['user_type_id', '=', 1],
+                            ])
+                            ->select('id', 'name', 'phone', 'gender', 'user_type_id')
+                            ->orderBy('name', 'ASC')
+                            ->paginate($request->items);
+        }
 
         return response()->json($users);
-        return response()->json($request->search);
+        
     }
 
     public function showUser($id){
@@ -33,7 +52,9 @@ class UsersController extends Controller
 
 
     public function create(Request $request){
+        
 
+        $creator = JWTAuth::parseToken()->authenticate();
         
         $newUser = $request->user;        
 
@@ -43,35 +64,31 @@ class UsersController extends Controller
         $user->email = $newUser['email'];
         $user->birthday = $newUser['birthday'];
         $user->gender = $newUser['gender'];
-        $user->phone = $newUser['phone'];
+        $user->phone = $newUser['phone'];        
+        $user->insurance = $newUser['insurance'];
+        $user->curp = $newUser['curp'];
+        $user->placeBirth = $newUser['placeBirth'];
         $user->street = $newUser['street'];
-        $user->hauseNumber = $newUser['hauseNumber'];
+        $user->houseNumber = $newUser['houseNumber'];
         $user->colony = $newUser['colony'];
         $user->city = $newUser['city'];
-        $user->userTypeId = $newUser['userTypeId'];
-
-        // if(isset($newUser['img'])) {
-        //     ini_set('memory_limit','256M');
-        //     $img = $newUser['img'];
-        //     $file_route = time().'_'. $img->getClientOriginalName();
-        //     return $file_route;
-        // }
-        // else { return 'no hay'; }
+        $user->user_type_id = $newUser['user_type_id'];
+        $user->creator_user_id = $creator->id;
 
         if($newUser['password'] != NULL) 
             $user->password = bcrypt($newUser['password']);
 
         $user->save();
 
-        if($user->userTypeId <= 3){
+        if($user->user_type_id <= 3){
             $this->createSchedule($request->schedules, $user->id);
             $this->createReferences($request->references, $user->id);
 
-            if($user->userTypeId == 1)
-                $user->monthlyPaymentId = $this->createMonthlyPayment($request->monthlyPayment); 
+            if($user->user_type_id == 1)
+                $user->monthly_payment_id = $this->createMonthlyPayment($request->monthlyPayment); 
 
             else {
-                $user->salaryId = $this->createSalary($request->salary);
+                $user->salary_id = $this->createSalary($request->salary);
             }
             
             $user->save();
@@ -87,12 +104,12 @@ class UsersController extends Controller
         foreach($schedules as $x){
             $schedule = new Schedule();
             $schedule->user_id = $id;
-            $schedule->checkIn = $x['checkIn'];
-            $schedule->checkOut =  $x['checkOut'];
+            $schedule->check_in = $x['check_in'];
+            $schedule->check_out =  $x['check_out'];
             // $schedule->description =  $x['description'];
-            $schedule->day =  $x['day'];
+            $schedule->day_id =  $x['day_id'];
             $schedule->type = 1;
-            $schedule->active =  $x['active'];
+            $schedule->active =  $x['active']; 
             $schedule->save();
 
         }
@@ -102,7 +119,7 @@ class UsersController extends Controller
         $newSalary = new Salary();
         $newSalary->amount =  $salary['amount'];
         $newSalary->bonus = $salary['bonus'];
-        $newSalary->salaryTypeId =  $salary['salaryTypeId'];
+        $newSalary->salary_type_id =  $salary['salary_type_id'];
         $newSalary->description = $salary['description'];
         $newSalary->save();
         return $newSalary->id;
@@ -126,32 +143,57 @@ class UsersController extends Controller
             $reference->name = $x['name'];
             $reference->phone = $x['phone'];
             $reference->email = $x['email'];
-            $reference->relationship = $x['relationship'];
+            $reference->relationship_id  = $x['relationship_id'];
 
             $reference->save();
         }
         
     } 
 
-    public function updateUser(Request $request){
+    public function updateUser(Request $request, $id){
+
+        $user = User::find($id);
         
-        $newUser = $request->user;        
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->birthday = $request->birthday;
+        $user->gender = $request->gender;
+        $user->phone = $request->phone;        
+        $user->insurance = $request->insurance;
+        $user->curp = $request->curp;
+        $user->placeBirth = $request->placeBirth;
+        $user->street = $request->street;
+        $user->houseNumber = $request->houseNumber;
+        $user->colony = $request->colony;
+        $user->city = $request->city;
+        $user->user_type_id = $request->user_type_id;
 
-        $user =  User::find($newUser['id']);
-
-        $user->name = $newUser['name'];
-        $user->email = $newUser['email'];
-        $user->birthday = $newUser['birthday'];
-        $user->gender = $newUser['gender'];
-        $user->phone = $newUser['phone'];
-        $user->street = $newUser['street'];
-        $user->hauseNumber = $newUser['hauseNumber'];
-        $user->colony = $newUser['colony'];
-        $user->city = $newUser['city'];
-        $user->userTypeId = $newUser['userTypeId'];
+        if($request->password != NULL) 
+            $user->password = bcrypt($request->password);
 
         $user->save();
         return response()->json($user);
+    }
+
+    public function getSchedules($id){
+        $schedules = Schedule::where('user_id', $id)->get();
+        return response()->json($schedules);
+    }
+
+    public function updateSchedules(Request $request, $id){
+        foreach($request->schedules as $x){
+            $schedule = Schedule::find($x['id']);
+
+            $schedule->check_in = $x['check_in'];
+            $schedule->check_out =  $x['check_out'];
+            // $schedule->description =  $x['description'];
+            // $schedule->day_id =  $x['day_id'];
+            // $schedule->type = 1;
+            $schedule->active =  $x['active']; 
+            $schedule->save();
+        }
+
+        return response()->json('success');
     }
 
     public function checkUniqueEmail(Request $request){

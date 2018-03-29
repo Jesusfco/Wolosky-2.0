@@ -15,9 +15,9 @@ class CreateSchedulesTable extends Migration
     {
         Schema::create('schedule', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('dayId');
-            $table->time('checkIn')->nullable();
-            $table->time('checkOut')->nullable();
+            $table->integer('day_id');
+            $table->time('check_in')->nullable();
+            $table->time('check_out')->nullable();
             $table->integer('user_id');
             $table->integer('type')->default(1);
             $table->boolean('active');

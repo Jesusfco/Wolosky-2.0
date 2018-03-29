@@ -1,0 +1,119 @@
+ @import url('https://fonts.googleapis.com/css?family=Oswald');
+.content { 
+width: 87%;
+margin: 0 auto;
+max-width: 1200px;
+} 
+
+.social h4 { 
+    background-color: #B71C1C;
+    text-align: center; 
+    padding: 6px;
+    color: white;    
+}
+
+.social h5 { 
+    border-left: 1px #000;
+    font-family: 'Oswald', sans-serif;
+    margin-top: 0;
+    
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.social h5:hover { 
+    border-left: 1px #000;
+    font-family: 'Oswald', sans-serif;
+    color: #B71C1C;
+}
+.interes { 
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    display: block;
+    height: auto;
+}
+.social img { 
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s
+}
+.social img:hover { 
+    -moz-transform: scale(1.1) rotate(2deg);
+    -webkit-transform: scale(1.1) rotate(2deg);
+    transform: scale(1.1) rotate(2deg);
+    opacity: .8;
+}
+  
+   
+  blockquote{
+  margin: 20px 0;
+  padding-left: 1.5rem;
+  border-left: 5px solid #0d47a1; /* Just change the color value and that's it*/
+}
+html { 
+    overflow-x: hidden;
+}
+.titulo { 
+font-family: 'Oswald', sans-serif;
+}
+  
+.fb-like { 
+	margin-top: 10px;
+	}
+
+   .fb-comments {
+    width: 100% !important;
+   }
+.fb-comments iframe[style] {
+   width: 100% !important;
+  }
+.fb-like-box {
+   width: 100% !important;
+  }
+.fb-like-box iframe[style] {
+   width: 100% !important;
+  }
+.fb-comments span {
+   width: 100% !important;
+  }
+.fb-comments iframe span[style] {
+   width: 100% !important;
+  }
+.fb-like-box span {
+   width: 100% !important;
+  }
+.fb-like-box iframe span[style] {
+   width: 100% !important;
+  }
+@media only screen and (max-width: 600px) { 
+
+	.titulo { 
+		font-size:40px; }
+
+	.fecha { 
+    margin-left: 79px;
+	
+	 }
+         .content { 
+            width: 100%;
+        }
+        #twitter-widget-0 { 
+            display: none;
+        }
+	
+
+ }
+
+ @media only screen and (max-width: 400px) { 
+ 
+   .fecha { 
+    	margin-left:20px; 
+    }
+    
+   .titulo { 
+	font-size:25px; 
+	}
+	
+    
+}
