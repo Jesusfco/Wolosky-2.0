@@ -29,3 +29,6 @@ Route::post('user/uniqueName', 'UsersController@checkUniqueName');
 
 Route::get('user/schedules/{id}', 'UsersController@getSchedules');
 Route::post('user/schedules/{id}', 'UsersController@updateSchedules');
+
+Route::get('receipt/analisis', 'ReceiptController@getAnalisis');
+Route::get('receipt', 'ReceiptController@create');

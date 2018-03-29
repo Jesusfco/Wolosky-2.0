@@ -20,6 +20,7 @@ class CreateReceiptTable extends Migration
             $table->dateTime('date');
             $table->string('description')->nullable();
             $table->integer('type');
+            $table->integer('month')->nullable();
             $table->integer('days')->nullable();
             $table->timestamps();
         });
