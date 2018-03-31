@@ -16,8 +16,7 @@ class CreateReceiptTable extends Migration
         Schema::create('receipt', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
-            $table->double('amount');
-            $table->dateTime('date');
+            $table->double('amount');            
             $table->string('description')->nullable();
             $table->integer('type');
             $table->integer('month')->nullable();

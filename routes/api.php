@@ -31,4 +31,5 @@ Route::get('user/schedules/{id}', 'UsersController@getSchedules');
 Route::post('user/schedules/{id}', 'UsersController@updateSchedules');
 
 Route::get('receipt/analisis', 'ReceiptController@getAnalisis');
-Route::get('receipt', 'ReceiptController@create');
+Route::post('receipt', 'ReceiptController@create');
+Route::get('receipt', 'ReceiptController@get');
