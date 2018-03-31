@@ -49,6 +49,15 @@ class ReceiptController extends Controller
 
     }//Final de fucntion
 
+    public function sugestUser(Request $request){
+        $users = User::where([
+            ['name', 'LIKE', '%' . $request->name . '%'],
+            ['user_type_id', '=', 1]
+        ])->select('name', 'id')->get();
+
+        return response()->json($users);
+    }
+
     public function nextMonth(){
         return date('Y') . '-'. ( 1 + date('m')) . '-00 00:00:00';
     }
