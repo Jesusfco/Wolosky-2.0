@@ -12,6 +12,33 @@ class ReceiptController extends Controller
 {   
     public function __construct(){ $this->middleware('adminCashier');}
         
+    public function get(Request $request){
+        
+        $receipts = Receipt::where([
+                                    ['created_at', '>', $request->from . " 00:00:00"],
+                                    ['created_at', '<', $request->to . " 00:00:00"],
+                                    ['user_id', 'LIKE', "%" . $request->id],
+                                ])->get();
+
+        $users =  User::where([                                
+                                ['user_type_id', '=', 1],
+                            ])->get();
+
+        for($x = 0; $x < count($receipts); $x++){
+
+            for($y = 0; $y < count($users); $y++){
+                
+                if($receipts[$x]->user_id == $users[$y]->id ){
+                    $receipts[$x]->user_name = $users[$y]->name;
+                    break;
+                }            
+            }
+        }    
+
+        return response()->json($receipts);                                
+                
+    }
+
     public function getAnalisis(){
 
         $notificacionCount = 0;
