@@ -5,6 +5,8 @@ namespace Wolosky\Http\Controllers;
 use Illuminate\Http\Request;
 use Wolosky\Receipt;
 use Wolosky\User;
+use Wolosky\MonthlyPayment;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ReceiptController extends Controller
 {
@@ -59,6 +61,37 @@ class ReceiptController extends Controller
     }
 
     public function getMonthlyPayment(Request $request){
+        $user = User::find($request->id);
+        $monthly = MonthlyPayment::find($user->monthly_payment_id);
+        return response()->json($monthly);
+    } 
+    
+    public function create(Request $request){
+        $creator = JWTAuth::parseToken()->authenticate();
+
+        $receipt = new Receipt();
+        $receipt->type = $request->type;
+        $receipt->user_id =  $request->userId;
+        $receipt->creator_id = $creator->id;
+        $receipt->date = date('Y') . '/'. date('m') . '/01';
+        
+        if($request->type == 1){
+            $receipt->amount = $request->monthlyAmount;
+            $receipt->month = $request->month;
+        }
+
+        else if($request->type == 2){
+            $receipt->amount = $request->amount;            
+        }
+
+        else if($request->type == 3){
+            $receipt->amount = $request->amount;
+            $receipt->days = $request->days;            
+        }
+
+        $receipt->save();
+
+        return response()->json($receipt);
 
     }
 
