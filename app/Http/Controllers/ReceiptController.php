@@ -9,11 +9,13 @@ use Wolosky\MonthlyPayment;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ReceiptController extends Controller
-{
+{   
+    public function __construct(){ $this->middleware('adminCashier');}
+        
     public function getAnalisis(){
 
         $notificacionCount = 0;
-        $notificactionUserId = Array();
+        $notificactionUser = Array();
 
         $user = User::where(['user_type_id' => 1, 'status' => 1])->get();
         $receipments =  Receipt::where([
@@ -31,22 +33,27 @@ class ReceiptController extends Controller
                 if($receipments[$y]->user_id == $user[$x]->id){
 
                     $user[$x]->receipt = true;
-                    $notificactionUserId[] = $user[$x]->id;
+                    
                     break;
 
-                }
-                
+                }                                
 
             }
 
-            if($user[$x]->receipt == false)
+            if($user[$x]->receipt == false){
                 $notificacionCount++;
 
+                $us = new User();
+                $us->id = $user[$x]->id;
+                $us->name = $user[$x]->name;
+
+                $notificactionUser[] = $us;
+            }
         }
 
         return response()->json([
             'count' => $notificacionCount, 
-            'users' => $notificactionUserId
+            'users' => $notificactionUser
             ]);
 
     }//Final de fucntion
@@ -63,7 +70,7 @@ class ReceiptController extends Controller
     public function getMonthlyPayment(Request $request){
         $user = User::find($request->id);
         $monthly = MonthlyPayment::find($user->monthly_payment_id);
-        return response()->json($monthly);
+        return response()->json(['amount' => $monthly->amount, 'user' => $user]);
     } 
     
     public function create(Request $request){

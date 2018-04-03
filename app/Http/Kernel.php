@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'guest' => \Wolosky\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'admin' => \Wolosky\Http\Middleware\AdminMiddleware::class,
+        'adminCashier' => \Wolosky\Http\Middleware\adminCashierMiddleware::class,
     ];
 }
