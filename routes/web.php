@@ -29,6 +29,8 @@ Route::get('/suscribete', function () {
 
 Route::post('/mensaje', 'VisitorsController@mail');
 
+Route::get('records', 'UsersController@createRecordStatus');
+
 
 
 Auth::routes();

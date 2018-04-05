@@ -50,10 +50,12 @@ class ReceiptController extends Controller
                                 ['created_at', '>', $this->thisMonth()],
                                 ['type', '=', 1]
                             ])->get();
+
+        $montly = MonthlyPayment::where('amount', 0)->get();
         
         for($x = 0; count($user) > $x; $x++){
             
-            $user[$x]->receipt = false;
+            $user[$x]->receipt = false;            
 
             for($y = 0; count($receipments) > $y; $y++){
 
@@ -66,6 +68,14 @@ class ReceiptController extends Controller
                 }                                
 
             }
+
+            if($user[$x]->receipt == false)
+                foreach($montly as $w){
+                    if($w->id == $user[$x]->monthly_payment_id){
+                        $user[$x]->receipt = true;
+                        break;
+                    }
+                }
 
             if($user[$x]->receipt == false){
                 $notificacionCount++;
@@ -108,19 +118,21 @@ class ReceiptController extends Controller
         $receipt->user_id =  $request->userId;
         $receipt->creator_id = $creator->id;
         $receipt->date = date('Y') . '/'. date('m') . '/01';
+        $receipt->amount = $request->amount;
+        $receipt->payment_type = $request->payment_type;
         
         if($request->type == 1){
             $receipt->amount = $request->monthlyAmount;
             $receipt->month = $request->month;
-        }
-
-        else if($request->type == 2){
-            $receipt->amount = $request->amount;            
-        }
+        }        
 
         else if($request->type == 3){
-            $receipt->amount = $request->amount;
+            
             $receipt->days = $request->days;            
+        }
+
+        else if($request->type == 5){
+            $receipt->description =  $request->description;
         }
 
         $receipt->save();

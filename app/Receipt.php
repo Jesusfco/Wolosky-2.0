@@ -14,6 +14,7 @@ class Receipt extends Model
         'month',
         'days', 
         'description',
-        'type',       
+        'type',   
+        'payment_type',   
     ];
 }

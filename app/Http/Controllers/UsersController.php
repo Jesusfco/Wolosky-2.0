@@ -9,6 +9,7 @@ use Wolosky\Schedule;
 use Wolosky\Salary;
 use Wolosky\Payment;
 use Wolosky\Reference;
+use Wolosky\RecordUserStatus;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UsersController extends Controller
@@ -50,6 +51,20 @@ class UsersController extends Controller
 
     }
 
+    public function createRecordStatus(){
+        $user = User::all();
+        for($x = 0; $x < count($user); $x++){
+            $status = new RecordUserStatus();
+            $status->user_id = $user[$x]->id;
+            $status->creator_id = 3;
+            $status->status = 1;
+            $status->description = 'Usuario creado';
+            $status->created_at = $user[$x]->created_at;
+            $status->save();
+        }
+
+        return 'RECORDS CREATED';
+    }
 
     public function create(Request $request){
         
