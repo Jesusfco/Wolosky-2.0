@@ -35,3 +35,19 @@ Route::post('receipt', 'ReceiptController@create');
 Route::post('receipt/get', 'ReceiptController@get');
 Route::post('receipt/sugestUser', 'ReceiptController@sugestUser');
 Route::post('receipt/getMonthlyPayment', 'ReceiptController@getMonthlyPayment');
+
+
+
+// Punto de venta Route
+
+Route::get('inventory/getProducts', 'ProductController@getProducts');
+Route::post('inventory/create', 'ProductController@store');
+Route::post('inventory/update', 'ProductController@update');
+Route::get('inventory/{id}', 'ProductController@show');
+Route::delete('inventory/delete/{id}', 'ProductController@delete');
+
+Route::post('sale', 'SaleController@storeSale');
+Route::post('sale/outService', 'SaleController@storeSaleOutService');
+Route::get('sales', 'SaleController@getSales');
+Route::post('sales', 'SaleController@postSales');
+Route::get('sales/{id}', 'SaleController@showSale');
