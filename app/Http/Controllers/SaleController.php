@@ -18,7 +18,7 @@ class SaleController extends Controller
         $user = JWTAuth::parseToken()->authenticate();        
         
         $sale = $this->newSale($request, $user);        
-        $this->updateCash($user, $sale);        
+        $this->updateCash($sale);        
                 
         foreach($request->description as $x){
             $this->newSaleDescription($x, $user, $sale);
@@ -31,7 +31,7 @@ class SaleController extends Controller
     public function newSale($request, $user){
         $sale = new sale();        
         $sale->total = $request->total;
-        $sale->creator_id = $user->shop_id;
+        $sale->creator_id = $user->id;
         $sale->created_at = $request->created_at;
         $sale->save();
         return $sale;
@@ -48,16 +48,10 @@ class SaleController extends Controller
             $description->save();
     }
 
-    public function updateCash($user, $sale){
-        if($user->cash == NULL){
-            $shop = Shop::find($user->shop_id);
-            $shop->cash += $sale->total;
-            $shop->save();
-        } else {
-            $updateUser =  User::find($user->id);
-            $updateUser->cash += $sale->total;
-            $updateUser->save();
-        }
+    public function updateCash($sale){
+        $cash = Cash::find(1);
+        $cash->amount = $cash->amount + $sale->total;
+        $cash->save();
     }
 
     public function decrementStock($x, $user){
@@ -72,7 +66,7 @@ class SaleController extends Controller
             $description = $sale['description'];
             $sale = json_decode(json_encode($sale), FALSE);
             $sale = $this->newSale($sale, $user);
-            $this->updateCash($user, $sale);
+            $this->updateCash($sale);
             // array_push($salesReturn, $sale);
             
             foreach($description as $x){
@@ -128,8 +122,7 @@ class SaleController extends Controller
     public function pushDescription($sales){
         $z = count($sales);
         
-        $description = SaleDescription::whereBetween('sale_id', [$sales[$z-1]->id, $sales[0]->id])                                    
-                                    ->get();
+        $description = SaleDescription::whereBetween('sale_id', [$sales[$z-1]->id, $sales[0]->id]);
         
         for($x = 0; $x < count($sales); $x++){
             $sales[$x]->description = [];

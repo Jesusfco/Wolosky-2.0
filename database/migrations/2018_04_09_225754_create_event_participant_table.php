@@ -4,16 +4,21 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRecordUserStatusTable extends Migration
+class CreateEventParticipantTable extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
-        Schema::create('record_user_status', function (Blueprint $table) {
+        Schema::table('event_participant', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->integer('creator_id');
-            $table->integer('status');            
-            $table->string('description')->nullable();            
+            $table->integer('event_id');
+            $table->integer('status');                        
             $table->timestamp('created_at');
         });
     }
@@ -25,6 +30,8 @@ class CreateRecordUserStatusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('record_user_status');
+        Schema::table('event_participant', function (Blueprint $table) {
+            //
+        });
     }
 }

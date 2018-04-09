@@ -16,11 +16,15 @@ class CreateReceiptTable extends Migration
         Schema::create('receipt', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
+            $table->integer('creator_id');
             $table->double('amount');            
+            $table->date('date');            
             $table->string('description')->nullable();
             $table->integer('type');
             $table->integer('month')->nullable();
             $table->integer('days')->nullable();
+            $table->integer('event_id')->nullable();
+            $table->integer('payment_type')->default(1);
             $table->timestamps();
         });
     }

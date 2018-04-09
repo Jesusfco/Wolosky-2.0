@@ -4,6 +4,7 @@ namespace Wolosky\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Wolosky\User;
+use Wolosky\Cash;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 //use JWTAuth;
@@ -31,11 +32,12 @@ class LoginController extends Controller
             return response()->json([
                 'error' => 'Could not create token!'
             ], 500);
-        }
+        }        
 
         return response()->json([
             'token' => $token,
-            'user' => Auth::user()
+            'user' => Auth::user(),
+            'cash' => Cash::find(1)->amount,
         ],200);
     }
 
@@ -47,6 +49,7 @@ class LoginController extends Controller
 
         return response()->json([
             'user' => $user,
+            'cash' => Cash::find(1)->amount,
         ]);
 
     }
