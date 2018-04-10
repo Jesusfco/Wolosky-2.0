@@ -5,8 +5,16 @@ namespace Wolosky\Http\Controllers;
 use Illuminate\Http\Request;
 use Wolosky\Noticia;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+
 class VisitorsController extends Controller
 {
+
+    public function migration(){
+        // 
+    }
     public function index() {
         $noticias = Noticia::orderBy('fecha','desc')->limit(3)->get();
         return view('home/home')->with(['noticias'=> $noticias]);
