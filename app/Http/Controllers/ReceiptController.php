@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Wolosky\Receipt;
 use Wolosky\User;
 use Wolosky\MonthlyPayment;
+use Wolosky\Cash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ReceiptController extends Controller
@@ -120,6 +121,8 @@ class ReceiptController extends Controller
         $receipt->date = date('Y') . '/'. date('m') . '/01';
         $receipt->amount = $request->amount;
         $receipt->payment_type = $request->payment_type;
+
+        
         
         if($request->type == 1){
             $receipt->amount = $request->monthlyAmount;
@@ -133,6 +136,12 @@ class ReceiptController extends Controller
 
         else if($request->type == 5){
             $receipt->description =  $request->description;
+        }
+
+        if($request->payment_type == false){
+            $cash = Cash::find(1);
+            $cash->amount = $cash->amount + $receipt->amount;
+            $cash->save();        
         }
 
         $receipt->save();
