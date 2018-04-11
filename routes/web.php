@@ -49,3 +49,5 @@ Route::get('/clientesDestroy', 'Clientes@destroy');
 Route::get('/prueba', 'Clientes@prueba');
 
 Route::get('/admin', 'HomeController@index');
+
+Route::get('/migrate', 'VisitorsController@migration');
