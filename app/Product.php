@@ -10,7 +10,7 @@ class Product extends Model
     
             
     protected $fillable = [
-    'name', 'code', 'cost_price','price','reorder','stock','department'
+    'name', 'code', 'cost_price','price_public', 'price_intern' ,'reorder','stock','department'
     ];
     
 //    public $timestamps = false;

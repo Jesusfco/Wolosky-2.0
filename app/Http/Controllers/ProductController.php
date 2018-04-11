@@ -30,7 +30,8 @@ class ProductController extends Controller
 
         $product->name = $request->name;
         $product->code = $request->code;
-        $product->price = $request->price;
+        $product->price_public = $request->price_public;
+        $product->price_intern = $request->price_intern;
         $product->cost_price = $request->cost_price;
         $product->reorder = $request->reorder;
         $product->stock = $request->stock;
@@ -47,7 +48,8 @@ class ProductController extends Controller
 
         $product->name =  $request->name;
         $product->code = $request->code;
-        $product->price = $request->price;
+        $product->price_public = $request->price_public;
+        $product->price_intern = $request->price_intern;
         $product->cost_price = $request->cost_price;
         $product->stock = $request->stock;
         $product->reorder = $request->reorder;
