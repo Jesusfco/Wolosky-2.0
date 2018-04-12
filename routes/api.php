@@ -30,6 +30,9 @@ Route::post('user/uniqueName', 'UsersController@checkUniqueName');
 Route::get('user/schedules/{id}', 'UsersController@getSchedules');
 Route::post('user/schedules/{id}', 'UsersController@updateSchedules');
 
+Route::get('user/status/{id}', 'UsersController@getStatus');
+Route::post('user/status', 'UsersController@createStatus');
+
 Route::get('receipt/analisis', 'ReceiptController@getAnalisis');
 Route::post('receipt', 'ReceiptController@create');
 Route::post('receipt/get', 'ReceiptController@get');

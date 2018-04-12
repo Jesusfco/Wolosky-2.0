@@ -14,13 +14,13 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UsersController extends Controller
 {
-    // public function __construct(){ $this->middleware('admin'); }
+    public function __construct(){ $this->middleware('adminCashier'); }
 
     public function get(Request $request)
     {
         $creator = JWTAuth::parseToken()->authenticate();
 
-        if($creator->user_type_id == 6){
+        if($creator->user_type_id >= 6){
             
             $users = User::where('name', 'LIKE', '%'. $request->searchWord .'%')
                         ->select('id', 'name', 'phone', 'gender', 'user_type_id')
@@ -223,5 +223,35 @@ class UsersController extends Controller
         else return response()->json(false);
     }
 
+    public function getStatus($id){
+        $user = User::find($id);
+        $status = RecordUserStatus::where('user_id', $id)->get();
+
+        return response()->json(['status' => $status, 'user' => $user]);
+
+    }
+
+    public function createStatus(Request $request){
+
+        $user = User::find($request->user_id);
+
+        $user->status = $request->status;
+
+        $user->save();
+
+        $creator = JWTAuth::parseToken()->authenticate();
+
+        $record = new RecordUserStatus();
+        $record->creator_id = $creator->id;
+        $record->user_id = $user->id;
+        $record->status = $request->status;
+        $record->description = $request->description;
+        $record->created_at = date_create();
+
+        $record->save();
+
+        return response()->json($record);
+
+    }
 
 }

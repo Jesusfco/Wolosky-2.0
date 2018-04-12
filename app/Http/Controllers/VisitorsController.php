@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 
+use Wolosky\RecordUserStatus;
+use Wolosky\User;
+
 class VisitorsController extends Controller
 {
 
@@ -16,6 +19,33 @@ class VisitorsController extends Controller
         // 
 
         return 'SIN MIGRACIONES';
+    }
+
+    public function records(){
+        // $users =  User::all();
+        
+        // foreach($users as $user){
+        //     $record =  new RecordUserStatus();
+
+        //     $record->user_id =  $user->id;
+        //     $record->creator_id = 3;
+        //     $record->description = 'REGISTRADO';
+        //     $record->status = 1;
+        //     $record->created_at = $user->created_at;
+
+        //     if($user->user_type_id == 3)
+
+        //         $record->creator_id = 2;
+
+        //     // } else if($user->user_type_id >= 6){
+        //     //     break;
+        //     // }
+
+        //     $record->save();
+
+        // }
+
+        // return 'Registro de cambio de status creados';
     }
     public function index() {
         $noticias = Noticia::orderBy('fecha','desc')->limit(3)->get();
