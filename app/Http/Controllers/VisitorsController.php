@@ -14,6 +14,8 @@ class VisitorsController extends Controller
 
     public function migration(){
         // 
+
+        return 'SIN MIGRACIONES';
     }
     public function index() {
         $noticias = Noticia::orderBy('fecha','desc')->limit(3)->get();

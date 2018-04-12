@@ -7,6 +7,7 @@ use Wolosky\Sale;
 use Wolosky\SaleDescription;
 use Wolosky\Product;
 use Wolosky\Cash;
+use Wolosky\SaleDebt;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class SaleController extends Controller
@@ -24,15 +25,23 @@ class SaleController extends Controller
             $this->newSaleDescription($x, $user, $sale);
             $this->decrementStock($x, $user);            
         }
+
+        if($sale->type == 3)
+            $this->createDebt($request);
                 
         return response()->json($sale);
     }
 
     public function newSale($request, $user){
         $sale = new sale();        
-        $sale->total = $request->total;
+        $sale->total = $request->total;        
         $sale->creator_id = $user->id;
         $sale->created_at = $request->created_at;
+        $sale->type = $request->type;
+
+        if($request->type == 3)
+            $sale->total = 0;
+
         $sale->save();
         return $sale;
     }
@@ -81,6 +90,15 @@ class SaleController extends Controller
         
     }
 
+    public function createDebt($sale, $userId){
+        $debt = new SaleDebt();
+        $debt->user_id =  $userId;
+        $debt->sale_id = $sale->id;
+        $debt->total = $sale->total;
+        $debt->status = 1;
+        $debt->updated_at = date_create();
+    }
+
     public function getSales(){
         
         $date = $this->today();
@@ -104,17 +122,17 @@ class SaleController extends Controller
         if(isset($request->to))
         $sales = Sale::whereBetween('created_at', [$request->from, $request->to . " 23:59:59"])
                         ->orderBy('created_at', 'DESC')
-                        ->get();
+                        ->paginate($request->items);
         else {
             $sales = Sale::where('created_at', 'LIKE', $request->from . "%")
                             ->orderBy('created_at', 'DESC')
-                            ->get();
+                            ->paginate($request->items);
         } 
 
-        if(!isset($sales[0]))
-            return response()->json($sales);
+        // if(!isset($sales[0]))
+        //     return response()->json($sales);
 
-        $sales = $this->pushDescription($sales);
+        // $sales = $this->pushDescription($sales);
         
         return response()->json($sales);
     }

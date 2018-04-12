@@ -51,3 +51,7 @@ Route::post('sale/outService', 'SaleController@storeSaleOutService');
 Route::get('sales', 'SaleController@getSales');
 Route::post('sales', 'SaleController@postSales');
 Route::get('sales/{id}', 'SaleController@showSale');
+
+//Cashhh
+
+Route::post('cash', 'CashController@update');

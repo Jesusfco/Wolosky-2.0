@@ -4,11 +4,11 @@ namespace Wolosky;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Sale extends Model
+class SaleDebt extends Model
 {
-    protected $table = 'sale';
+    protected $table = 'sale_debt';
     protected $fillable = [
-        'total', 'creator_id', 'type', 'created_at'
+        'user_id', 'sale_id','status', 'status', 'updated_at'
     ];
 
     public $timestamps = false;

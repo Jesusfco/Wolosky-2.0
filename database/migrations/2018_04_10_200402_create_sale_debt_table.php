@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEventParticipantTable extends Migration
+class CreateSaleDebtTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateEventParticipantTable extends Migration
      */
     public function up()
     {
-        Schema::table('event_participant', function (Blueprint $table) {
+        Schema::table('sale_debt', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
-            $table->integer('creator_id');
-            $table->integer('event_id');
-            $table->integer('status');                        
-            $table->timestamp('created_at');
+            $table->integer('sale_id');
+            $table->boolean('status');            
+            $table->double('total');                      
+            $table->timestamp('updated_at');
         });
     }
 
@@ -30,7 +30,7 @@ class CreateEventParticipantTable extends Migration
      */
     public function down()
     {
-        Schema::table('event_participant', function (Blueprint $table) {
+        Schema::table('sale_debt', function (Blueprint $table) {
             //
         });
     }

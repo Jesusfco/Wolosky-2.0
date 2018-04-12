@@ -19,7 +19,8 @@ class ReceiptController extends Controller
                                     ['created_at', '>', $request->from . " 00:00:00"],
                                     ['created_at', '<', $request->to . " 00:00:00"],
                                     ['user_id', 'LIKE', "%" . $request->id],
-                                ])->get();
+                                ])->orderBy('created_at', 'DESC')
+                                ->paginate($request->items);
 
         $users =  User::where([                                
                                 ['user_type_id', '=', 1],
