@@ -23,7 +23,7 @@ class UsersController extends Controller
         if($creator->user_type_id >= 6){
             
             $users = User::where('name', 'LIKE', '%'. $request->searchWord .'%')
-                        ->select('id', 'name', 'phone', 'gender', 'user_type_id')
+                        ->select('id', 'name', 'phone', 'gender', 'user_type_id', 'status')
                         ->orderBy('name', 'ASC')
                         ->paginate($request->items);
 
@@ -33,8 +33,10 @@ class UsersController extends Controller
                             ['name', 'LIKE', '%'. $request->searchWord .'%'],
                             ['user_type_id', '=', 1],
                             ])
-                            ->select('id', 'name', 'phone', 'gender', 'user_type_id')
+                            ->select('id', 'name', 'phone', 'gender', 'user_type_id', 'status')
+                            
                             ->orderBy('name', 'ASC')
+                            // ->groupBy('status')
                             ->paginate($request->items);
         }
 
@@ -225,7 +227,7 @@ class UsersController extends Controller
 
     public function getStatus($id){
         $user = User::find($id);
-        $status = RecordUserStatus::where('user_id', $id)->get();
+        $status = RecordUserStatus::where('user_id', $id)->orderBy('id', 'desc')->get();
 
         return response()->json(['status' => $status, 'user' => $user]);
 
@@ -249,6 +251,8 @@ class UsersController extends Controller
         $record->created_at = date_create();
 
         $record->save();
+
+        $record = RecordUserStatus::find($record->id);
 
         return response()->json($record);
 
