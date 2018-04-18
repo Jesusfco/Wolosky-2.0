@@ -58,3 +58,4 @@ Route::get('sales/{id}', 'SaleController@showSale');
 //Cashhh
 
 Route::post('cash', 'CashController@update');
+Route::get('cutout', 'CashController@cutout');
