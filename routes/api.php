@@ -59,3 +59,8 @@ Route::get('sales/{id}', 'SaleController@showSale');
 
 Route::post('cash', 'CashController@update');
 Route::get('cutout', 'CashController@cutout');
+
+
+// EXPORT EXCEL
+
+Route::get('excel/receipt', 'ExcelController@receipt');
