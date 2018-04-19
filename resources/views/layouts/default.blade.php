@@ -97,10 +97,21 @@
 <div class="footer-copyright black">
       <div class="container">
             Gimnasia Wolosky© <?php echo date("Y");?>
-          <a class="grey-text text-lighten-4 right" href="http://kaizensoftware.com.mx">Made by <span style="color:green;">Kaizen</span></a>
+          <a class="grey-text text-lighten-4 right" href="http://rodriguez.amerigas.mx">Made by <img src="http://rodriguez.amerigas.mx/img/logoNav.png"></a>
       </div>
 </div>
 
+<style>
+    .footer-copyright .right {
+        display:flex;
+    }
+    .footer-copyright .right img {
+        height: 40px;
+        position: relative;
+        top: 5px;
+        margin-left: 20px;
+    }
+</style>
 
     
     <script src="{{ url('js/materialize.min.js')}}"></script>
