@@ -34,6 +34,9 @@ Route::get('records', 'VisitorsController@records');
 
 
 Auth::routes();
+Route::get('home', function(){
+    return redirect('admin');
+});
 
 Route::get('admin/noticias/list', 'NoticiasController@index');
 Route::get('admin/noticias/create', 'NoticiasController@create');
@@ -42,12 +45,8 @@ Route::get('admin/noticias/destroy', 'NoticiasController@destroy');
 Route::get('noticias/{id}/edit', 'NoticiasController@edit');
 Route::post('admin/noticias/{id}', 'NoticiasController@update');
 
-Route::resource('/clientes', 'Clientes');
-Route::get('/nacimiento', 'Clientes@establecerNacimiento');
-Route::get('/edad', 'Clientes@verificarEdad');
-Route::get('/clientesDestroy', 'Clientes@destroy');
-Route::get('/prueba', 'Clientes@prueba');
+
 
 Route::get('/admin', 'HomeController@index');
 
-Route::get('/migrate', 'VisitorsController@migration');
+// Route::get('/migrate', 'VisitorsController@migration');

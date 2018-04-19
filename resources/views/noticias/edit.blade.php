@@ -38,12 +38,12 @@
 
                 <div class="form-group">
                   <label for="exampleInputEmail1">Titulo</label>
-                  <input type="text" name="titulo" class="form-control" value='{{ $noticia->TITULO }}' placeholder="Titulo de la noticia" required>
+                  <input type="text" name="titulo" class="form-control" value='{{ $noticia->titulo }}' placeholder="Titulo de la noticia" required>
                 </div>
 
                 <div class="form-group">
                   <label for="exampleInputPassword1">Resumen</label>
-                  <input type="text" name="resumen" class="form-control" value='{{ $noticia->RESUMEN }}' placeholder="Escribe brevemente de que se trara la noticia" required>
+                  <input type="text" name="resumen" class="form-control" value='{{ $noticia->resumen }}' placeholder="Escribe brevemente de que se trara la noticia" required>
                 </div>
 
                 <div class="form-group" >
@@ -56,7 +56,7 @@
 
                  <div class="form-group">
                   <label>Fecha</label>
-                  <input type="date" name="fecha" class="form-control" value="{{ $noticia->FECHA }}" required>
+                  <input type="date" name="fecha" class="form-control" value="{{ $noticia->fecha }}" required>
                    
                 </div>
 
@@ -65,7 +65,7 @@
                 <label>Redacta tu noticia</label>
 
                 <textarea name="editor1" id="editor1" rows="10" cols="80">
-                    {{ $noticia->TEXTO }}
+                    {{ $noticia->texto }}
                 </textarea>
                 <input type="hidden" id="contenidoNota" name="texto">
 
@@ -80,7 +80,7 @@
 
                 <div class="form-group">
                   <label>Iframe de Youtube</label>
-                  <input type="text" name="youtube" class="form-control" name="YOUTUBE" value='{{ $noticia->YOUTUBE }}' required>
+                  <input type="text" name="youtube" class="form-control" name="YOUTUBE" value='{{ $noticia->youtube }}' required>
                 </div>
 
 

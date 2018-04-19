@@ -14,7 +14,7 @@
         <div class='col s12 l10 offset-l1'>
             <blockquote>
                 <h1 class='thin black-text titulo'> 
-                    {{ $noticias->TITULO }}
+                    {{ $noticias->titulo }}
                 </h1>
                 <div class='col s1'>
                       <i class='small material-icons'>today</i> 
@@ -31,7 +31,7 @@
 
         <div class='row col s12 l8 offset-l1'>
             <blockquote>
-            {{ $noticias->RESUMEN }}
+            {{ $noticias->resumen }}
             </blockquote>
         </div>
 

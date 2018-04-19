@@ -24,27 +24,7 @@
                 <li>Lista de Noticias</li>
             </a>
         </ul>
-
-        <hr>
-
-        <h4>
-            <span class="glyphicon glyphicon-eur" id="chess"></span>
-            Clientes
-        </h4>
-        <ul>
-            <a href="{{ url('/clientes/create')}}">
-                <li>Crear cliente</li>
-            </a>
-            <a href="{{ url('/clientes')}}">
-                <li>Lista de clientes</li>
-            </a>
-            <a href="{{ url('/nacimiento')}}">
-                <li>Establecer Nacimiento</li>
-            </a>
-            <a href="{{ url('/edad')}}">
-                <li>Verificar Edad</li>
-            </a>
-        </ul>
+        
         <hr>
 
         <h4><span class="glyphicon glyphicon-cog" aria-hidden="true" id="chess"></span>

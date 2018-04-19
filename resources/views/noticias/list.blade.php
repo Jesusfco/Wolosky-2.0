@@ -40,11 +40,11 @@
                         
                         <tr id="noticia{{$n->id}}">
                             <td>{{ $n->id }}</td>
-                            <td>{{ $n->TITULO }}</td>
-                            <td>{{ $n->FECHA }}</td>
+                            <td>{{ $n->titulo }}</td>
+                            <td>{{ $n->fecha }}</td>
                             <td>                                
                                 <a href="{{ url('/noticias/'.$n->id.'/edit') }}" class="btn btn-primary btn-xs">Editar </a>
-                                <a  onclick="eliminar({{ $n->id }}, '{{ $n->TITULO }}')" class="btn btn-danger btn-xs"> Eliminar</a>
+                                <a  onclick="eliminar({{ $n->id }}, '{{ $n->titulo }}')" class="btn btn-danger btn-xs"> Eliminar</a>
                                 <a href="{{ url('noticias', $n->id) }}" class="btn btn-success btn-xs" type="button">Ver</a>
                             </td>
                         </tr>

@@ -37,7 +37,7 @@
                 <li><a href='{{ url('/noticias')}}' class='white-text thin'>       Noticias     </a></li>
                 <li><a href='{{ url('/equipo')}}' class='white-text thin'>       Equipo       </a></li>
                 <li><a href='{{ url('/contacto')}}' class='white-text thin'>     Contacto  </a></li>
-                <li><a href='{{ url('/suscribete')}}' class='white-text thin'>     Suscribete      </a></li>
+                
                 <li><a href='{{ url('/login')}}' class='white-text thin'>     Login      </a></li>
             </ul>
             <ul id='nav-mobile' class='side-nav'>        
