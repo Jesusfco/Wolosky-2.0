@@ -56,6 +56,16 @@ class ExcelController extends Controller
         } 
         
         for($x = 0; $x < count($receipts); $x++){
+            if($receipts[$x]->type == 1)
+                $receipts[$x]->type = "MENSUALIDAD";
+            else if ($receipts[$x]->type == 2)
+                $receipts[$x]->type = "INSCRIPCION";
+            else if($receipts[$x]->type == 3)
+                $receipts[$x]->type = "DIAS";
+            else if($receipts[$x]->type == 4)
+                $receipts[$x]->type = "UNIFORME";   
+            else if($receipts[$x]->type == 5)
+                $receipts[$x]->type = "EVENTO";   
 
             for($y = 0; $y < count($creators); $y++){
 
@@ -69,7 +79,7 @@ class ExcelController extends Controller
         Excel::create('Recibos_'. $request->from . "_" . $request->to, function($excel) use ($receipts){
             $excel->sheet('hoja 1', function($sheet) use ($receipts){
 
-                $sheet->fromArray($receipts);
+                $sheet->loadView('excel/receipt')->with(['receipt' => $receipts]);
 
             });
         })->export('xls');
