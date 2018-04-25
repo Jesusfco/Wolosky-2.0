@@ -60,6 +60,12 @@ Route::get('sales/{id}', 'SaleController@showSale');
 Route::post('cash', 'CashController@update');
 Route::get('cutout', 'CashController@cutout');
 
+//EXPENSES
+Route::post('expenses', 'ExpensesController@get');
+Route::get('expenses/{id}', 'ExpensesController@show');
+Route::post('expenses/create', 'ExpensesController@create');
+Route::post('expenses/update', 'ExpensesController@update');
+Route::delete('expenses/{id}', 'ExpensesController@delete');
 
 // EXPORT EXCEL
 
