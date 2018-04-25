@@ -151,6 +151,25 @@ class ReceiptController extends Controller
 
     }
 
+    public function update(Request $request) {
+
+        $receipt = Receipt::find($receipt->id);
+        $receipt->amount = $request->amount;
+        $receipt->save();
+        
+        return response()->json($receit);
+
+    }
+
+    public function delete($id){
+        Receipt::find($id)->delete();
+        return response()->json(true);
+    }
+
+    public function show($id){
+        return response()->json(Receipt::find($id));
+    }
+    
     public function nextMonth(){
         return date('Y') . '-'. ( 1 + date('m')) . '-00 00:00:00';
     }

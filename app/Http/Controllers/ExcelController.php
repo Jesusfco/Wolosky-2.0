@@ -8,6 +8,7 @@ use Wolosky\Receipt;
 use Wolosky\Sales;
 use Wolosky\Product;
 use Wolosky\MonthlyPayment;
+use Wolosky\Expense;
 use Excel;
 // use Maatwebsite\Excel\Concerns\FromCollection;
 // use Maatwebsite\Excel\Excel;
@@ -80,6 +81,39 @@ class ExcelController extends Controller
             $excel->sheet('hoja 1', function($sheet) use ($receipts){
 
                 $sheet->loadView('excel/receipt')->with(['receipt' => $receipts]);
+
+            });
+        })->export('xls');
+
+    }
+
+    public function expenses(Request $request){
+
+        $expenses = Expense::where([
+                        ['created_at', '>', $request->from . " 00:00:00"],
+                        ['created_at', '<', $request->to . " 00:00:00"]
+                        
+                        ])->orderBy('created_at', 'DESC')->get();
+                
+        $users =  User::where([                                
+                        ['user_type_id', '>', 2],
+                    ])->get();                    
+
+        for($x = 0; $x < count($expenses); $x++){
+
+            for($y = 0; $y < count($users); $y++){
+
+                if($expenses[$x]->creator_id == $users[$y]->id ){
+                $expenses[$x]->creator_id = $users[$y]->name;
+                break;
+                }            
+            }
+        }                                         
+
+        Excel::create('Gastos_'. $request->from . "_" . $request->to, function($excel) use ($expenses){
+            $excel->sheet('hoja 1', function($sheet) use ($expenses){
+
+                $sheet->loadView('excel/expenses')->with(['expenses' => $expenses]);
 
             });
         })->export('xls');

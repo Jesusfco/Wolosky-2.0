@@ -33,11 +33,23 @@ Route::post('user/schedules/{id}', 'UsersController@updateSchedules');
 Route::get('user/status/{id}', 'UsersController@getStatus');
 Route::post('user/status', 'UsersController@createStatus');
 
-Route::get('receipt/analisis', 'ReceiptController@getAnalisis');
+
+//RECIBOS CONTROLLADORES
+
+Route::post('receipt/update', 'ReceiptController@update');
+Route::get('receipt/show/{$id}', 'ReceiptController@show');
+Route::delete('receipt/{$id}', 'ReceiptController@delete');
 Route::post('receipt', 'ReceiptController@create');
+
+Route::get('receipt/analisis', 'ReceiptController@getAnalisis');
+
 Route::post('receipt/get', 'ReceiptController@get');
 Route::post('receipt/sugestUser', 'ReceiptController@sugestUser');
 Route::post('receipt/getMonthlyPayment', 'ReceiptController@getMonthlyPayment');
+
+
+
+
 
 
 
@@ -70,3 +82,4 @@ Route::delete('expenses/{id}', 'ExpensesController@delete');
 // EXPORT EXCEL
 
 Route::get('excel/receipt', 'ExcelController@receipt');
+Route::get('excel/expenses', 'ExcelController@expenses');
