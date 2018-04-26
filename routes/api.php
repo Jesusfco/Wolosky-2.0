@@ -63,10 +63,14 @@ Route::get('inventory/{id}', 'ProductController@show');
 Route::delete('inventory/delete/{id}', 'ProductController@delete');
 
 Route::post('sale', 'SaleController@storeSale');
+Route::post('saleDebt', 'SaleController@storeSaleDebt');
+
 Route::post('sale/outService', 'SaleController@storeSaleOutService');
 Route::get('sales', 'SaleController@getSales');
 Route::post('sales', 'SaleController@postSales');
 Route::get('sales/{id}', 'SaleController@showSale');
+
+Route::post('sales/sugestDebt' , 'SaleController@sugestDebt');
 
 //Cashhh
 

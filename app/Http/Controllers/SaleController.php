@@ -8,13 +8,14 @@ use Wolosky\SaleDescription;
 use Wolosky\Product;
 use Wolosky\Cash;
 use Wolosky\SaleDebt;
+use Wolosky\User;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class SaleController extends Controller
 {
     public function __construct(){ $this->middleware('adminCashier'); }
 
-    public function storeSale(Request $request){
+    public function storeSale(Request $request) {
         
         $user = JWTAuth::parseToken()->authenticate();        
         
@@ -22,14 +23,35 @@ class SaleController extends Controller
         $this->updateCash($sale);        
                 
         foreach($request->description as $x){
-            $this->newSaleDescription($x, $user, $sale);
-            $this->decrementStock($x, $user);            
-        }
-
-        if($sale->type == 3)
-            $this->createDebt($request);
+            $this->newSaleDescription($x, $sale);
+            $this->decrementStock($x);            
+        }        
                 
         return response()->json($sale);
+    }
+
+    public function storeSaleDebt(Request $request) {
+
+        $user = JWTAuth::parseToken()->authenticate();     
+
+        $saleRequest =   json_decode(json_encode($request->sale), FALSE);            
+        $saleDebt =   json_decode(json_encode($request->saleDebt), FALSE);
+
+        $saleRequest->total = 0;
+        $sale = $this->newSale($saleRequest, $user);   
+
+        $saleDebt->sale_id = $sale->id;
+        $this->createDebt($saleDebt);        
+
+        foreach($request->sale['description'] as $x){
+
+            $this->newSaleDescription($x, $sale);            
+            $this->decrementStock($x);            
+
+        }    
+        
+        return response()->json(true);
+
     }
 
     public function newSale($request, $user){
@@ -46,7 +68,7 @@ class SaleController extends Controller
         return $sale;
     }
 
-    public function newSaleDescription($descriptionRequest, $user, $sale){
+    public function newSaleDescription($descriptionRequest, $sale){
             $description = new SaleDescription();
 
             $description->sale_id = $sale->id;
@@ -63,7 +85,8 @@ class SaleController extends Controller
         $cash->save();
     }
 
-    public function decrementStock($x, $user){
+    public function decrementStock($x){
+        
         Product::find($x['product_id'])->decrement('stock', $x['quantity']);
     }
 
@@ -80,8 +103,8 @@ class SaleController extends Controller
             
             foreach($description as $x){
          
-                $this->newSaleDescription($x, $user, $sale);                
-                $this->decrementStock($x, $user);
+                $this->newSaleDescription($x, $sale);                
+                $this->decrementStock($x);
 
             }
             
@@ -90,13 +113,13 @@ class SaleController extends Controller
         
     }
 
-    public function createDebt($sale, $userId){
+    public function createDebt($saleDebt){
         $debt = new SaleDebt();
-        $debt->user_id =  $userId;
-        $debt->sale_id = $sale->id;
-        $debt->total = $sale->total;
-        $debt->status = 1;
-        $debt->updated_at = date_create();
+        $debt->user_id =  $saleDebt->user_id;
+        $debt->sale_id = $saleDebt->sale_id;
+        $debt->total = $saleDebt->total;
+        $debt->status = 1;        
+        $debt->save();        
     }
 
     public function getSales(){
@@ -177,5 +200,10 @@ class SaleController extends Controller
 
         return $date;
 
+    }
+
+    public function sugestDebt(Request $request) {
+        $users = User::where('name', 'LIKE', '%'. $request->keyword .'%')->select('id','name')->get();
+        return response()->json($users);
     }
 }

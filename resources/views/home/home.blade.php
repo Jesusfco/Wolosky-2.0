@@ -74,20 +74,20 @@
 
     <div class="row videoSection">
         
-        <h1 class="center light slogan2" style="font-family: 'Oswald', sans-serif">Curso de Verano Wolosky</h1>
+        <h1 class="center light slogan2" style="font-family: 'Oswald', sans-serif">Wolosky Gym en Festival Nacional GPT</h1>
         <div class="col s12 l6 offset-l3" style="padding:0;">
         <div class="video-container"> 
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/cwObZ_1Drvc" frameborder="0" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/zr9sGcgwAFs" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
          
       </div>
         <div class="col s12 m8 offset-m2">
-            <h5  class="light descripcionC"style="text-align: center;">Estos pequeñines lograron adquirir conocimientos sobre las bases de la 
-                gimnasia, así como de actividades tales como: danza en tela o gimnasia aérea 
-                y parkour; así como la realización de manualidades para activar la creatividad 
-                de los niños. </h5>
+            <h5  class="light descripcionC"style="text-align: center;">Magna y triunfal resultó ser la actuación de 
+            la Academia de Gimnasia Artística Wolosky Gym, dentro del marco del Festival Nacional de Gimnasia Para Todos 2017, 
+            celebrado del 30 de noviembre al 3 de diciembre en el Polideportivo de la 
+            Universidad Anáhuac de la ciudad de Querétaro, donde cerca de 50 chiapanecos tomaron parte de este magno evento. </h5>
             <center>
-                <a href="noticias/23"  class="btn waves-effect waves-light blue darken-4">Leer mas...</a>
+                <a href="noticias/99"  class="btn waves-effect waves-light blue darken-4">Leer mas...</a>
             </center> 
             <br><br>
         </div>
@@ -100,7 +100,10 @@
   <div id="paral" class="parallax-container valign-wrapper">    
       <div class="container valign">                        
         <h5 class="thin slogan " align="center">
-            La Gimnasia Artística consiste en la realización de una composición coreográfica, combinando de forma simultánea y a una alta velocidad los movimientos corporalesLa gimnasia artística consiste en la realización de una composición coreográfica, combinando de forma simultánea y a una alta velocidad los movimientos corporales.</h5>                       
+            La Gimnasia Artística consiste en la realización de una composición coreográfica, 
+            combinando de forma simultánea y a una alta velocidad los movimientos corporales. La 
+            gimnasia artística consiste en la realización de una composición coreográfica, combinando de 
+            forma simultánea y a una alta velocidad los movimientos corporales.</h5>                       
       </div>    
       <div class="parallax"><img src="images/index/sliFondo.jpg" alt="Unsplashed background img 1"  style="margin-top:0px;"></div>
   </div>

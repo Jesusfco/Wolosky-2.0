@@ -8,8 +8,7 @@ class SaleDebt extends Model
 {
     protected $table = 'sale_debt';
     protected $fillable = [
-        'user_id', 'sale_id','status', 'status', 'updated_at'
+        'user_id', 'sale_id','status', 'total'
     ];
-
-    public $timestamps = false;
+    
 }
