@@ -153,11 +153,11 @@ class ReceiptController extends Controller
 
     public function update(Request $request) {
 
-        $receipt = Receipt::find($receipt->id);
+        $receipt = Receipt::find($request->id);
         $receipt->amount = $request->amount;
         $receipt->save();
         
-        return response()->json($receit);
+        return response()->json($receipt);
 
     }
 
@@ -167,7 +167,12 @@ class ReceiptController extends Controller
     }
 
     public function show($id){
-        return response()->json(Receipt::find($id));
+
+        $receipt = Receipt::find($id);
+        $receipt->user_id = User::find($receipt->user_id)->name;
+        $receipt->creator_id = User::find($receipt->creator_id)->name;
+
+        return response()->json($receipt);
     }
     
     public function nextMonth(){
