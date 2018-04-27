@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Wolosky\User;
 use Wolosky\Receipt;
 use Wolosky\Sales;
+use Wolosky\SaleDebt;
 use Wolosky\Product;
 use Wolosky\MonthlyPayment;
 use Wolosky\Expense;
@@ -118,5 +119,35 @@ class ExcelController extends Controller
             });
         })->export('xls');
 
+    }
+
+    public function debtors(Request $request) {
+
+        $debts = SaleDebt::where([
+                                ['created_at', '>', $request->from . " 00:00:00"],
+                                ['created_at', '<', $request->to . " 00:00:00"],
+                                ['user_id', 'LIKE', "%" . $request->id]
+                            ])->orderBy('created_at', 'DESC')->get();
+    
+            $users = User::all();                   
+
+            for($x = 0; $x < count($debts); $x++){
+
+                for($y = 0; $y < count($users); $y++){
+
+                    if($debts[$x]->user_id == $users[$y]->id ){
+                    $debts[$x]->user_name = $users[$y]->name;
+                    break;
+                    }            
+                }
+            }                                         
+
+            Excel::create('Deudores_'. $request->from . "_" . $request->to, function($excel) use ($debts){
+                $excel->sheet('hoja 1', function($sheet) use ($debts){
+
+                    $sheet->loadView('excel/debtors')->with(['debts' => $debts]);
+
+                });
+            })->export('xls');
     }
 }
