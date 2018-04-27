@@ -150,4 +150,5 @@ class ExcelController extends Controller
                 });
             })->export('xls');
     }
+    
 }
