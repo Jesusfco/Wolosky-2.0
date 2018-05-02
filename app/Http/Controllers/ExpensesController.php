@@ -34,6 +34,9 @@ class ExpensesController extends Controller
         $expense->amount = $request->amount;
         $expense->save();
 
+        //if($request->updateCash == true)
+            Cash::substract($expense->amount);
+
         return response()->json($expense);
 
     }

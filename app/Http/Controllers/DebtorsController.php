@@ -5,6 +5,7 @@ namespace Wolosky\Http\Controllers;
 use Illuminate\Http\Request;
 use Wolosky\User;
 use Wolosky\Sale;
+use Wolosky\SaleDescription;
 use Wolosky\SaleDebt;
 
 class DebtorsController extends Controller
@@ -42,6 +43,46 @@ class DebtorsController extends Controller
                     ])->select('name', 'id')->get();
 
         return response()->json($users);
+
+    }
+
+    public function update(Request $request){
+        $debt = SaleDebt::find($request->id);
+        $sale = Sale::find($debt->sale_id);
+        
+        if($debt->status == true){
+            
+            $debt->status = false;
+            $debt->save();
+            
+            $sale->total = $debt->total;
+            $sale->save();
+
+            return response()->json($debt);
+
+        } else {
+
+            $debt->status = true;
+            $debt->save();
+            
+            $sale->total = 0;
+            $sale->save();
+
+            return response()->json($debt);
+
+        }
+
+    }
+
+    public function delete(Request $request) {
+
+        $debt = SaleDebt::find($request->id);
+        $sale = Sale::find($debt->sale_id);
+        SaleDescription::where('sale_id', $sale->id)->delete();
+        $sale->delete();
+        $debt->delete();
+        
+        return response()->json(true);
 
     }
 }

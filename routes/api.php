@@ -93,3 +93,5 @@ Route::get('excel/debtors', 'ExcelController@debtors');
 //Debtors
 Route::post('debtors', 'DebtorsController@get');
 Route::post('debtors/sugest', 'DebtorsController@sugestUser');
+Route::post('debtors/update', 'DebtorsController@update');
+Route::post('debtors/delete', 'DebtorsController@delete');
