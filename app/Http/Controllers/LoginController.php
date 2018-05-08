@@ -35,6 +35,8 @@ class LoginController extends Controller
         }        
 
         $user = Auth::user();
+        $user->fingerprint = NULL;
+        
         return response()->json([
 
             'token' => $token,
@@ -49,7 +51,8 @@ class LoginController extends Controller
         $this->middleware('user1');
 
         $user = JWTAuth::parseToken()->authenticate();
-
+        $user->fingerprint = NULL;
+        
         return response()->json([
             'user' => $user,
             'cash' => Cash::find(1)->amount,
