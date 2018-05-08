@@ -34,10 +34,13 @@ class LoginController extends Controller
             ], 500);
         }        
 
+        $user = Auth::user();
         return response()->json([
+
             'token' => $token,
-            'user' => Auth::user(),
+            'user' => $user,
             'cash' => Cash::find(1)->amount,
+
         ],200);
     }
 
