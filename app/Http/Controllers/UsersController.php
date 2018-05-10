@@ -45,7 +45,9 @@ class UsersController extends Controller
     }
 
     public function showUser($id){
-        return response()->json(User::find($id));
+        $user = User::find($id);
+        $user->fingerprint = NULL;
+        return response()->json($user);
     }
 
     public function searchUser(Request $request)
@@ -189,6 +191,8 @@ class UsersController extends Controller
             $user->password = bcrypt($request->password);
 
         $user->save();
+        $user->fingerprint = NULL;
+        
         return response()->json($user);
     }
 
