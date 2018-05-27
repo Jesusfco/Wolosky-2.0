@@ -12,7 +12,9 @@ class Reference extends Model
         'relationship_id',
         'name',
         'phone',
+        'phone2',
         'email',
+        'work_place',
         'created_at',
         'updated_at'
         

@@ -162,6 +162,8 @@ class UsersController extends Controller
             $reference->name = $x['name'];
             $reference->phone = $x['phone'];
             $reference->email = $x['email'];
+            $reference->phone2 = $x['phone2'];
+            $reference->work_place = $x['work_place'];
             $reference->relationship_id  = $x['relationship_id'];
 
             $reference->save();
