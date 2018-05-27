@@ -95,3 +95,9 @@ Route::post('debtors', 'DebtorsController@get');
 Route::post('debtors/sugest', 'DebtorsController@sugestUser');
 Route::post('debtors/update', 'DebtorsController@update');
 Route::post('debtors/delete', 'DebtorsController@delete');
+
+//MONTHLY-COST
+Route::get('monthly-cost', 'MonthlyCostController@get');
+Route::post('monthly-cost/create', 'MonthlyCostController@store');
+Route::post('monthly-cost/update', 'MonthlyCostController@update');
+Route::delete('monthly-cost/{id}', 'MonthlyCostController@delete');
