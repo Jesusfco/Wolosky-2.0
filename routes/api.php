@@ -37,7 +37,7 @@ Route::get('monthlyPayment/{id}', 'UsersController@getMonthlyPayment');
 Route::get('salary/{id}', 'UsersController@getSalary');
 Route::get('references/{id}', 'UsersController@getReferences');
 
-
+Route::post('user/monthlyPayment', 'UsersController@updateMonthlyPayment');
 
 
 //RECIBOS CONTROLLADORES

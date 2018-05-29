@@ -204,7 +204,9 @@ class UsersController extends Controller
     }
 
     public function updateSchedules(Request $request, $id){
+
         foreach($request->schedules as $x){
+
             $schedule = Schedule::find($x['id']);
 
             $schedule->check_in = $x['check_in'];
@@ -214,6 +216,14 @@ class UsersController extends Controller
             // $schedule->type = 1;
             $schedule->active =  $x['active']; 
             $schedule->save();
+        }
+
+        $user = User::find($request->user['id']);
+
+        if($user->user_type_id == 1) {
+            $monthlyPayment = MonthlyPayment::find($user->monthly_payment_id);
+            $monthlyPayment->amount = $request->amount;
+            $monthlyPayment->save();
         }
 
         return response()->json('success');
@@ -275,6 +285,16 @@ class UsersController extends Controller
     public function getReferences($id) {
         $references = Reference::where('user_id', $id)->get();
         return response()->json($references);
+    }
+
+    public function updateMonthlyPayment(Request $request){
+        
+        $monthly = MonthlyPayment::finde($request->id);
+
+        $monthly->amount = $request->amount;
+        $monthly->save();
+
+        return response()->json($monthly);
     }
 
 }
