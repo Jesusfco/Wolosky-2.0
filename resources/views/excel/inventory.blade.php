@@ -4,7 +4,8 @@
         <th>ID</th>
         <th>Producto</th>
         <th>Codigo de Barras</th>        
-        <th>Precio</th>
+        <th>Precio Public</th>
+        <th>Precio Interno</th>
         <th>Precio/C</th>
         <th>Punto de reorden</th>
         <th>Stock</th>
@@ -19,7 +20,8 @@
             <td>{{ $pro->id }}</td>
             <td>{{ $pro->name }}</td>
             <td>{{ $pro->code }}</td>
-            <td>{{ $pro->price }}</td>
+            <td>{{ $pro->price_public }}</td>
+            <td>{{ $pro->price_intern }}</td>
             <td>{{ $pro->cost_price }}</td>
             <td>{{ $pro->reorder }}</td>
             <td>{{ $pro->stock }}</td>

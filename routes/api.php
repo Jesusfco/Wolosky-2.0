@@ -90,6 +90,7 @@ Route::get('excel/receipt', 'ExcelController@receipt');
 Route::get('excel/expenses', 'ExcelController@expenses');
 Route::get('excel/debtors', 'ExcelController@debtors');
 Route::get('excel/sales', 'ExcelController@getSales');
+Route::get('excel/inventory', 'ExcelController@getInventory');
 
 //Debtors
 Route::post('debtors', 'DebtorsController@get');

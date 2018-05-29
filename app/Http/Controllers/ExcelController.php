@@ -241,5 +241,26 @@ class ExcelController extends Controller
 
         return $sales;
     }
+
+    public function getInventory(Request $request) {
+        
+        
+        $products = Product::orderBy('name', 'ASC')->get();
+
+        Excel::create('Inventario', function($excel) use ($products){
+
+            $excel->sheet('inventario', function($sheet) use ($products){
+
+                $sheet->loadView('excel/inventory')->with(['products' => $products]);
+
+            });
+
+        })->export('xls');
+
+
+        return view('excel.inventory', [
+            'products' => $products
+        ]);
+    }
     
 }
