@@ -10,6 +10,7 @@ use Wolosky\Cash;
 use Wolosky\SaleDebt;
 use Wolosky\User;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
@@ -126,16 +127,14 @@ class SaleController extends Controller
         
         $date = $this->today();
         
-        $sales = Sale::where('created_at', 'LIKE', $date . "%")
+        $sales = DB::table('sale')->where('created_at', 'LIKE', $date . "%")
                         ->orderBy('created_at', 'DESC')
-                        ->get();
-
-        if(!isset($sales[0]))
-            return response()->json($sales);                        
+                        ->get();                 
         
         $sales = $this->pushDescription($sales);
 
         return response()->json($sales);
+
     }
 
     public function postSales(Request $request){
@@ -143,40 +142,46 @@ class SaleController extends Controller
         $user = JWTAuth::parseToken()->authenticate(); 
         
         if(isset($request->to))
-        $sales = Sale::whereBetween('created_at', [$request->from, $request->to . " 23:59:59"])
+        $sales = DB::table('sale')->whereBetween('created_at', [$request->from . " 00:00:00", $request->to . " 23:59:59"])
                         ->orderBy('created_at', 'DESC')
-                        ->paginate($request->items);
+                        ->get();
         else {
-            $sales = Sale::where('created_at', 'LIKE', $request->from . "%")
+            $sales = DB::table('sale')->where('created_at', 'LIKE', $request->from . "%")
                             ->orderBy('created_at', 'DESC')
-                            ->paginate($request->items);
+                            ->get();
         } 
 
-        // if(!isset($sales[0]))
-        //     return response()->json($sales);
-
-        // $sales = $this->pushDescription($sales);
+        $sales = $this->pushDescription($sales);
         
         return response()->json($sales);
     }
 
     public function pushDescription($sales){
+
         $z = count($sales);
         
-        $description = SaleDescription::whereBetween('sale_id', [$sales[$z-1]->id, $sales[0]->id]);
-        
+        $description = SaleDescription::whereBetween('sale_id', 
+                                            [$sales[$z-1]->id, $sales[0]->id])
+                                            ->get();
+
         for($x = 0; $x < count($sales); $x++){
+            
             $sales[$x]->description = [];
+
             foreach($description as $desc){
 
                 if( $sales[$x]->id == $desc->sale_id){
+                    
                     $sales[$x]->description[] = $desc;
+
                 }
 
             }
+
         }
 
         return $sales;
+        
     }
 
     public function showSale($id){

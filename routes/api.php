@@ -89,6 +89,7 @@ Route::delete('expenses/{id}', 'ExpensesController@delete');
 Route::get('excel/receipt', 'ExcelController@receipt');
 Route::get('excel/expenses', 'ExcelController@expenses');
 Route::get('excel/debtors', 'ExcelController@debtors');
+Route::get('excel/sales', 'ExcelController@getSales');
 
 //Debtors
 Route::post('debtors', 'DebtorsController@get');

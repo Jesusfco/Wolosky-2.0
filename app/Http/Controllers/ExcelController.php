@@ -10,9 +10,8 @@ use Wolosky\SaleDebt;
 use Wolosky\Product;
 use Wolosky\MonthlyPayment;
 use Wolosky\Expense;
+use Illuminate\Support\Facades\DB;
 use Excel;
-// use Maatwebsite\Excel\Concerns\FromCollection;
-// use Maatwebsite\Excel\Excel;
 
 class ExcelController extends Controller
 {
@@ -149,6 +148,98 @@ class ExcelController extends Controller
 
                 });
             })->export('xls');
+    }
+
+    public function getSales(Request $request) {
+
+
+        if(isset($request->to))
+        $sales = DB::table('sale')
+                        ->whereBetween('created_at', [$request->from, $request->to . " 23:59:59"])
+                        ->orderBy('created_at', 'DESC')
+                        ->get();
+        else {
+            $sales = DB::table('sale')
+                        ->where('created_at', 'LIKE', $request->from . "%")
+                        ->orderBy('created_at', 'DESC')
+                        ->get();
+        } 
+
+        $sales = $this->pushDescription($sales);
+
+        $users = User::where('user_type_id', '>', 2)->get();
+
+
+        $productos = DB::table('product')->orderBy('name', 'ASC')->get();
+
+        for($i = 0; $i < count($sales); $i++) {
+
+            if($sales[$i]->type == 1) {
+                $sales[$i]->type_name = "General";
+            } else if($sales[$i]->type == 2) {
+                $sales[$i]->type_name = "Interno"; 
+            } else if($sales[$i]->type == 3) {
+                $sales[$i]->type_name = "Quincena"; 
+            }
+
+            foreach($users as $user) {
+
+                if($sales[$i]->creator_id == $user->id) {
+                    $sales[$i]->user_name = $user->name;
+                    
+                    break;
+                }
+
+            }
+
+            for($x = 0 ; $x < count($sales[$i]->description); $x++){
+                
+                foreach($productos as $pro) {
+                    if($pro->id == $sales[$i]->description[$x]->product_id) {
+                        $sales[$i]->description[$x]->product_name = $pro->name;
+                        break;
+                    }
+                }
+            }
+        }
+
+        Excel::create('VENTAS', function($excel) use ($sales){
+
+            $excel->sheet('Ventas', function($sheet) use ($sales){
+
+                $sheet->loadView('excel/sales')->with(['sales' => $sales]);
+
+            });
+
+            $excel->sheet('DescripcionDeVentas', function($sheet) use ($sales){
+
+                $sheet->loadView('excel/salesDescription')->with(['sales' => $sales]);
+
+            });
+
+        })->export('xls');
+
+    }
+
+    public function pushDescription($sales){
+        $z = count($sales);
+        
+        $description = DB::table('sale_description')
+                                    ->whereBetween('sale_id', [$sales[$z-1]->id, $sales[0]->id])                                    
+                                    ->get();
+        
+        for($x = 0; $x < count($sales); $x++){
+            $sales[$x]->description = [];
+            foreach($description as $desc){
+
+                if( $sales[$x]->id == $desc->sale_id){
+                    $sales[$x]->description[] = $desc;
+                }
+
+            }
+        }
+
+        return $sales;
     }
     
 }
