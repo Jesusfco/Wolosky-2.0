@@ -264,4 +264,17 @@ class UsersController extends Controller
 
     }
 
+    public function getMonthlyPayment($id) {
+        return response()->json(MonthlyPayment::find($id));
+    }
+
+    public function getSalary($id) {
+        return response()->json(Salary::find($id));
+    }
+
+    public function getReferences($id) {
+        $references = Reference::where('user_id', $id)->get();
+        return response()->json($references);
+    }
+
 }

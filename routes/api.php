@@ -33,6 +33,12 @@ Route::post('user/schedules/{id}', 'UsersController@updateSchedules');
 Route::get('user/status/{id}', 'UsersController@getStatus');
 Route::post('user/status', 'UsersController@createStatus');
 
+Route::get('monthlyPayment/{id}', 'UsersController@getMonthlyPayment');
+Route::get('salary/{id}', 'UsersController@getSalary');
+Route::get('references/{id}', 'UsersController@getReferences');
+
+
+
 
 //RECIBOS CONTROLLADORES
 Route::post('receipt/get', 'ReceiptController@get');
