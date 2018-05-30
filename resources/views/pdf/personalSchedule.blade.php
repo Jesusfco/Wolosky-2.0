@@ -37,20 +37,6 @@
 </style>
 
 <h2>Usuario: {{ $user->name}} </h2>
-<p>Correo: {{ $user->email }}</p>
-<p>CURP: {{ $user->curp }}</p>
-<p>Teléfono: {{ $user->phone }}</p>
-<p>Fecha de Nacimiento: {{ $user->birthday}}</p>
-<p>Sexo: {{ $user->gender }}</p>
-<p>Seguro: {{ $user->insurance }}</p>
-
-@if(isset($monthly))
-    <h3>Mensualidad: ${{ $monthly->amount }}</h3>
-@endif
-
-<h3>Dirección</h3>
-
-<p> {{ $user->street }}, #{{ $user->houseNumber }}, COLONIA {{ $user->colony }}, CIUDAD {{ $user->city}}<p>
 
 <h3>Horarios</h3>
 
@@ -83,39 +69,6 @@
 
 
 
-    <h3>Referencias</h3>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Parentesco</th>
-                    <th>Tel</th>
-                    <th>Tel2</th>
-                    <th>Correo</th>
-                    <th>Lugar de trabajo</th>
-                </tr>
-            </thead>
-
-            <tbody>
-            @foreach ($references as $r)
-
-                
-                <tr>
-                                
-                    <th>{{ $r->name }}</th>
-                    <th>{{ $r->relationship_id }}</th>
-                    <th>{{ $r->phone }}</th>
-                    <th>{{ $r->phone2 }}</th>
-                    <th>{{ $r->email }}</th>
-                    <th>{{ $r->work_place }}</th>
-                    
-                </tr>
-                
-
-            @endforeach
             
-            </tbody>
-        </table>
     </body>
 </html>

@@ -18,7 +18,7 @@ class PDFController extends Controller
     public function userResume(Request $request) {
 
         $user = User::find($request->id);
-        $usere =  $this->setUserView($user);
+        $user =  $this->setUserView($user);
 
         $schedules = Schedule::where('user_id', $user->id)->get();
         $schedules = $this->scheduleView($schedules);
@@ -81,5 +81,18 @@ class PDFController extends Controller
         else if($user->gender == 2) $user->gender = 'FEMENINO';
 
         return $user;
+    }
+
+    public function personalSchedule(Request $request){
+        $user = User::find($request->id);
+        $user =  $this->setUserView($user);
+
+        $schedules = Schedule::where('user_id', $user->id)->get();
+        $schedules = $this->scheduleView($schedules);
+
+        $pdf = PDF::loadView('pdf.personalSchedule', 
+                                ['user' => $user, 
+                                'schedules' => $schedules, ]);
+            return $pdf->download('Horarios_De_' . $user->name . '.pdf');
     }
 }

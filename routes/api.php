@@ -103,6 +103,7 @@ Route::get('excel/inventory', 'ExcelController@getInventory');
 
 //Exportaciones PDF
 Route::get('pdf/user', 'PDFController@userResume');
+Route::get('pdf/scheduleUser', 'PDFController@personalSchedule');
 
 //Debtors
 Route::post('debtors', 'DebtorsController@get');
