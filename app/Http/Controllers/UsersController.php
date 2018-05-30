@@ -288,8 +288,8 @@ class UsersController extends Controller
     }
 
     public function updateMonthlyPayment(Request $request){
-        
-        $monthly = MonthlyPayment::finde($request->id);
+
+        $monthly = MonthlyPayment::find($request->id);
 
         $monthly->amount = $request->amount;
         $monthly->save();

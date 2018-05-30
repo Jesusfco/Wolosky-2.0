@@ -117,10 +117,11 @@ class ReceiptController extends Controller
 
         $receipt = new Receipt();
         $receipt->type = $request->type;
-        $receipt->user_id =  $request->userId;
+        $receipt->user_id =  $request->user_id;
         $receipt->creator_id = $creator->id;
-        $receipt->date = date('Y') . '/'. date('m') . '/01';
+        // $receipt->date = date('Y') . '/'. date('m') . '/01';
         $receipt->amount = $request->amount;
+        $receipt->year = $request->year;
         $receipt->payment_type = $request->payment_type;
 
         
@@ -145,7 +146,7 @@ class ReceiptController extends Controller
             $cash->save();        
         }
 
-        $receipt->save();
+        // $receipt->save();
 
         return response()->json($receipt);
 
@@ -183,4 +184,19 @@ class ReceiptController extends Controller
         return date('Y') . '-'. date('m') . '-00 00:00:00';
     }
 
+    public function checkLastReceipt(Request $request) {
+        $receipt = Receipt::where([
+            ['user_id', '=', $request->user_id],
+            ['year', $request->year],
+            ['month', '=', $request->month],
+            ])->get();
+
+            // return response()->json($receipt);
+
+        if(isset($receipt[0])) {
+            return response()->json(true);
+        } else {
+            return response()->json(false);
+        }
+    }
 }

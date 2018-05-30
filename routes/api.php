@@ -46,6 +46,7 @@ Route::post('receipt', 'ReceiptController@create');
 Route::post('receipt/update', 'ReceiptController@update');
 Route::get('receipt/show/{id}', 'ReceiptController@show');
 Route::delete('receipt/delete/{id}', 'ReceiptController@delete');
+Route::post('receipt/checkUnique', 'ReceiptController@checkLastReceipt');
 
 
 Route::get('receipt/analisis', 'ReceiptController@getAnalisis');
@@ -97,6 +98,9 @@ Route::get('excel/expenses', 'ExcelController@expenses');
 Route::get('excel/debtors', 'ExcelController@debtors');
 Route::get('excel/sales', 'ExcelController@getSales');
 Route::get('excel/inventory', 'ExcelController@getInventory');
+
+//Exportaciones PDF
+Route::get('pdf/user', 'PDFController@userResume');
 
 //Debtors
 Route::post('debtors', 'DebtorsController@get');

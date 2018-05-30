@@ -11,6 +11,7 @@ use Illuminate\Database\Schema\Blueprint;
 
 use Wolosky\RecordUserStatus;
 use Wolosky\User;
+use Wolosky\Receipt;
 
 class VisitorsController extends Controller
 {
@@ -19,6 +20,11 @@ class VisitorsController extends Controller
         // 
 
         return 'SIN MIGRACIONES';
+    }
+
+    public function setYear() {
+        Receipt::where('year', null)->update(['year' => 2018]);
+        return 'holi';
     }
 
     public function records(){
