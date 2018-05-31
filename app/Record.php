@@ -14,7 +14,10 @@ class Record extends Model {
         'date', 
         'observation',
         'status',
-        'confirmation'
+        'confirmation',
+        'user_id'
     ];
+
+    protected $table = 'record';
 
 }

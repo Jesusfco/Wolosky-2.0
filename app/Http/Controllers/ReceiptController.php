@@ -146,7 +146,7 @@ class ReceiptController extends Controller
             $cash->save();        
         }
 
-        // $receipt->save();
+        $receipt->save();
 
         return response()->json($receipt);
 

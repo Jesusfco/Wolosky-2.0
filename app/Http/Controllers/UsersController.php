@@ -9,7 +9,10 @@ use Wolosky\Schedule;
 use Wolosky\Salary;
 use Wolosky\Payment;
 use Wolosky\Reference;
+use Wolosky\Receipt;
+use Wolosky\SaleDebt;
 use Wolosky\RecordUserStatus;
+use Wolosky\Record;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UsersController extends Controller
@@ -287,6 +290,49 @@ class UsersController extends Controller
         return response()->json($references);
     }
 
+    public function storeReference(Request $request) {
+        
+        $reference = new Reference();
+
+        $reference->user_id = $request->user_id;
+        $reference->name = $request->name;
+        $reference->phone = $request->phone;
+        $reference->phone2 = $request->phone2;
+        $reference->email = $request->email;
+        $reference->relationship_id = $request->relationship_id;
+        $reference->work_place = $request->work_place;
+
+        $reference->save();
+
+        return response()->json($reference);
+
+    }
+
+    public function updateReference(Request $request) {
+        
+        $reference =  Reference::find($request->id);
+
+        $reference->name = $request->name;
+        $reference->phone = $request->phone;
+        $reference->phone2 = $request->phone2;
+        $reference->email = $request->email;
+        $reference->relationship_id = $request->relationship_id;
+        $reference->work_place = $request->work_place;
+
+        $reference->save();
+
+        return response()->json(true);
+
+    }
+
+    public function deleteReference($id) {
+
+        $reference =  Reference::find($id);
+        $reference->delete();
+
+        return response()->json(true);
+    }
+
     public function updateMonthlyPayment(Request $request){
 
         $monthly = MonthlyPayment::find($request->id);
@@ -297,4 +343,82 @@ class UsersController extends Controller
         return response()->json($monthly);
     }
 
+
+    public function checkSafeDelete(Request $request, $id)  {
+
+        $user = User::find($id);
+
+        $receipts = [];
+        $debts = [];
+        $sales = [];
+        $payments = [];
+        
+        $secure = true;
+
+        if($user->user_type_id == 1) {
+
+            $receipts = Receipt::where('user_id', $user->id)->get();
+            $debts = SaleDebt::where('user_id', $user->id)->get();
+
+        } else if ($user->user_type_id == 2 ) {
+
+            $debts = SaleDebt::where('user_id', $user->id)->get();
+            $payments = Payment::where('user_id', $user->id)->get();
+
+        } else if ( $user->user_type_id == 3) { 
+
+            $debts = SaleDebt::where('user_id', $user->id)->get();
+            $payments = Payment::where('user_id', $user->id)->get();
+            $sales = Sale::where('creator_id', $user->id)->get();
+
+        }
+
+        if(count($receipts) !== 0 || count($debts) !== 0 || count($sales) !== 0 || count($payments) !== 0) {
+            $secure = false;
+        }
+
+
+        return response()->json([ 
+            'secure' => $secure, 
+            'receipts' => count($receipts), 
+            'debts' => count($debts),
+            'sales' => count($sales),
+            'payments' => count($payments)
+            ]);
+    }
+
+    public function deleteUser($id) {
+
+        $user = User::find($id);
+
+        if($user->user_type_id == 1) {
+
+            Receipt::where('user_id', $user->id)->delete();
+            SaleDebt::where('user_id', $user->id)->delete();
+            Schedule::where('user_id', $user->id)->delete();
+            MonthlyPayment::where('id', $user->monthly_payment_id)->delete();
+            Record::where('user_id', $user->id)->delete();
+            RecordUserStatus::where('user_id', $user->id)->delete();
+            Reference::where('user_id', $user->id)->delete();
+            
+        } else if($user->user_type_id == 2) { 
+
+            Receipt::where('user_id', $user->id)->delete();
+            SaleDebt::where('user_id', $user->id)->delete();
+            Schedule::where('user_id', $user->id)->delete();
+            Salary::where('id', $user->salary_id)->delete();
+            Record::where('user_id', $user->id)->delete();
+            RecordUserStatus::where('user_id', $user->id)->delete();
+            Reference::where('user_id', $user->id)->delete();
+
+        } else if($user->user_type_id == 3) {
+
+            return response()->json('error', 500);
+        }
+
+        $user->delete();
+
+        return 'true';
+
+    }
 }

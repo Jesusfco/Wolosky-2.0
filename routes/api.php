@@ -20,22 +20,35 @@ use Illuminate\Http\Request;
 Route::post('login', 'LoginController@signin');
 Route::get('login/check', 'LoginController@checkAuth');
 
+//USUARIOS
+
 Route::post('userSearch', 'UsersController@get');
 Route::get('user/{id}', 'UsersController@showUser');
 Route::post('user', 'UsersController@create');
 Route::post('user/edit/{id}', 'UsersController@updateUser');
+
 Route::post('user/uniqueEmail', 'UsersController@checkUniqueEmail');
 Route::post('user/uniqueName', 'UsersController@checkUniqueName');
 
+Route::post('user/safeDelete/{id}', 'UsersController@checkSafeDelete');
+Route::delete('user/delete/{id}', 'UsersController@deleteUser');
+
+//SCHEDULES USER
 Route::get('user/schedules/{id}', 'UsersController@getSchedules');
 Route::post('user/schedules/{id}', 'UsersController@updateSchedules');
 
+//STATUS USER
 Route::get('user/status/{id}', 'UsersController@getStatus');
 Route::post('user/status', 'UsersController@createStatus');
 
 Route::get('monthlyPayment/{id}', 'UsersController@getMonthlyPayment');
 Route::get('salary/{id}', 'UsersController@getSalary');
+
+//REFERENCES
 Route::get('references/{id}', 'UsersController@getReferences');
+Route::post('references/create', 'UsersController@storeReference');
+Route::post('references/update', 'UsersController@updateReference');
+Route::delete('references/delete/{id}', 'UsersController@deleteReference');
 
 Route::post('user/monthlyPayment', 'UsersController@updateMonthlyPayment');
 
