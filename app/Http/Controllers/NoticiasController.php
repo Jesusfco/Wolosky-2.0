@@ -98,8 +98,6 @@ class NoticiasController extends Controller
     
     public function edit($id)
     {
-        if(!Auth::user())
-            return redirect('/admin');
         $noticias = Noticia::find($id);          
         return view('noticias/edit')->with(['noticia'=> $noticias]);
     }
@@ -171,5 +169,14 @@ class NoticiasController extends Controller
         Storage::disk('imgNoticias')->delete($n->imagen);
         Noticia::destroy($id);
         return 'true';
+    }
+
+    public function uploadPhotos($id) {
+        $noticias = Noticia::find($id);          
+        return view('noticias/uploadPhotos')->with(['noticia'=> $noticias]);
+    }
+
+    public function storePhoto(Request $request, $id) {
+
     }
 }
