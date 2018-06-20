@@ -12,6 +12,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Wolosky\RecordUserStatus;
 use Wolosky\User;
 use Wolosky\Receipt;
+use Wolosky\Photo;
 
 class VisitorsController extends Controller
 {
@@ -25,6 +26,10 @@ class VisitorsController extends Controller
     public function setYear() {
         Receipt::where('year', null)->update(['year' => 2018]);
         return 'holi';
+    }
+
+    public function getPhotos($id) {
+        return response()->json(Photo::where('noticia_id', $id)->get());
     }
 
     public function records(){

@@ -72,11 +72,11 @@ class NoticiasController extends Controller
         $noticias->user_id = Auth::id();
         $noticias->save();
 
-        File::makeDirectory('images/noticias/' . $noticia->id);
+        File::makeDirectory('images/noticias/' . $noticias->id);
 
         Image::make($request->file('imagen'))
         ->fit(900,600)
-        ->save("images/noticias/" . $noticia->id . '/' . $file_route);
+        ->save("images/noticias/" . $noticias->id . '/' . $file_route);
 
         if($noticias->save()) { 
             return back()->with('msj', 'La noticia ha sido creada con exito');
@@ -126,11 +126,11 @@ class NoticiasController extends Controller
 
 
             Image::make($request->file('imagen'))
-                  ->fit(600,400)
-                  ->save("images/noticias/" . $file_route);
+                  ->fit(900,600)
+                  ->save('images/noticias/' . $id . '/' . $file_route);
 
+            File::delete('images/noticias/' . $id . '/' .$noticias->imagen);
 
-            Storage::disk('imgNoticias')->delete($noticias->imagen);
             $noticias->imagen = $file_route;
 
         }
@@ -163,9 +163,9 @@ class NoticiasController extends Controller
     {
         $id =  $request->id;
         $n = Noticia::find($id);
-        Photos::where('noticia_id', $n->id)->delete();
+        Photo::where('noticia_id', $n->id)->delete();
         File::deleteDirectory('images/noticias/' . $n->id);
-        Noticia::destroy($id);
+        $n->delete();
         return 'true';
     }
 
@@ -222,10 +222,6 @@ class NoticiasController extends Controller
 
         return response()->json($photo);
 
-    }
-
-    public function getPhotos($id) {
-        return response()->json(Photo::where('noticia_id', $id)->get());
     }
 
     public function deletePhoto(Request $request, $id) {

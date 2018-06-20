@@ -1,13 +1,25 @@
 @extends('layouts.default')
         
-    @section('title')
-        <title>{{ $noticias->titulo }} - Wolosky Noticias - Gimnasia Artística - Tuxtla Gutierrez, Chiapas</title>
-    @endsection        
-    @section('css')  
-        <link rel='stylesheet' type='text/css' href='../css/noticias.css'>
-    @endsection    
-    @section('content')
-                    <br>
+@section('title')
+    <title>{{ $noticias->titulo }} - Wolosky Noticias - Gimnasia Artística - Tuxtla Gutierrez, Chiapas</title>
+@endsection        
+@section('css')  
+    <link rel='stylesheet' type='text/css' href='../css/noticias.css'>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('gallery/css/blueimp-gallery.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('gallery/css/blueimp-gallery-indicator.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('gallery/css/blueimp-gallery-video.css') }}">
+    
+@endsection    
+@section('content')
+                <br>
+
+
+<div id="app">           
+
+<input type="hidden" value="{{$noticias->id}}" id="galleryId">
+<input type="hidden" value="{{url('/')}}" id="homePath">
+
     <div class="row z-depth-5 content">
         
       <div class=' col s12 l8 white'>
@@ -61,6 +73,30 @@
         <div class='row col s12 l8 offset-l2'>
             <div class='fb-like' data-href='http://www.woloskygimnasia.com/noticias/{{ $noticias->id }}' data-layout='standard' data-action='like' data-size='small' data-show-faces='true' data-share='true'></div>
         </div>
+
+
+        <h3 align="center" v-if="photos.length > 0">FOTOS</h3>
+
+        <div v-if="photos.length > 0" class="photoContainer" id="links">
+
+            <a v-for="photo in photos" class="photo" v-bind:href="photo.path" data-gallery="#blueimp-gallery-links">
+
+                <div v-bind:id="'pho-' + photo.id" class="backgroundPhoto"></div>
+
+            </a>
+        
+        </div>
+
+        <div id="blueimp-gallery" class="blueimp-gallery">
+            <div class="slides"></div>
+            <h3 class="title"></h3>
+            <a class="prev">‹</a>
+            <a class="next">›</a>
+            <a class="close">×</a>
+            <a class="play-pause"></a>
+            <ol class="indicator"></ol>
+        </div>
+
         <div class='row'>
             <div class='col s12 l8 offset-l2'>
                 <!-- Facebooks comentarios -->
@@ -112,12 +148,39 @@
     </div>
     
     </div>
+</div>    
     @endsection
     @section('scripts')           
+
+        <script src="https://unpkg.com/imagesloaded@4.1/imagesloaded.pkgd.min.js"></script>
+        <script src="{{ asset('gallery/js/blueimp-helper.js') }}"></script>
+        <script src="{{ asset('gallery/js/blueimp-gallery.js') }}"></script>
+        <script src="{{ asset('gallery/js/blueimp-gallery-fullscreen.js') }}"></script>
+        <script src="{{ asset('gallery/js/blueimp-gallery-indicator.js') }}"></script>
+        <script src="{{ asset('gallery/js/jquery.blueimp-gallery.js') }}"></script>
+        <script>
+            document.getElementById('links').onclick = function (event) {
+                event = event || window.event;
+                var target = event.target || event.srcElement,
+                    link = target.src ? target.parentNode : target,
+                    options = {index: link, event: event},
+                    links = this.getElementsByTagName('a');
+                blueimp.Gallery(links, options);
+            };
+        </script>
         <script>
         $(document).ready(function(){
 
              $('.materialboxed').materialbox();
            });
-        </script>              
+        </script>          
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+        <script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js"></script>
+        <script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
+        <script type="text/javascript" src="{{ asset('js/articulo.js') }}"></script>    
+
+        
+
+        
     @endsection
