@@ -26,7 +26,7 @@
         </div>
                 
          <div class='col s12 l10 offset-l1'>
-            <img class='materialboxed' src='../images/noticias/{{ $noticias->imagen }}' width='100%'>
+            <img class='materialboxed' src='../images/noticias/{{ $noticias->id }}/{{ $noticias->imagen }}' width='100%'>
         </div>
 
         <div class='row col s12 l8 offset-l1'>
@@ -76,7 +76,7 @@
             <div class="col m6">
             <a href="{{ $n->id}}">
                 <div class="interes">
-                    <img src="../images/noticias/{{ $n->imagen }}" class="responsive-img">
+                    <img src="../images/noticias/{{ $n->id }}/{{ $n->imagen }}" class="responsive-img">
                 </div> 
             </a>
             <h5> {{ $n->titulo}} </h5>
@@ -101,7 +101,7 @@
         @foreach($not as $n)
             <a href="{{ $n->id}}">
                 <div class="interes">
-                    <img src="../images/noticias/{{ $n->imagen }}" class="responsive-img">
+                    <img src="../images/noticias/{{ $n->id }}/{{ $n->imagen }}" class="responsive-img">
                 </div> 
             </a>
             <h5> {{ $n->titulo}} </h5>

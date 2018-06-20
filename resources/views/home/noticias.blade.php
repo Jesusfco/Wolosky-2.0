@@ -18,7 +18,7 @@
             <div class="notaPrincipal">
 
                 <div class="notaPrincipal-img divImg">
-                    <img src='images/noticias/{{ $noticias[0]->imagen }}' id="not1" alt="Unsplashed background img 1"  style="margin-top:0px;">
+                    <img src='images/noticias/{{ $noticias[0]->id }}/{{ $noticias[0]->imagen }}' id="not1" alt="Unsplashed background img 1"  style="margin-top:0px;">
                 </div>
 
                 <div class="notaPrincipal-titulo">
@@ -39,7 +39,7 @@
             <div class="row">
                 <div class='col s12 m5 divImg'>                      
                     <a href='noticias/{{ $n->id }}'>
-                        <img class='activator responsive-img' src='images/noticias/{{ $n->imagen }}'>
+                        <img class='activator responsive-img' src='images/noticias/{{ $n->id }}/{{ $n->imagen }}'>
                     </a>
                 </div>
                 <div class='col s12 m7'>

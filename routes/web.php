@@ -46,8 +46,11 @@ Route::post('admin/noticias/create', 'NoticiasController@store');
 Route::get('admin/noticias/destroy', 'NoticiasController@destroy');
 Route::get('noticias/{id}/edit', 'NoticiasController@edit');
 Route::get('noticias/{id}/uploadPhotos', 'NoticiasController@uploadPhotos');
+Route::post('noticias/{id}/upload', 'NoticiasController@storePhoto');
+Route::get('noticias/{id}/getPhotos', 'NoticiasController@getPhotos');
 Route::post('admin/noticias/{id}', 'NoticiasController@update');
 
+// Route::get('order', 'NoticiasController@order');
 
 
 Route::get('/admin', 'HomeController@index');

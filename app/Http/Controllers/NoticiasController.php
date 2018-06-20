@@ -4,10 +4,12 @@ namespace Wolosky\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Wolosky\Noticia;
+use Wolosky\Photo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 use Intervention\Image\Facades\Image;
+use File;
 
 
 class NoticiasController extends Controller
@@ -59,18 +61,6 @@ class NoticiasController extends Controller
         $img = $request->file('imagen');
         $file_route = time().'_'. $img->getClientOriginalName();
 
-        Image::make($request->file('imagen'))
-            ->fit(600,400)
-            ->save("images/noticias/" . $file_route);
-//            ->save("../woloskygimnasia.com/images/noticias/" . $file_route);
-
-        //Storage::disk('imgNoticias')->put($file_route, file_get_contents($img->getRealPath()));
-        
-        //Detectamos saltos de linea y automatizamos <br>
-//        $texto = $request->texto;
-//        $texto = rawurlencode($texto);
-//        $texto = rawurldecode(str_replace("%0D%0A","<br>",$texto));
-
 
         $noticias = new \Wolosky\Noticia();
         $noticias->titulo = $request->titulo;
@@ -80,6 +70,13 @@ class NoticiasController extends Controller
         $noticias->youtube = $request->youtube;
         $noticias->imagen = $file_route;
         $noticias->user_id = Auth::id();
+        $noticias->save();
+
+        File::makeDirectory('images/noticias/' . $noticia->id);
+
+        Image::make($request->file('imagen'))
+        ->fit(900,600)
+        ->save("images/noticias/" . $noticia->id . '/' . $file_route);
 
         if($noticias->save()) { 
             return back()->with('msj', 'La noticia ha sido creada con exito');
@@ -166,7 +163,8 @@ class NoticiasController extends Controller
     {
         $id =  $request->id;
         $n = Noticia::find($id);
-        Storage::disk('imgNoticias')->delete($n->imagen);
+        Photos::where('noticia_id', $n->id)->delete();
+        File::deleteDirectory('images/noticias/' . $n->id);
         Noticia::destroy($id);
         return 'true';
     }
@@ -177,6 +175,23 @@ class NoticiasController extends Controller
     }
 
     public function storePhoto(Request $request, $id) {
+        return $id;
+    }
+
+    public function getPhotos($id) {
+        return response()->json(Photo::where('noticia_id', $id)->get());
+    }
+
+    public function order() {
+        
+        $noticias = Noticia::all();
+
+        foreach($noticias as $not) {
+            File::makeDirectory('images/noticias/' . $not->id);
+            File::move('images/noticias/' . $not->imagen, 'images/noticias/' . $not->id . '/' . $not->imagen);
+        }
+
+        return 'Directories oirganized';
 
     }
 }

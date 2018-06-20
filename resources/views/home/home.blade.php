@@ -30,7 +30,7 @@
             <div class='blog'>
 
                     <a href='noticias/{{ $n->id }}'> 
-                        <img class='responsive-img' id="agrandamiento" src='images/noticias/{{ $n->imagen}}'></a> 
+                        <img class='responsive-img' id="agrandamiento" src='images/noticias/{{ $n->id }}/{{ $n->imagen }}'></a> 
                     <a href='noticias/{{ $n->id }}'>
                     <h5 class='center tituloNoticia black-text'>"{{ $n->titulo }}"</h5>
                     </a>
