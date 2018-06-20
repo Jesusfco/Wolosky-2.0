@@ -17,7 +17,13 @@ var app = new Vue({
 
         .then(function(response) {
 
-            console.log(response);
+            for (let pho of response.data) {
+                pho.name = pho.name.split(' ').join('%20');
+                app.photos.push(pho);
+
+            }
+
+            app.setBackground();
 
         }).catch(function(error) {
 
@@ -156,16 +162,12 @@ var app = new Vue({
 
             response = response.data;
 
-            this.files.splice(i, 1);
+            app.files.splice(i, 1);
+            response.name = response.name.split(' ').join('%20');
+            app.photos.unshift(response);
 
-            this.photos.unshift(response);
-
-            let id = response.noticia_id;
-
-            let path = response.path.split(' ').join('%20');
-            var url1 = homePath + "/images/aplication/clients/" + id + "/app/" + path;
-
-            setTimeout(this.nextFileToSend(), 500);
+            app.setBackground();
+            setTimeout(app.nextFileToSend(), 200);
         },
 
         errorHandler: function(response, i) {
@@ -183,6 +185,7 @@ var app = new Vue({
         },
 
         retryFiled: function() {
+
             for (let i = 0; i < this.files.length; i++) {
                 if (this.files[i].status == -1) {
                     this.files[i].status = 0;
@@ -192,7 +195,51 @@ var app = new Vue({
             this.nextFileToSend();
         },
 
+        setBackground: function() {
 
+            setTimeout(() => {
+
+                for (let pho of this.photos) {
+
+                    var doc = document.getElementById('pho-' + pho.id);
+                    doc.style.backgroundImage = 'url(' + homePath + '/images/noticias/' + idGallery + '/' + pho.name + ')';
+
+                    var width = doc.offsetWidth;
+                    doc.parentElement.style.height = width + 'px';
+
+                }
+
+            }, 50);
+
+
+        },
+
+        deletePhoto: function(photo) {
+
+            axios.post('deletePhoto', photo)
+
+            .then(function(response) {
+
+                for (var i = 0; i < app.photos.length; i++) {
+
+                    if (app.photos[i].id == photo.id) {
+
+                        app.photos.splice(i, 1);
+                        break;
+
+                    }
+
+                }
+
+
+            }).catch(function(error) {
+
+                console.log(error);
+
+            });
+
+        }
 
     }
-})
+
+});

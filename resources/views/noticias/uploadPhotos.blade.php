@@ -63,7 +63,10 @@
                 <input type="hidden" value="{{url('/')}}" id="homePath">
 
                 <div id="links" class="photoContainer">
-
+                    <div v-for="photo in photos" class="photo">
+                        <div v-bind:id="'pho-' + photo.id" class="backgroundPhoto"></div>
+                        <i class="material-icons" v-on:click="deletePhoto(photo)">delete</i>
+                    </div>
                 </div>
 
                 <div id="blueimp-gallery" class="blueimp-gallery">

@@ -175,11 +175,63 @@ class NoticiasController extends Controller
     }
 
     public function storePhoto(Request $request, $id) {
-        return $id;
+        
+        $this->validate($request, [
+            'image' => 'required|image'
+        ]);
+
+        $img = $request->file('image');
+
+        //Verify Process uNIQUE FOR ALBUM
+        $verify = Photo::where([
+                    ['name', $img->getClientOriginalName() ],
+                    ['noticia_id', $id ]
+                    ])->first();
+
+        if(isset($verify->id))  return response()->json(['error' => 'File Duplicate'], 403);
+
+        $file_route = $img->getClientOriginalName();
+        $image = Image::make($request->file('image'));
+
+        if ($image->width() >= $image->height() && $image->width() < 1200) {            
+
+            $image->resize(1200, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            
+            $image->save('images/noticias/' . $id .'/' . $file_route);
+
+        } else  if ($image->width() < $image->height() && $image->height() < 1200) {
+
+            $image->resize(null, 1200, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+
+            $image->save('images/noticias/' . $id .'/' . $file_route);
+
+        } else { 
+            $image->save('images/noticias/' . $id .'/' . $file_route);
+        }
+
+        $photo = new Photo();
+        $photo->name = $file_route;
+        $photo->noticia_id = $id;
+        $photo->save();
+
+        return response()->json($photo);
+
     }
 
     public function getPhotos($id) {
         return response()->json(Photo::where('noticia_id', $id)->get());
+    }
+
+    public function deletePhoto(Request $request, $id) {
+        Photo::find($request->id)->delete();
+        File::delete('images/noticias/' . $id . '/' . $request->name);
+        return response()->json(true);
     }
 
     public function order() {
@@ -194,4 +246,6 @@ class NoticiasController extends Controller
         return 'Directories oirganized';
 
     }
+
+
 }
