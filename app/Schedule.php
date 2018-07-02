@@ -13,8 +13,7 @@ class Schedule extends Model {
         'day_id',
         'check_in',
         'check_out',
-        'user_id',
-        'type',
+        'user_id',        
         'active'
     ];
 

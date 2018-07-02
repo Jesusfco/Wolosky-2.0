@@ -36,6 +36,7 @@ Route::delete('user/delete/{id}', 'UsersController@deleteUser');
 //SCHEDULES USER
 Route::get('user/schedules/{id}', 'UsersController@getSchedules');
 Route::post('user/schedules/{id}', 'UsersController@updateSchedules');
+Route::delete('user/schedules/delete/{id}', 'UsersController@deleteSchedule');
 
 //STATUS USER
 Route::get('user/status/{id}', 'UsersController@getStatus');

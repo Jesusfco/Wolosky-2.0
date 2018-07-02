@@ -124,17 +124,22 @@ class UsersController extends Controller
         
 
         foreach($schedules as $x){
-            $schedule = new Schedule();
-            $schedule->user_id = $id;
-            $schedule->check_in = $x['check_in'];
-            $schedule->check_out =  $x['check_out'];
-            // $schedule->description =  $x['description'];
-            $schedule->day_id =  $x['day_id'];
-            $schedule->type = 1;
-            $schedule->active =  $x['active']; 
-            $schedule->save();
 
+            if($x['active'] == true) {
+
+                $schedule = new Schedule();
+                $schedule->user_id = $id;
+                $schedule->check_in = $x['check_in'];
+                $schedule->check_out =  $x['check_out'];
+                // $schedule->description =  $x['description'];
+                $schedule->day_id =  $x['day_id'];
+                $schedule->active =  $x['active']; 
+                $schedule->save();
+
+            }
+            
         }
+
     }
 
     public function createSalary($salary){
@@ -210,26 +215,54 @@ class UsersController extends Controller
 
         foreach($request->schedules as $x){
 
-            $schedule = Schedule::find($x['id']);
+            if( isset( $x['id' ]) ){
 
-            $schedule->check_in = $x['check_in'];
-            $schedule->check_out =  $x['check_out'];
-            // $schedule->description =  $x['description'];
-            // $schedule->day_id =  $x['day_id'];
-            // $schedule->type = 1;
-            $schedule->active =  $x['active']; 
-            $schedule->save();
+                $schedule = Schedule::find($x['id']);
+
+                $schedule->check_in = $x['check_in'];
+                $schedule->check_out =  $x['check_out'];
+                // $schedule->description =  $x['description'];
+                // $schedule->day_id =  $x['day_id'];
+                // $schedule->type = 1;
+                $schedule->active =  $x['active']; 
+                $schedule->save();
+
+            } else {
+                
+                $schedule = new Schedule();
+
+                $schedule->check_in = $x['check_in'];
+                $schedule->check_out =  $x['check_out'];
+                $schedule->user_id =  $x['user_id'];
+                $schedule->day_id =  $x['day_id'];                
+                $schedule->active =  true; 
+                $schedule->save();
+
+            }
+            
         }
 
-        $user = User::find($request->user['id']);
+        if($request->user['user_type_id'] == 1) {
 
-        if($user->user_type_id == 1) {
+            $user = User::find($request->user['id']);
+            
             $monthlyPayment = MonthlyPayment::find($user->monthly_payment_id);
             $monthlyPayment->amount = $request->amount;
             $monthlyPayment->save();
+            
         }
+        
+        $schedules = Schedule::where('user_id', $request->user['id'])->get();
 
-        return response()->json('success');
+        return response()->json($schedules);
+    }
+
+    public function deleteSchedule($id) {
+
+        Schedule::find($id)->delete();
+
+        return 'true';
+
     }
 
     public function checkUniqueEmail(Request $request){
