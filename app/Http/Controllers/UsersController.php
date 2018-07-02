@@ -406,10 +406,6 @@ class UsersController extends Controller
 
         }
 
-        if(count($receipts) !== 0 || count($debts) !== 0 || count($sales) !== 0 || count($payments) !== 0) {
-            $secure = false;
-        }
-
 
         return response()->json([ 
             'secure' => $secure, 
@@ -426,8 +422,8 @@ class UsersController extends Controller
 
         if($user->user_type_id == 1) {
 
-            Receipt::where('user_id', $user->id)->delete();
-            SaleDebt::where('user_id', $user->id)->delete();
+            // Receipt::where('user_id', $user->id)->delete();
+            // SaleDebt::where('user_id', $user->id)->delete();
             Schedule::where('user_id', $user->id)->delete();
             MonthlyPayment::where('id', $user->monthly_payment_id)->delete();
             Record::where('user_id', $user->id)->delete();
@@ -436,8 +432,8 @@ class UsersController extends Controller
             
         } else if($user->user_type_id == 2) { 
 
-            Receipt::where('user_id', $user->id)->delete();
-            SaleDebt::where('user_id', $user->id)->delete();
+            
+            // SaleDebt::where('user_id', $user->id)->delete();
             Schedule::where('user_id', $user->id)->delete();
             Salary::where('id', $user->salary_id)->delete();
             Record::where('user_id', $user->id)->delete();
@@ -446,7 +442,19 @@ class UsersController extends Controller
 
         } else if($user->user_type_id == 3) {
 
-            return response()->json('error', 500);
+            Schedule::where('user_id', $user->id)->delete();
+            Salary::where('id', $user->salary_id)->delete();
+            Record::where('user_id', $user->id)->delete();
+            RecordUserStatus::where('user_id', $user->id)->delete();
+            Reference::where('user_id', $user->id)->delete();
+
+        } else {
+
+            Schedule::where('user_id', $user->id)->delete();
+            Record::where('user_id', $user->id)->delete();
+            RecordUserStatus::where('user_id', $user->id)->delete();
+            Reference::where('user_id', $user->id)->delete();
+
         }
 
         $user->delete();
