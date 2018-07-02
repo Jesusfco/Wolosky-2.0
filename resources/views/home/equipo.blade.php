@@ -21,27 +21,27 @@
         </div>
     </li>
 
-      <li>
-        <img src="images/equipo/moi.jpg"> <!-- random image -->
+      <!-- <li>
+        <img src="images/equipo/moi.jpg"> 
         <div class="caption left-align">
           <h3 class="oswaldo">Led. Moisés Marín</h3>
           <h5 class="light grey-text text-lighten-3 thin">"Entrenador representante de Academia de Gimnasia Wolosky"</h5>
         </div>
       </li>
       <li>
-        <img src="images/equipo/diana.jpg"> <!-- random image -->
+        <img src="images/equipo/diana.jpg"> 
         <div class="caption left-align">
           <h3 class="oswaldo">Led. Diana Lizeth Archila Castañón</h3>
           <h5 class="light grey-text text-lighten-3 thin">“Me gusta porque es un deporte que implica mucha disciplina, mucha constancia, así como mucha dedicación para poder vencer tus miedos.”</h5>
         </div>
       </li>
       <li>
-        <img src="images/equipo/cara.jpg"> <!-- random image -->
+        <img src="images/equipo/cara.jpg"> 
         <div class="caption left-align">
           <h3 class="oswaldo">Lic. Uzías Calvo Ramírez</h3>
           <h5 class="light grey-text text-lighten-3 thin">"Soy entrenador de Gimnasia Artística. Me gusta la gimnasia porque es un deporte único en el  cual exige que tu cuerpo se desarrollé al máximo, y aprendes cada día nuevos elementos, elasticidad, flexibilidad, fuerza, etc…"</h5>
         </div>
-      </li>
+      </li> -->
 
 
       {{--<li>--}}
@@ -68,13 +68,13 @@
             </div>
         </li>
 
-        <li>
+        <!-- <li>
             <img src="images/equipo/carlos.jpg"> <!-- random image -->
             <div class="caption left-align">
                 <h3 class="oswaldo">Lefd. Eduardo Cartas López</h3>
                 <h5 class="light grey-text text-lighten-3 thin">"Cada alumno tiene fortalezas y debilidades y hay que hacerlo crecer de manera equilibrada"</h5>
             </div>
-        </li>
+        </li> -->
 
 
 
