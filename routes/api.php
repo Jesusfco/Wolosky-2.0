@@ -26,6 +26,7 @@ Route::post('userSearch', 'UsersController@get');
 Route::get('user/{id}', 'UsersController@showUser');
 Route::post('user', 'UsersController@create');
 Route::post('user/edit/{id}', 'UsersController@updateUser');
+Route::post('user/saveImageProfile', 'UsersController@saveImageProfile');
 
 Route::post('user/uniqueEmail', 'UsersController@checkUniqueEmail');
 Route::post('user/uniqueName', 'UsersController@checkUniqueName');

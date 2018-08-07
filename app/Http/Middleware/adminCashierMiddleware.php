@@ -22,7 +22,7 @@ class adminCashierMiddleware
             return response()->json(['message' => 'User not found'], 404);
         }else if(! Auth::user()->status == 1) {
             return response()->json(['message' => 'User disable'], 403);
-        }else if(Auth::user()->user_type_id >= 6 ||  Auth::user()->user_type_id == 3) {
+        }else if(Auth::user()->user_type_id >= 3 ) {
             return $next($request);
         }
         return response()->json(['message' => 'User dont have credentials'], 402);

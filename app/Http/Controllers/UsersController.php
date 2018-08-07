@@ -14,6 +14,9 @@ use Wolosky\SaleDebt;
 use Wolosky\RecordUserStatus;
 use Wolosky\Record;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Image;
+use File;
+
 
 class UsersController extends Controller
 {
@@ -30,7 +33,7 @@ class UsersController extends Controller
                         ->orderBy('name', 'ASC')
                         ->paginate($request->items);
 
-        } else if($creator->user_type_id == 3){
+        } else if($creator->user_type_id == 3 || $creator->user_type_id == 4 ){
 
             $users =  User::where([
                             ['name', 'LIKE', '%'. $request->searchWord .'%'],
@@ -47,14 +50,13 @@ class UsersController extends Controller
         
     }
 
-    public function showUser($id){
+    public function showUser($id) {
         $user = User::find($id);
         $user->fingerprint = NULL;
         return response()->json($user);
     }
 
-    public function searchUser(Request $request)
-    {
+    public function searchUser(Request $request) {
 
     }
 
@@ -73,9 +75,8 @@ class UsersController extends Controller
         return 'RECORDS CREATED';
     }
 
-    public function create(Request $request){
+    public function create(Request $request) {
         
-
         $creator = JWTAuth::parseToken()->authenticate();
         
         $newUser = $request->user;        
@@ -102,11 +103,13 @@ class UsersController extends Controller
 
         $user->save();
 
-        if($user->user_type_id <= 3){
+        if($user->user_type_id <= 4) {
+
             $this->createSchedule($request->schedules, $user->id);
             $this->createReferences($request->references, $user->id);
 
             if($user->user_type_id == 1)
+
                 $user->monthly_payment_id = $this->createMonthlyPayment($request->monthlyPayment); 
 
             else {
@@ -118,6 +121,7 @@ class UsersController extends Controller
         }        
 
         return response()->json($user);
+
     }
 
     public function createSchedule($schedules, $id){
@@ -374,6 +378,39 @@ class UsersController extends Controller
         $monthly->save();
 
         return response()->json($monthly);
+    }
+
+    public function saveImageProfile(Request $request) {
+
+        $this->validate($request, [
+            'image' => 'required|image',
+            'user' => 'required'
+        ]);
+
+        $img = $request->file('image');
+        $path = $this->getImagePath($img->getClientOriginalName());
+
+        $image = Image::make($img);                
+
+        // $image->resize(250, 250, function ($constraint) {
+        //     $constraint->aspectRatio();
+        //     $constraint->upsize();
+        // });
+        
+        $image->fit(250, 250);
+
+        $image->save('images/app/users/' . $path);
+
+        $user = User::find($request->user);
+
+        if($user->img != NULL) {
+            File::delete('images/app/users/' . $user->img);
+        }
+        
+        $user->img = $path;
+        $user->save();
+
+        return response()->json($path);
     }
 
 
