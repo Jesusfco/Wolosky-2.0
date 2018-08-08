@@ -74,7 +74,7 @@ Route::post('receipt/getMonthlyPayment', 'ReceiptController@getMonthlyPayment');
 
 
 //schedules 
-Route::get('schedule/getStudents', 'SchedulesController@getStudents');
+Route::post('schedule/getStudents', 'SchedulesController@getStudents');
 
 
 

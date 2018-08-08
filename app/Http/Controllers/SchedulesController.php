@@ -8,13 +8,26 @@ use Wolosky\Schedule;
 
 class SchedulesController extends Controller
 {
-    public function getStudents() {
+    public function getStudents(Request $re) {
 
-        $users = User::where([
-            ['user_type_id', 1],
-            ['status', 1],
-            ])->select('id', 'name', 'user_type_id')
-            ->get();
+        if($re->type == 1) {
+
+            $users = User::where([
+                ['user_type_id', 1],
+                ['status', 1],
+                ])->select('id', 'name', 'user_type_id')
+                ->get();
+
+        } else {
+
+            $users = User::where([
+                ['user_type_id', '>', 1],
+                ['status', 1],
+                ])->select('id', 'name', 'user_type_id')
+                ->get();
+
+        }
+        
 
         $schedules = Schedule::where('active', true)->get();
 
