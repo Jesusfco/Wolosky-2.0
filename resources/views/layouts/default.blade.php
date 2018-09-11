@@ -107,7 +107,7 @@
 <div class="footer-copyright black">
       <div class="container">
             Gimnasia Wolosky© <?php echo date("Y");?>
-          <a class="grey-text text-lighten-4 right" href="http://rodriguez.amerigas.mx">Made by <img src="http://rodriguez.amerigas.mx/img/logoNav.png"></a>
+          <a class="grey-text text-lighten-4 right" href="http://roguezservices.com/">Made by <img src="http://roguezservices.com/img/logoNav.png"></a>
       </div>
 </div>
 

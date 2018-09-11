@@ -53,6 +53,7 @@ Route::post('references/update', 'UsersController@updateReference');
 Route::delete('references/delete/{id}', 'UsersController@deleteReference');
 
 Route::post('user/monthlyPayment', 'UsersController@updateMonthlyPayment');
+Route::post('user/updateSalary', 'UsersController@updateSalary');
 
 
 //RECIBOS CONTROLLADORES

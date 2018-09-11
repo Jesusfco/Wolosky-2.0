@@ -380,6 +380,20 @@ class UsersController extends Controller
         return response()->json($monthly);
     }
 
+    public function updateSalary(Request $re) {
+
+        $salary = Salary::find($re->id);
+
+        $salary->amount = $re->amount;
+        $salary->bonus = $re->bonus;
+        $salary->salary_type_id = $re->salary_type_id;
+
+        $salary->save();
+
+        return response()->json($salary);
+
+    }
+
     public function saveImageProfile(Request $request) {
 
         $this->validate($request, [

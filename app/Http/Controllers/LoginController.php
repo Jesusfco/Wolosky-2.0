@@ -35,10 +35,14 @@ class LoginController extends Controller
         }        
 
         $user = Auth::user();
-        $user->fingerprint = NULL;
         
-        return response()->json([
+        if($user->status != 1) {
+            return response()->json([
+                'error' => 'Usuario inactivo'
+            ], 401);
+        }
 
+        return response()->json([
             'token' => $token,
             'user' => $user,
             'cash' => Cash::find(1)->amount,
@@ -50,8 +54,7 @@ class LoginController extends Controller
 
         $this->middleware('user1');
 
-        $user = JWTAuth::parseToken()->authenticate();
-        $user->fingerprint = NULL;
+        $user = JWTAuth::parseToken()->authenticate();        
         
         return response()->json([
             'user' => $user,
