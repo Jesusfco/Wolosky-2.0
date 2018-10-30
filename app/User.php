@@ -42,6 +42,10 @@ class User extends Authenticatable {
         return $this->hasMany('Wolosky\Schedule', 'user_id', 'id');
     }
 
+    public function salary() {
+        return $this->hasOne('Wolosky\Salary', 'id', 'salary_id');
+    }
+
     public function receipts() {
         return $this->hasMany('Wolosky\Receipt', 'user_id', 'id');
     }

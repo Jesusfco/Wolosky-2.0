@@ -40,6 +40,8 @@ Route::get('home', function(){
     return redirect('admin');
 });
 
+Route::get('recordss', 'Auth\PaymentsController@insertRecords');
+
 Route::get('admin/noticias/list', 'NoticiasController@index');
 Route::get('admin/noticias/create', 'NoticiasController@create');
 Route::post('admin/noticias/create', 'NoticiasController@store');

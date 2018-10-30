@@ -19,7 +19,8 @@ class Record extends Model {
     ];
 
     protected $table = 'record';
-
+    public $timestamps = false;
+    
     public function user() {
         return $this->hasOne('Wolosky\User', 'id', 'user_id');
     }
