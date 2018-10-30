@@ -12,9 +12,15 @@ class Payment extends Model {
         'payment_type_id',
         'description',
         'amount',
-        'date'
+        'payment_date',
+        'status',
+        'date_from',
+        'date_to',
     ];
 
     protected $table = 'payment';
 
+    public function user() {
+        return $this->hasOne('Wolosky\User', 'id', 'user_id');
+    }
 }

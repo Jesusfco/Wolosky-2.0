@@ -71,13 +71,12 @@ Route::get('receipt/analisis', 'ReceiptController@getAnalisis');
 Route::post('receipt/sugestUser', 'ReceiptController@sugestUser');
 Route::post('receipt/getMonthlyPayment', 'ReceiptController@getMonthlyPayment');
 
-
-
-
-//schedules 
+//HORARIOS 
 Route::post('schedule/getStudents', 'SchedulesController@getStudents');
 
-
+//PAGO DE TRABAJADORES
+Route::post('workers-payment', 'Auth\PaymentsController@list');
+Route::post('workers-payment/dataToProcess', 'Auth\PaymentsController@dataToProcess');
 
 // Punto de venta Route
 

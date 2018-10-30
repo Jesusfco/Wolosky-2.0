@@ -34,5 +34,17 @@ class User extends Authenticatable {
         'password', 'remember_token', 'fingerprint'
     ];
 
+    public function records(){
+        return $this->hasMany('Wolosky\Record', 'user_id', 'id');
+    }
+
+    public function schedules() {
+        return $this->hasMany('Wolosky\Schedule', 'user_id', 'id');
+    }
+
+    public function receipts() {
+        return $this->hasMany('Wolosky\Receipt', 'user_id', 'id');
+    }
+
 
 }

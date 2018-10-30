@@ -16,7 +16,7 @@ class SchedulesController extends Controller
                 ['user_type_id', 1],
                 ['status', 1],
                 ])->select('id', 'name', 'user_type_id')
-                ->get();
+                ->orderBy('name', 'ASC')->get();
 
         } else {
 

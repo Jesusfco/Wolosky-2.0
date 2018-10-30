@@ -12,6 +12,9 @@ class Expense extends Model
     protected $fillable = [
     'amount','creator_id', 'description', 'name'
     ];
-    
+
+    public function creator() {
+        return $this->hasOne('Wolosky\User', 'id', 'creator_id');
+    }
    
 }

@@ -18,4 +18,8 @@ class Receipt extends Model
         'type',   
         'payment_type',   
     ];
+
+    public function user() {
+        return $this->hasOne('Wolosky\User', 'id', 'user_id');
+    }
 }
