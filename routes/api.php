@@ -77,6 +77,10 @@ Route::post('schedule/getStudents', 'SchedulesController@getStudents');
 //PAGO DE TRABAJADORES
 Route::post('workers-payment', 'Auth\PaymentsController@list');
 Route::post('workers-payment/dataToProcess', 'Auth\PaymentsController@dataToProcess');
+Route::post('workers-payment/storePayment', 'Auth\PaymentsController@storePayment');
+Route::get('workers-payment/show/{id}', 'Auth\PaymentsController@show');
+Route::get('workers-payment/delete/{id}', 'Auth\PaymentsController@destroy');
+Route::post('workers-payment/update', 'Auth\PaymentsController@update');
 
 // Punto de venta Route
 
