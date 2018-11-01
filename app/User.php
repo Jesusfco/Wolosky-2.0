@@ -42,8 +42,16 @@ class User extends Authenticatable {
         return $this->hasMany('Wolosky\Schedule', 'user_id', 'id');
     }
 
+    public function references() {
+        return $this->hasMany('Wolosky\Reference', 'user_id', 'id');
+    }
+
     public function salary() {
         return $this->hasOne('Wolosky\Salary', 'id', 'salary_id');
+    }
+
+    public function monthlyPayment() {
+        return $this->hasOne('Wolosky\MonthlyPayment', 'id', 'monthly_payment_id');
     }
 
     public function receipts() {

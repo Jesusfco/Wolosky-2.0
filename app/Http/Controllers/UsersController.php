@@ -51,8 +51,8 @@ class UsersController extends Controller
     }
 
     public function showUser($id) {
-        $user = User::find($id);
-        $user->fingerprint = NULL;
+        $user = User::where('id', $id)->with(['references', 'schedules', 'salary', 'monthlyPayment'])->first();
+        
         return response()->json($user);
     }
 
@@ -203,6 +203,12 @@ class UsersController extends Controller
 
         if($request->password != NULL) 
             $user->password = bcrypt($request->password);
+
+        if($user->user_type_id >= 2 && $user->user_type_id <= 4) {
+            if($user->salary_id == NULL) {
+                $user->salary_id = $this->createSalary($request->salary);
+            }
+        }
 
         $user->save();
         $user->fingerprint = NULL;
