@@ -51,6 +51,8 @@ class PaymentsController extends Controller
         $payment->user_id = $request->user_id;
         $payment->amount = $request->amount;
         $payment->status = 1;
+        if($payment->amount == 0)
+            $payment->status = 2;
         $payment->date_from = $request->date_from;
         $payment->date_to = $request->date_to;
         $payment->save();
