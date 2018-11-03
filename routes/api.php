@@ -67,7 +67,7 @@ Route::post('receipt/checkUnique', 'ReceiptController@checkLastReceipt');
 
 Route::get('receipt/analisis', 'ReceiptController@getAnalisis');
 
-;
+
 Route::post('receipt/sugestUser', 'ReceiptController@sugestUser');
 Route::post('receipt/getMonthlyPayment', 'ReceiptController@getMonthlyPayment');
 
@@ -81,6 +81,9 @@ Route::post('workers-payment/storePayment', 'Auth\PaymentsController@storePaymen
 Route::get('workers-payment/show/{id}', 'Auth\PaymentsController@show');
 Route::get('workers-payment/delete/{id}', 'Auth\PaymentsController@destroy');
 Route::post('workers-payment/update', 'Auth\PaymentsController@update');
+
+// Asistencioas
+Route::post('records', 'Auth\RecordsController@list');
 
 // Punto de venta Route
 

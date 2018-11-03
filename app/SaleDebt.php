@@ -8,7 +8,10 @@ class SaleDebt extends Model
 {
     protected $table = 'sale_debt';
     protected $fillable = [
-        'user_id', 'sale_id','status', 'total'
+        'user_id', 'sale_id','sta||tus', 'total'
     ];
     
+    public function user() {
+        return $this->hasOne('Wolosky\User', 'id', 'user_id');
+    }
 }
