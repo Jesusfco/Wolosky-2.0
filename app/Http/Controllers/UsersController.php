@@ -51,7 +51,7 @@ class UsersController extends Controller
     }
 
     public function showUser($id) {
-        $user = User::where('id', $id)->with(['references', 'schedules', 'salary', 'monthlyPayment'])->first();
+        $user = User::where('id', $id)->with(['references', 'schedules', 'salary', 'monthly_payment'])->first();
         
         return response()->json($user);
     }
