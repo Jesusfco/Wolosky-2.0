@@ -19,23 +19,8 @@ class ReceiptController extends Controller
                                     ['created_at', '>', $request->from . " 00:00:00"],
                                     ['created_at', '<', $request->to . " 00:00:00"],
                                     ['user_id', 'LIKE', "%" . $request->id],
-                                ])->orderBy('created_at', 'DESC')
+                                ])->orderBy('created_at', 'DESC')->with(['user:id,name', 'creator:id,name'])
                                 ->paginate($request->items);
-
-        $users =  User::where([                                
-                                ['user_type_id', '=', 1],
-                            ])->get();
-
-        for($x = 0; $x < count($receipts); $x++){
-
-            for($y = 0; $y < count($users); $y++){
-                
-                if($receipts[$x]->user_id == $users[$y]->id ){
-                    $receipts[$x]->user_name = $users[$y]->name;
-                    break;
-                }            
-            }
-        }    
 
         return response()->json($receipts);                                
                 
@@ -99,9 +84,9 @@ class ReceiptController extends Controller
 
     public function sugestUser(Request $request){
         $users = User::where([
-            ['name', 'LIKE', '%' . $request->search . '%'],
+            ['name', 'LIKE', "%$request->search%"],
             ['user_type_id', '=', 1]
-        ])->select('name', 'id')->get();
+        ])->select('name', 'id', 'monthly_payment_id')->with('monthly_payment')->limit(10)->get();
 
         return response()->json($users);
     }
@@ -123,23 +108,11 @@ class ReceiptController extends Controller
         $receipt->amount = $request->amount;
         $receipt->year = $request->year;
         $receipt->payment_type = $request->payment_type;
-
         
-        
-        if($request->type == 1){
-            $receipt->amount = $request->monthlyAmount;
-            $receipt->month = $request->month;
-        }        
-
-        else if($request->type == 3){
-            
-            $receipt->days = $request->days;            
-        }
-
-        else if($request->type == 5){
-            $receipt->description =  $request->description;
-        }
-
+        $receipt->amount = $request->monthlyAmount;
+        $receipt->month = $request->month;            
+        $receipt->days = $request->days;                    
+                
         if($request->payment_type == false){
             $cash = Cash::find(1);
             $cash->amount = $cash->amount + $receipt->amount;
@@ -147,6 +120,8 @@ class ReceiptController extends Controller
         }
 
         $receipt->save();
+
+        $receipt->user = User::find($receipt->user_id);
 
         return response()->json($receipt);
 

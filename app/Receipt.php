@@ -22,4 +22,8 @@ class Receipt extends Model
     public function user() {
         return $this->hasOne('Wolosky\User', 'id', 'user_id');
     }
+
+    public function creator() {
+        return $this->hasOne('Wolosky\User', 'id', 'creator_id');
+    }
 }

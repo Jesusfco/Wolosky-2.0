@@ -50,7 +50,7 @@ class User extends Authenticatable {
         return $this->hasOne('Wolosky\Salary', 'id', 'salary_id');
     }
 
-    public function monthlyPayment() {
+    public function monthly_payment() {
         return $this->hasOne('Wolosky\MonthlyPayment', 'id', 'monthly_payment_id');
     }
 

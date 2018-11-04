@@ -11,6 +11,9 @@ use Wolosky\User;
 
 class PaymentsController extends Controller
 {
+
+    public function __construct(){ $this->middleware('admin'); }
+    
     public function list(Request $request) {
         return response()->json(Payment::orderBy('date_to', 'DESC')->with('user')
                         ->paginate($request->items));
