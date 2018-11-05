@@ -523,4 +523,30 @@ class UsersController extends Controller
         return 'true';
 
     }
+
+    public function saveUserImg(Request $re) {
+        $this->validate($re, [
+            'image' => 'required|image'
+        ]);
+        
+        $user = User::find($re->id);
+
+        $img = $re->file('image');
+        $path = $user->id . '.' . $img->getClientOriginalExtension();
+
+        $image = Image::make($img);                
+        $image->fit(250, 250);                
+
+        if($user->img != NULL || $user->img != $path) {
+            File::delete('images/app/users/' . $user->img);
+        } 
+
+        $image->save('images/app/users/' . $path);
+
+        $user->img = $path;
+        $user->save();
+
+        return response()->json($path);
+
+    }
 }
