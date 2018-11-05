@@ -103,10 +103,15 @@ class ReceiptController extends Controller
         $receipt->creator_id = $creator->id;
         // $receipt->date = date('Y') . '/'. date('m') . '/01';
         $receipt->amount = $request->amount;
+        
+        if($receipt->type == 1) {
+            $receipt->amount = $request->monthlyAmount;
+        }
+
         $receipt->year = $request->year;
         $receipt->payment_type = $request->payment_type;
         
-        $receipt->amount = $request->monthlyAmount;
+        
         $receipt->month = $request->month;            
         $receipt->days = $request->days;                    
                 
