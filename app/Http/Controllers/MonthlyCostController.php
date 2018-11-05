@@ -7,15 +7,17 @@ use Wolosky\MonthlyPrices;
 
 class MonthlyCostController extends Controller
 {
-    public function __construct(){ $this->middleware('adminCashier');}
+    public function __construct(){ 
+        $this->middleware('adminCashier');
+        $this->middleware('admin', ['only' => ['update', 'delete', 'store']]); 
+    }
 
     public function get() {
         return response()->json(MonthlyPrices::orderBy('hours', 'ASC')->get());
     }
 
     public function store(Request $request) {
-
-        $this->middleware('admin');
+        
 
         $this->validate($request, [
             'hours' => 'required|unique:monthly_prices',
@@ -33,9 +35,7 @@ class MonthlyCostController extends Controller
 
     }
 
-    public function update(Request $request) {
-
-        $this->middleware('admin');
+    public function update(Request $request) {        
 
         $this->validate($request, [
             'id' => 'required',
@@ -55,8 +55,6 @@ class MonthlyCostController extends Controller
     }
 
     public function delete($id) {
-
-        $this->middleware('admin');
 
         $monthlyCost = MonthlyPrices::find($id);
         $monthlyCost->delete();

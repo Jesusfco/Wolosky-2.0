@@ -10,7 +10,10 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ProductController extends Controller
 {
-    public function __construct(){ $this->middleware('adminCashier'); }
+    public function __construct(){ 
+        $this->middleware('adminCashier');
+        $this->middleware('admin', ['only' => ['update', 'delete']]);     
+    }
 
     public function getProducts(Request $request){
                 

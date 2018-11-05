@@ -20,7 +20,10 @@ use File;
 
 class UsersController extends Controller
 {
-    public function __construct(){ $this->middleware('adminCashier'); }
+    public function __construct(){ 
+        $this->middleware('adminCashier'); 
+        $this->middleware('admin', ['only' => ['deleteUser', 'createSalary']]); 
+    }
 
     public function get(Request $request)
     {
@@ -51,7 +54,7 @@ class UsersController extends Controller
     }
 
     public function showUser($id) {
-        $user = User::where('id', $id)->with(['references', 'schedules', 'salary', 'monthlyPayment'])->first();
+        $user = User::where('id', $id)->with(['references', 'schedules', 'salary', 'monthly_payment'])->first();
         
         return response()->json($user);
     }
@@ -146,7 +149,7 @@ class UsersController extends Controller
 
     }
 
-    public function createSalary($salary){
+    public function createSalary($salary){        
         $newSalary = new Salary();
         $newSalary->amount =  $salary['amount'];
         $newSalary->bonus = $salary['bonus'];
@@ -204,14 +207,13 @@ class UsersController extends Controller
         if($request->password != NULL) 
             $user->password = bcrypt($request->password);
 
-        if($user->user_type_id >= 2 && $user->user_type_id <= 4) {
+        if($user->user_type_id >= 2 && $user->user_type_id <= 4) {            
             if($user->salary_id == NULL) {
                 $user->salary_id = $this->createSalary($request->salary);
             }
         }
 
-        $user->save();
-        $user->fingerprint = NULL;
+        $user->save();        
         
         return response()->json($user);
     }
@@ -269,8 +271,8 @@ class UsersController extends Controller
 
     public function deleteSchedule($id) {
 
+        
         Schedule::find($id)->delete();
-
         return 'true';
 
     }
@@ -325,6 +327,7 @@ class UsersController extends Controller
     }
 
     public function getSalary($id) {
+
         return response()->json(Salary::find($id));
     }
 
@@ -474,6 +477,7 @@ class UsersController extends Controller
     }
 
     public function deleteUser($id) {
+        
 
         $user = User::find($id);
 

@@ -9,7 +9,11 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ExpensesController extends Controller
 {
-    public function __construct(){ $this->middleware('adminCashier');}
+    
+    public function __construct(){ 
+        $this->middleware('adminCashier');
+        $this->middleware('admin', ['only' => ['update', 'delete']]); 
+    }
 
     public function get(Request $request){
         
@@ -45,7 +49,7 @@ class ExpensesController extends Controller
         return response()->json(Expense::find($id));        
     }
 
-    public function update(Request $request) {
+    public function update(Request $request) {        
 
         $expense = Expense::find($request->id);
         $expense->name = $request->name;
@@ -58,7 +62,7 @@ class ExpensesController extends Controller
     }
 
     public function delete($id) { 
-
+        
         $expense = Expense::find($id);
         $expense->delete();
         return response()->json(true);

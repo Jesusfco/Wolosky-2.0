@@ -10,6 +10,12 @@ use Wolosky\SaleDebt;
 
 class DebtorsController extends Controller
 {
+
+    public function __construct(){ 
+        $this->middleware('adminCashier'); 
+        $this->middleware('admin', ['only' => ['update', 'delete']]); 
+    }
+
     public function get(Request $request) {
 
         $debts = SaleDebt::where([

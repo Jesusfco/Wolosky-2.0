@@ -11,13 +11,16 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ReceiptController extends Controller
 {   
-    public function __construct(){ $this->middleware('adminCashier');}
+    public function __construct(){ 
+        $this->middleware('adminCashier');
+        $this->middleware('admin', ['only' => ['update', 'delete']]); 
+    }
         
     public function get(Request $request){
         
         $receipts = Receipt::where([
                                     ['created_at', '>', $request->from . " 00:00:00"],
-                                    ['created_at', '<', $request->to . " 00:00:00"],
+                                    ['created_at', '<', $request->to . " 29:59:59"],
                                     ['user_id', 'LIKE', "%" . $request->id],
                                 ])->orderBy('created_at', 'DESC')->with(['user:id,name', 'creator:id,name'])
                                 ->paginate($request->items);
@@ -90,12 +93,6 @@ class ReceiptController extends Controller
 
         return response()->json($users);
     }
-
-    public function getMonthlyPayment(Request $request){
-        $user = User::find($request->id);
-        $monthly = MonthlyPayment::find($user->monthly_payment_id);
-        return response()->json(['amount' => $monthly->amount, 'user' => $user]);
-    } 
     
     public function create(Request $request){
         $creator = JWTAuth::parseToken()->authenticate();
@@ -127,8 +124,7 @@ class ReceiptController extends Controller
 
     }
 
-    public function update(Request $request) {
-
+    public function update(Request $request) {        
         $receipt = Receipt::find($request->id);
         $receipt->amount = $request->amount;
         $receipt->save();
@@ -137,16 +133,14 @@ class ReceiptController extends Controller
 
     }
 
-    public function delete($id){
+    public function delete($id){        
         Receipt::find($id)->delete();
         return response()->json(true);
     }
 
     public function show($id){
 
-        $receipt = Receipt::find($id);
-        $receipt->user_id = User::find($receipt->user_id)->name;
-        $receipt->creator_id = User::find($receipt->creator_id)->name;
+        $receipt = Receipt::where('id', $id)->with(['user:id,name', 'creator:id,name'])->first();        
 
         return response()->json($receipt);
     }
