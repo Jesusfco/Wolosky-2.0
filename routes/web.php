@@ -17,6 +17,10 @@ Route::get('/noticias/{id}', 'VisitorsController@articulo');
 Route::get('/quienes', function () {
     return view('home/quienes');
 });
+
+Route::get('/gimnasia', function () {
+    return view('home/gimnasia');
+});
 Route::get('/equipo', function () {
     return view('home/equipo');
 });
