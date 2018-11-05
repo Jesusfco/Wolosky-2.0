@@ -17,3 +17,4 @@ yarn-error.log
 *.zip
 >>>>>>> 5855a0c50aaa78df67ac6ac76db5a95156151eee
 *.zip
+public/images/app/users/*

@@ -518,6 +518,10 @@ class UsersController extends Controller
 
         }
 
+        if($user->img != NULL) {
+            File::delete('images/app/users/' . $user->img);
+        }
+
         $user->delete();
 
         return 'true';
@@ -525,10 +529,11 @@ class UsersController extends Controller
     }
 
     public function saveUserImg(Request $re) {
+        ini_set('memory_limit','450M');
         $this->validate($re, [
             'image' => 'required|image'
         ]);
-        
+            
         $user = User::find($re->id);
 
         $img = $re->file('image');
