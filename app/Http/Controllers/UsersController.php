@@ -33,7 +33,9 @@ class UsersController extends Controller
             
             $users = User::where('name', 'LIKE', '%'. $request->searchWord .'%')
                         ->select('id', 'name', 'phone', 'gender', 'user_type_id', 'status')
+                        ->orderBy('status', 'ASC')
                         ->orderBy('name', 'ASC')
+                        
                         ->paginate($request->items);
 
         } else if($creator->user_type_id == 3 || $creator->user_type_id == 4 ){
@@ -44,8 +46,10 @@ class UsersController extends Controller
                             ])
                             ->select('id', 'name', 'phone', 'gender', 'user_type_id', 'status')
                             
+                            ->orderBy('status', 'ASC')
                             ->orderBy('name', 'ASC')
-                            // ->groupBy('status')
+                            
+                            
                             ->paginate($request->items);
         }
 
@@ -154,7 +158,7 @@ class UsersController extends Controller
         $newSalary->amount =  $salary['amount'];
         $newSalary->bonus = $salary['bonus'];
         $newSalary->salary_type_id =  $salary['salary_type_id'];
-        $newSalary->description = $salary['description'];
+        // $newSalary->description = $salary['description'];
         $newSalary->save();
         return $newSalary->id;
     }
@@ -162,7 +166,7 @@ class UsersController extends Controller
     public function createMonthlyPayment($payment){
         $monthlyPayment = new MonthlyPayment();
         $monthlyPayment->amount = $payment['amount'];
-        $monthlyPayment->description = $payment['description'];
+        // $monthlyPayment->description = $payment['description'];
         $monthlyPayment->save();
         return $monthlyPayment->id;
     }
@@ -392,6 +396,9 @@ class UsersController extends Controller
     public function updateSalary(Request $re) {
 
         $salary = Salary::find($re->id);
+
+        if($salary == NULL) 
+            $salary = new Salary();
 
         $salary->amount = $re->amount;
         $salary->bonus = $re->bonus;
