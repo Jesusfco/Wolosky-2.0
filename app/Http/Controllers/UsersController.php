@@ -154,7 +154,8 @@ class UsersController extends Controller
         $newSalary->amount =  $salary['amount'];
         $newSalary->bonus = $salary['bonus'];
         $newSalary->salary_type_id =  $salary['salary_type_id'];
-        $newSalary->description = $salary['description'];
+        // if(isset())
+        // $newSalary->description = $salary['description'];
         $newSalary->save();
         return $newSalary->id;
     }
