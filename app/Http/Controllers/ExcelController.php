@@ -10,13 +10,138 @@ use Wolosky\SaleDebt;
 use Wolosky\Product;
 use Wolosky\MonthlyPayment;
 use Wolosky\Expense;
+use Wolosky\Util\ScheduleArray;
 use Illuminate\Support\Facades\DB;
 use Excel;
 
 class ExcelController extends Controller
 {
 
-    public function __construct(){ $this->middleware('adminCashier'); }
+    public function __construct(){ $this->middleware('adminCashier'); }    
+
+    public function organizeSchedulePerDay($schedules, $users) {
+        $dayScheduleArray = $this->generateScheduleArray();
+
+        for($i = 0; $i < count($dayScheduleArray); $i++) {
+
+            foreach($schedules as $s) {
+      
+                if($s->day_id != $dayScheduleArray[$i]->day) continue;
+      
+                $check_in = split(':', $s->check_in);
+                $check_out = split(':', $s->check_out);
+      
+              $horario = [
+                  'check_in' => (int)$check_in[0],
+                  'check_out' => (int)$check_out[0],
+              ];                
+      
+              //Asignamos horarios en los que se asiste de acuerdo a los horarios obtenidos AGRUPACION
+              
+      
+        //       let arrayPosibleHorario = [];
+      
+        //       for(let i = 0; (i + horario.check_in) < horario.check_out; i++ ) { 
+      
+        //         arrayPosibleHorario.push(i + horario.check_in);
+      
+        //       } 
+      
+        //       for(let i = 0; i < arrayPosibleHorario.length; i++) {
+              
+        //         let verified = true;
+      
+        //         for(let object of day.schedules) {
+      
+        //           if(object.check_in == arrayPosibleHorario[i]) {
+      
+        //             verified = false;
+        
+        //           }  
+      
+        //         }
+                
+        //         if(verified) {
+              
+        //           let ho = {
+        //             check_in: arrayPosibleHorario[i],
+        //             users: []
+        //           };
+        
+        //           day.schedules.push(ho);
+        
+        //         }
+      
+        //       }
+      
+              
+      
+              
+      
+        //     }
+      
+          }
+      
+        //   this.setNameVisualSchedule();
+        //   this.sortDataOrder();
+      
+    }
+
+    public function schedules(Request $re) {
+        if($re->type == 1) {
+
+            $users = User::where([
+                ['user_type_id', 1],
+                ['status', 1],
+                ])->select('id', 'name', 'user_type_id')
+                ->orderBy('name', 'ASC')->get();
+
+        } else {
+
+            $users = User::where('status', 1)->whereBetween('user_type_id', [2,4])->select('id', 'name', 'user_type_id')
+                ->get();
+
+        }
+        
+        $schedules = Schedule::where('active', true)->get();
+
+        for($i = 0; $i < count($schedules); $i++) {
+
+            foreach($users as $u) {
+
+                if($u->id == $schedules[$i]->user_id){
+                    $schedules[$i]->verify = true;
+                    break;
+                }
+
+            }
+
+        }
+
+        for($i = 0; $i < count($schedules); $i++) { 
+            if(!isset($schedules[$i]->verify)) {
+                $schedules[$i] = null;
+
+                // unset($schedules[$i]);
+            }
+        }
+
+
+        if($re->type == 1) 
+            $tipo = 'ALUMNOS';
+        else 
+            $tipo = 'TRABAJADORES';
+
+        Excel::create('Horarios_'. $tipo, function($excel) use ($receipts){
+            $excel->sheet('hoja 1', function($sheet) use ($receipts){
+
+                $sheet->loadView('excel/receipt')->with(['receipt' => $receipts]);
+
+            });
+        })->export('xls');
+
+
+    }
 
     public function receipt(Request $request){
 
@@ -264,4 +389,18 @@ class ExcelController extends Controller
         ]);
     }
     
+    public function generateScheduleArray() {
+
+        $array = [];
+
+        for($i = 0; $i < 7 ;$i++) {
+
+            $array[] = new ScheduleArray();
+
+        }
+
+        return $array;
+
+    }
+
 }

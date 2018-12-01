@@ -20,10 +20,7 @@ class SchedulesController extends Controller
 
         } else {
 
-            $users = User::where([
-                ['user_type_id', '>', 1],
-                ['status', 1],
-                ])->select('id', 'name', 'user_type_id')
+            $users = User::where('status', 1)->whereBetween('user_type_id', [2,4])->select('id', 'name', 'user_type_id')
                 ->get();
 
         }
