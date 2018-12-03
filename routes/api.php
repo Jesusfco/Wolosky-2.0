@@ -124,6 +124,7 @@ Route::get('excel/expenses', 'ExcelController@expenses');
 Route::get('excel/debtors', 'ExcelController@debtors');
 Route::get('excel/sales', 'ExcelController@getSales');
 Route::get('excel/inventory', 'ExcelController@getInventory');
+Route::get('excel/schedules', 'ExcelController@schedules');
 
 //Exportaciones PDF
 Route::get('pdf/user', 'PDFController@userResume');

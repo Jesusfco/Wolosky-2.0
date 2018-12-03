@@ -4,13 +4,14 @@ namespace Wolosky\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Wolosky\User;
+use Wolosky\Schedule;
 use Wolosky\Receipt;
 use Wolosky\Sales;
 use Wolosky\SaleDebt;
 use Wolosky\Product;
 use Wolosky\MonthlyPayment;
 use Wolosky\Expense;
-use Wolosky\Util\ScheduleArray;
+use Wolosky\Util\DaySchedule;
 use Illuminate\Support\Facades\DB;
 use Excel;
 
@@ -26,68 +27,72 @@ class ExcelController extends Controller
 
             foreach($schedules as $s) {
       
+                if(!isset($s->day_id)) continue;
                 if($s->day_id != $dayScheduleArray[$i]->day) continue;
       
-                $check_in = split(':', $s->check_in);
-                $check_out = split(':', $s->check_out);
-      
-              $horario = [
-                  'check_in' => (int)$check_in[0],
-                  'check_out' => (int)$check_out[0],
-              ];                
-      
-              //Asignamos horarios en los que se asiste de acuerdo a los horarios obtenidos AGRUPACION
-              
-      
-        //       let arrayPosibleHorario = [];
-      
-        //       for(let i = 0; (i + horario.check_in) < horario.check_out; i++ ) { 
-      
-        //         arrayPosibleHorario.push(i + horario.check_in);
-      
-        //       } 
-      
-        //       for(let i = 0; i < arrayPosibleHorario.length; i++) {
-              
-        //         let verified = true;
-      
-        //         for(let object of day.schedules) {
-      
-        //           if(object.check_in == arrayPosibleHorario[i]) {
-      
-        //             verified = false;
-        
-        //           }  
-      
-        //         }
                 
-        //         if(verified) {
-              
-        //           let ho = {
-        //             check_in: arrayPosibleHorario[i],
-        //             users: []
-        //           };
+                $check_in = explode(':', $s->check_in);
+                $check_out = explode(':', $s->check_out);
         
-        //           day.schedules.push(ho);
+                $horario = [
+                    'check_in' => (int)$check_in[0],
+                    'check_out' => (int)$check_out[0],
+                ];                
         
-        //         }
+                //Asignamos horarios en los que se asiste de acuerdo a los horarios obtenidos AGRUPACION
+                        
+                $arrayPosibleHorario = [];
+        
+                for($y = 0; ($y + $horario['check_in']) < $horario['check_out']; $y++ ) { 
+        
+                    $arrayPosibleHorario[] = ($y + $horario['check_in']);
+        
+                } 
+        
+                for($y = 0; $y < count($arrayPosibleHorario); $y++) {
+                    
+                    $verified = true;
       
-        //       }
+                    foreach($dayScheduleArray[$i]->schedules as $object) {
+        
+                        if($object['check_in'] == $arrayPosibleHorario[$y]) {
+        
+                            $verified = false;
+            
+                        }  
+                    }                          
+                
+                if($verified) {
+              
+                    $ho = [
+                        'check_in' => $arrayPosibleHorario[$y],
+                        'users' => []
+                    ];
+                    
+                  
+        
+                    $dayScheduleArray[$i]->schedules[] = $ho;
+        
+                }
+      
+              }
       
               
       
               
       
-        //     }
+            }
       
           }
       
         //   this.setNameVisualSchedule();
         //   this.sortDataOrder();
       
+        return $dayScheduleArray;
     }
 
     public function schedules(Request $re) {
+
         if($re->type == 1) {
 
             $users = User::where([
@@ -132,10 +137,20 @@ class ExcelController extends Controller
         else 
             $tipo = 'TRABAJADORES';
 
-        Excel::create('Horarios_'. $tipo, function($excel) use ($receipts){
-            $excel->sheet('hoja 1', function($sheet) use ($receipts){
+        $dataAnalisis = $this->organizeSchedulePerDay($schedules, $users);
 
-                $sheet->loadView('excel/receipt')->with(['receipt' => $receipts]);
+        $i = 1;
+        foreach($dayScheduleArray as $day){
+
+            $day->
+            $i++;
+        }
+        return $dataAnalisis;
+
+        Excel::create('Horarios_'. $tipo, function($excel) use ($dataAnalisis){
+            $excel->sheet('hoja 1', function($sheet) use ($dataAnalisis){
+
+                $sheet->loadView('excel/schedules')->with(['dataAnalisis' => $dataAnalisis]);
 
             });
         })->export('xls');
@@ -395,7 +410,9 @@ class ExcelController extends Controller
 
         for($i = 0; $i < 7 ;$i++) {
 
-            $array[] = new ScheduleArray();
+            $x = new DaySchedule();
+            $x->day = $i + 1;
+            $array[] = $x;
 
         }
 
