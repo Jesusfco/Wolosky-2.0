@@ -160,9 +160,10 @@ class ReceiptController extends Controller
 
     public function checkLastReceipt(Request $request) {
         $receipt = Receipt::where([
-            ['user_id', '=', $request->user_id],
+            ['user_id', $request->user_id],
             ['year', $request->year],
-            ['month', '=', $request->month],
+            ['month', $request->month],
+            ['type', 1],
             ])->get();
 
             // return response()->json($receipt);
