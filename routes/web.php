@@ -33,9 +33,10 @@ Route::get('/suscribete', function () {
 
 Route::post('/mensaje', 'VisitorsController@mail');
 
-Route::get('records', 'VisitorsController@records');
+Route::get('schedules', 'VisitorsController@schedules');
+// Route::get('records', 'VisitorsController@records');
 
-Route::get('setYear', 'VisitorsController@setYear');
+// Route::get('setYear', 'VisitorsController@setYear');
 
 
 

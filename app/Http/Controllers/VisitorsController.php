@@ -13,9 +13,15 @@ use Wolosky\RecordUserStatus;
 use Wolosky\User;
 use Wolosky\Receipt;
 use Wolosky\Photo;
+use Wolosky\Schedule;
 
 class VisitorsController extends Controller
 {
+
+    public function schedules() {
+        Schedule::where('active', 0)->delete();
+        return 'SCHEDULES DELETED WHERE ACTIVE = 0';
+    }
 
     public function migration(){
         // 

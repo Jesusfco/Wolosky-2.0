@@ -143,8 +143,7 @@ class UsersController extends Controller
                 $schedule->check_in = $x['check_in'];
                 $schedule->check_out =  $x['check_out'];
                 // $schedule->description =  $x['description'];
-                $schedule->day_id =  $x['day_id'];
-                $schedule->active =  $x['active']; 
+                $schedule->day_id =  $x['day_id'];                
                 $schedule->save();
 
             }
@@ -241,7 +240,7 @@ class UsersController extends Controller
                 // $schedule->description =  $x['description'];
                 // $schedule->day_id =  $x['day_id'];
                 // $schedule->type = 1;
-                $schedule->active =  $x['active']; 
+                
                 $schedule->save();
 
             } else {
@@ -252,7 +251,7 @@ class UsersController extends Controller
                 $schedule->check_out =  $x['check_out'];
                 $schedule->user_id =  $x['user_id'];
                 $schedule->day_id =  $x['day_id'];                
-                $schedule->active =  true; 
+                
                 $schedule->save();
 
             }

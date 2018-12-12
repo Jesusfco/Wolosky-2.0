@@ -8,6 +8,8 @@ use Wolosky\Schedule;
 
 class SchedulesController extends Controller
 {
+
+    
     public function getStudents(Request $re) {
 
         if($re->type == 1) {
@@ -26,7 +28,7 @@ class SchedulesController extends Controller
         }
         
 
-        $schedules = Schedule::where('active', true)->get();
+        $schedules = Schedule::all();
 
         for($i = 0; $i < count($schedules); $i++) {
 

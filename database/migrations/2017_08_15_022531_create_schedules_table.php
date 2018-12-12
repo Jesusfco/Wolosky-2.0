@@ -18,9 +18,7 @@ class CreateSchedulesTable extends Migration
             $table->integer('day_id');
             $table->time('check_in')->nullable();
             $table->time('check_out')->nullable();
-            $table->integer('user_id');
-            $table->integer('type')->default(1);
-            $table->boolean('active');
+            $table->integer('user_id');                        
             $table->timestamps();
         });
     }
