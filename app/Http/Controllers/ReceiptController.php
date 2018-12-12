@@ -163,7 +163,7 @@ class ReceiptController extends Controller
             ['user_id', $request->user_id],
             ['year', $request->year],
             ['month', $request->month],
-            ['type',  $request->type],
+            ['type', 1],
             ])->get();
 
             // return response()->json($receipt);
