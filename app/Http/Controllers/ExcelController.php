@@ -20,6 +20,45 @@ class ExcelController extends Controller
 
     public function __construct(){ $this->middleware('adminCashier'); }    
 
+    public function users(Request $re) {
+    $users = User::whereNotNull('street');
+
+        if($re->typeA)  {
+            echo 'holaz<br>';
+        }
+            $users->where('user_type_id', 1);
+        if($re->typeT) {
+            echo 'hola trabajo <br>';
+            $users->where('user_type_id', 2);
+            $users->where('user_type_id', 3);
+            $users->where('user_type_id', 4);            
+        } 
+            
+        if($re->typeO) {
+            echo 'otro <br>';
+            $users->where('user_type_id', 5);            
+            $users->where('user_type_id', 6);            
+            $users->where('user_type_id', 7);            
+        }
+
+        if($re->genderM && !$re->genderF){
+            echo 'solo hombre <br>';
+            $users->where('gender', 1);  
+        } else if(!$re->genderM && $re->genderF) {
+            echo 'mujeres hombre <br>';
+            $users->where('gender', 2);  
+        }
+
+        if($re->active && !$re->inactive) 
+            $users->where('status', 1);  
+        else if(!$re->active && $re->inactive)
+            $users->where('status', 2);  
+
+        $users =  $users->orderBy('status', 'ASC')->orderBy('name', 'ASC')->get();
+
+        return $users;
+    }
+
     public function organizeSchedulePerDay($schedules, $users) {
         $dayScheduleArray = $this->generateScheduleArray();
 
