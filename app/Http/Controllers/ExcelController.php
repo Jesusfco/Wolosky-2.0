@@ -20,32 +20,38 @@ class ExcelController extends Controller
 
     public function __construct(){ $this->middleware('adminCashier'); }    
 
-    public function users(Request $re) {
-    $users = User::whereNotNull('street');
+    public function users(Request $re) {        
 
-        if($re->typeA)  {
-            echo 'holaz<br>';
-        }
-            $users->where('user_type_id', 1);
-        if($re->typeT) {
-            echo 'hola trabajo <br>';
-            $users->where('user_type_id', 2);
-            $users->where('user_type_id', 3);
-            $users->where('user_type_id', 4);            
-        } 
+        $users = User::whereNotNull('id');
+
+        if($re->typeA == "true") $re->typeA = true; else $re->typeA = false;
+        if($re->typeT == "true") $re->typeT = true; else $re->typeT = false;
+        if($re->typeO == "true") $re->typeO = true; else $re->typeO = false;
+        if($re->genderM == "true") $re->genderM = true; else $re->genderM = false;
+        if($re->genderF == "true") $re->genderF = true; else $re->genderF = false;
+        if($re->active == "true") $re->active = true; else $re->active = false;
+        if($re->inactive == "true") $re->inactive = true; else $re->inactive = false;
+
+        if($re->typeA)  {            
+            if($re->typeT && $re->typeO)                
+                $users->whereIn('user_type_id', [1,2,3,4]);                                            
+            else if(!$re->typeT && $re->typeO)  
+                $users->whereIn('user_type_id', [1,5,6,7]);
+            else if(!$re->typeT && !$re->typeO)  
+                $users->where('user_type_id', 1);
+        } else {
             
-        if($re->typeO) {
-            echo 'otro <br>';
-            $users->where('user_type_id', 5);            
-            $users->where('user_type_id', 6);            
-            $users->where('user_type_id', 7);            
-        }
-
-        if($re->genderM && !$re->genderF){
-            echo 'solo hombre <br>';
+            if($re->typeT && !$re->typeO)                 
+                $users->whereIn('user_type_id', [2,3,4]);            
+            else if(!$re->typeT && $re->typeO) 
+                $users->whereIn('user_type_id', [5,6,7]);
+            else 
+                return back();            
+        }               
+                    
+        if($re->genderM && !$re->genderF){            
             $users->where('gender', 1);  
-        } else if(!$re->genderM && $re->genderF) {
-            echo 'mujeres hombre <br>';
+        } else if(!$re->genderM && $re->genderF) {            
             $users->where('gender', 2);  
         }
 
@@ -54,9 +60,17 @@ class ExcelController extends Controller
         else if(!$re->active && $re->inactive)
             $users->where('status', 2);  
 
-        $users =  $users->orderBy('status', 'ASC')->orderBy('name', 'ASC')->get();
+        $users =  $users->orderBy('status', 'ASC')->orderBy('name', 'ASC')->get();        
 
-        return $users;
+        Excel::create('Usuarios', function($excel) use ($users){
+
+            $excel->sheet('Ventas', function($sheet) use ($users){
+
+                $sheet->loadView('excel/users')->with(['users' => $users]);
+
+            });           
+
+        })->export('xls');
     }
 
     public function organizeSchedulePerDay($schedules, $users) {
