@@ -146,6 +146,23 @@ class ExcelController extends Controller
 
     public function schedules(Request $re) {
 
+        $data = json_decode($re->data, TRUE);            
+
+        Excel::create('Horarios', function($excel) use ($data){
+
+            $excel->sheet('Horarios', function($sheet) use ($data){
+
+                $sheet->loadView('excel/schedules')->with(['data' => $data]);
+
+            });
+
+        })->export('xls');
+
+
+        return view('excel.schedules', [
+            'data' => $data
+        ]);
+
         if($re->type == 1) {
 
             $users = User::where([
