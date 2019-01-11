@@ -141,3 +141,10 @@ Route::get('monthly-cost', 'MonthlyCostController@get');
 Route::post('monthly-cost/create', 'MonthlyCostController@store');
 Route::post('monthly-cost/update', 'MonthlyCostController@update');
 Route::delete('monthly-cost/{id}', 'MonthlyCostController@delete');
+
+// Events
+Route::post('events', 'App\EventsController@get');
+Route::post('event', 'App\EventsController@store');
+Route::get('event/show/{id}', 'App\EventsController@show');
+Route::post('event/update', 'App\EventsController@update');
+Route::post('event/delete', 'App\EventsController@delete');
