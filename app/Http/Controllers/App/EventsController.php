@@ -28,7 +28,7 @@ class EventsController extends Controller
     }
 
     public function show($id) {
-        $event = new Event($id);
+        $event = Event::find($id);
 
         if($event == null) 
             return response()->json(['message' => 'Event No Found'], 401);                
@@ -37,7 +37,7 @@ class EventsController extends Controller
     }
 
     public function delete(Request $re) {
-        $event = new Event($re->id);
+        $event = Event::find($re->id);
 
         if($event == null) 
             return response()->json(['message' => 'Event No Found'], 401);                
@@ -49,7 +49,7 @@ class EventsController extends Controller
 
     public function update(Request $re) {
 
-        $event = new Event($re->id);
+        $event = Event::find($re->id);
 
         if($event == null) 
             return response()->json(['message' => 'Event No Found'], 401);
