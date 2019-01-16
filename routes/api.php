@@ -148,3 +148,5 @@ Route::post('event', 'App\EventsController@store');
 Route::get('event/show/{id}', 'App\EventsController@show');
 Route::post('event/update', 'App\EventsController@update');
 Route::post('event/delete', 'App\EventsController@delete');
+Route::get('event/participants/{id}', 'App\EventsController@getParticipants');
+Route::post('event/createParticipants', 'App\EventsController@createParticipants');

@@ -69,4 +69,22 @@ class EventsController extends Controller
         $model->description = $data->description;
         return $model;
     }
+
+    public function getParticipants($id) {
+        
+        $users = User::select('user_type_id', 'id', 'gender', 'status', 'name')->get();
+        $participants = EventParticipant::where('event_id', $id)->get();
+
+        return response()->json([
+            'users' => $users, 
+            'participants' => $participants]
+        );
+
+    }
+
+    public function createParticipants(Request $re) {
+
+        
+
+    }
 }
