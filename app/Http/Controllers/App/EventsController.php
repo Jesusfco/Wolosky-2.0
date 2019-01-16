@@ -5,6 +5,8 @@ namespace Wolosky\Http\Controllers\App;
 use Illuminate\Http\Request;
 use Wolosky\Http\Controllers\Controller;
 use Wolosky\Event;
+use Wolosky\User;
+use Wolosky\EventParticipant;
 use JWTAuth;
 
 class EventsController extends Controller
@@ -72,7 +74,7 @@ class EventsController extends Controller
 
     public function getParticipants($id) {
         
-        $users = User::select('user_type_id', 'id', 'gender', 'status', 'name')->get();
+        $users = User::select('user_type_id', 'id', 'gender', 'status', 'name')->orderBy('name', 'ASC')->get();
         $participants = EventParticipant::where('event_id', $id)->get();
 
         return response()->json([
