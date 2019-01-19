@@ -19,7 +19,7 @@ class CreateEventParticipantTable extends Migration
             $table->integer('creator_id');
             $table->integer('event_id');
             $table->integer('status');                        
-            $table->timestamp('created_at');
+            $table->timestamps();
         });
     }
 

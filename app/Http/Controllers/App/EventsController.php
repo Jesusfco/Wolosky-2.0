@@ -89,4 +89,27 @@ class EventsController extends Controller
         
 
     }
+
+    public function createParticipant(Request $re) {
+
+        $creator = JWTAuth::parseToken()->authenticate();
+
+        if($re->id == NULL )
+            $participant = new EventParticipant();
+        else
+            $participant = EventParticipant::find($re->id);
+
+        if($participant == NULL) return response()->json('message', 'Error al buscar participante', 401);
+        
+        $participant->status = $re->status;        
+
+        $participant->event_id = $re->event_id;
+        $participant->user_id = $re->user_id;
+        $participant->cost = $re->cost;
+        $participant->creator_id = $creator->id;
+        $participant->save();
+
+        return response()->json($participant);
+
+    }
 }
