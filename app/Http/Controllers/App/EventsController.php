@@ -13,6 +13,11 @@ use JWTAuth;
 class EventsController extends Controller
 {
 
+    public function __construct(){ 
+        $this->middleware('adminCashier'); 
+        // $this->middleware('admin', ['only' => ['deleteUser', 'createSalary']]); 
+    }
+
     public function get(Request $re) {
         $events = Event::where('name', 'LIKE', "%$re->name%")->paginate($re->items);
         return response()->json($events);
