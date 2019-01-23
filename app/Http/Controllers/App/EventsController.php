@@ -37,7 +37,7 @@ class EventsController extends Controller
             return response()->json(['message' => 'Event No Found'], 401);                
 
         $users = User::select('user_type_id', 'id', 'gender', 'status', 'name')->orderBy('name', 'ASC')->get();
-        $receipts = Receipt::where('event_id', $id)->get();
+        $receipts = Receipt::where('event_id', $id)->orderBy('id', 'DESC')->get();
 
         return response()->json([
             'event' => $event,

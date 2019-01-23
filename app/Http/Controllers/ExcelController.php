@@ -527,6 +527,26 @@ class ExcelController extends Controller
         })->export('xls');
                
     }
+
+    public function eventReceipts($id) {
+        $event = Event::find($id);
+        $receipts = Receipt::where('event_id', $id)->with(['user', 'creator'])->orderBy('id', 'DESC')->get();
+
+        $object = [];
+        $object['event'] = $event;
+        $object['receipts'] = $receipts;
+
+        Excel::create('Recibos-Evento-' . $event->name , function($excel) use ($object){
+
+            $excel->sheet('hoja 1', function($sheet) use ($object){
+
+                $sheet->loadView('excel/receiptsEvent')->with(['object' => $object]);
+
+            });
+
+        })->export('xls');
+    }
+
     public function generateScheduleArray() {
 
         $array = [];
