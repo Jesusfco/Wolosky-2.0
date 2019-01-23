@@ -14,11 +14,11 @@ class EventParticipant extends Model
     public $timestamps = false;
 
     public function user() {
-        return $this->hasOne('Wolosky\User', 'id', 'user_id');
+        return $this->belongsTo('Wolosky\User', 'user_id', 'id');
     }
 
     public function creator() {
-        return $this->hasOne('Wolosky\User', 'id', 'creator_id');
+        return $this->belongsTo('Wolosky\User', 'id', 'creator_id');
     }
 
     public function event() {

@@ -11,6 +11,7 @@ use Wolosky\SaleDebt;
 use Wolosky\Product;
 use Wolosky\MonthlyPayment;
 use Wolosky\Expense;
+use Wolosky\Event;
 use Wolosky\Util\DaySchedule;
 use Illuminate\Support\Facades\DB;
 use Excel;
@@ -18,7 +19,9 @@ use Excel;
 class ExcelController extends Controller
 {
 
-    public function __construct(){ $this->middleware('adminCashier'); }    
+    public function __construct(){ 
+        $this->middleware('adminCashier'); 
+    }    
 
     public function users(Request $re) {        
 
@@ -474,6 +477,56 @@ class ExcelController extends Controller
         ]);
     }
     
+    public function participantsEvent($id) {
+        $event = Event::where('id', $id)->with('participants.user')->first();
+
+        if($event == NULL) return 'Evento Inexistente';
+
+        Excel::create('Participantes-Evento-' . $event->name , function($excel) use ($event){
+
+            $excel->sheet('hoja 1', function($sheet) use ($event){
+
+                $sheet->loadView('excel/participants')->with(['event' => $event]);
+
+            });
+
+        })->export('xls');
+
+
+    }
+
+    public function participantsInf($id) {
+        $event = Event::where('id', $id)->with('participants.user')->first();
+
+        if($event == NULL) return 'Evento Inexistente';
+
+        $receipts = Receipt::where('event_id', $id)->get();
+
+        for($y=0; $y < count($event->participants); $y++) {
+            
+            $event->participants[$y]->missing = 0;
+            
+            foreach($receipts as $re) {
+
+                if($event->participants[$y]->user_id == $re->user_id) 
+                    $event->participants[$y]->missing += $re->amount;
+                
+            }
+
+        }
+
+        
+        Excel::create('Participantes-Evento-' . $event->name , function($excel) use ($event){
+
+            $excel->sheet('hoja 1', function($sheet) use ($event){
+
+                $sheet->loadView('excel/participantsInf')->with(['event' => $event]);
+
+            });
+
+        })->export('xls');
+               
+    }
     public function generateScheduleArray() {
 
         $array = [];

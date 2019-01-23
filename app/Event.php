@@ -14,4 +14,8 @@ class Event extends Model
     public function creator() {
         return $this->hasOne('Wolosky\User', 'id', 'creator_id');
     }
+
+    public function participants() {
+        return $this->hasMany('Wolosky\EventParticipant', 'event_id', 'id');
+    }
 }

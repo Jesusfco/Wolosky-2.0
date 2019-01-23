@@ -125,6 +125,8 @@ Route::get('excel/debtors', 'ExcelController@debtors');
 Route::get('excel/sales', 'ExcelController@getSales');
 Route::get('excel/inventory', 'ExcelController@getInventory');
 Route::post('excel/schedules', 'ExcelController@schedules');
+Route::get('excel/event/participants/{id}', 'ExcelController@participantsEvent');
+Route::get('excel/event/participantsInf/{id}', 'ExcelController@participantsInf');
 
 //Exportaciones PDF
 Route::get('pdf/user', 'PDFController@userResume');
@@ -151,3 +153,5 @@ Route::post('event/delete', 'App\EventsController@delete');
 Route::get('event/participants/{id}', 'App\EventsController@getParticipants');
 Route::post('event/createParticipants', 'App\EventsController@createParticipants');
 Route::post('event/createParticipant', 'App\EventsController@createParticipant');
+Route::post('event/createReceipt', 'App\EventsController@createReceipt');
+

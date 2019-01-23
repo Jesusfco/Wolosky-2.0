@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Wolosky\Http\Controllers\Controller;
 use Wolosky\Event;
 use Wolosky\User;
+use Wolosky\Receipt;
 use Wolosky\EventParticipant;
 use JWTAuth;
 
@@ -30,12 +31,19 @@ class EventsController extends Controller
     }
 
     public function show($id) {
-        $event = Event::find($id);
+        $event = Event::where('id',$id)->with('participants')->first();
 
         if($event == null) 
             return response()->json(['message' => 'Event No Found'], 401);                
 
-        return response()->json($event);
+        $users = User::select('user_type_id', 'id', 'gender', 'status', 'name')->orderBy('name', 'ASC')->get();
+        $receipts = Receipt::where('event_id', $id)->get();
+
+        return response()->json([
+            'event' => $event,
+            'users' => $users,
+            'receipts' => $receipts
+            ]);
     }
 
     public function delete(Request $re) {
@@ -110,6 +118,22 @@ class EventsController extends Controller
         $participant->save();
 
         return response()->json($participant);
+
+    }
+
+    public function createReceipt(Request $re) {
+
+        $creator = JWTAuth::parseToken()->authenticate();
+        $receipt = new Receipt();
+
+        $receipt->user_id = $re->user_id;
+        $receipt->event_id = $re->event_id;
+        $receipt->creator_id = $creator->id;
+        $receipt->amount = $re->amount;
+        $receipt->type = 5;
+        $receipt->save();
+
+        return response()->json($receipt);
 
     }
 }
