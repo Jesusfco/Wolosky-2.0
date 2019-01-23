@@ -54,6 +54,8 @@ class EventsController extends Controller
 
         $event->delete();
 
+        EventParticipant::where('event_id', $re->id)->delete();
+
         if($re->receipts) {
             Receipt::where('event_id', $re->id)->delete();
         }
