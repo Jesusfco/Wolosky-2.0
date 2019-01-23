@@ -145,7 +145,7 @@ class ReceiptController extends Controller
 
     public function show($id){
 
-        $receipt = Receipt::where('id', $id)->with(['user:id,name', 'creator:id,name'])->first();        
+        $receipt = Receipt::where('id', $id)->with(['user:id,name', 'creator:id,name', 'event'])->first();        
 
         return response()->json($receipt);
     }

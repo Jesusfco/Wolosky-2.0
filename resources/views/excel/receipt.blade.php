@@ -10,25 +10,27 @@
 <h1>Recibos </h1>
 <table>
     <tr>
-        <th>ID</th>
-        <th>CREADOR</th>
+        <th>ID</th>        
         <th>ALUMNO</th>
         <th>MONTO</th>
         <th>MES</th>
-        <th>FECHA DE PAGO</th>
         <th>TIPO</th>
+        <th>FECHA-HORA CREACIÓN DE RECIBO</th>
+        <th>FECHA-HORA ULTIMA ACTUALIZACIÓN</th>
+        <th>CREADOR</th>
+        
         <!-- <th>TIPO</th> -->
     </tr>
     @foreach($receipt as $r)
     <tr>
-        <th>{{$r->id}}</th>
-        <th>{{$r->creator_id}}</th>
-        <th>{{$r->user_id}}</th>
+        <th>{{$r->id}}</th>        
+        <th>{{$r->user->name}}</th>
         <th>{{$r->amount}}</th>
         <th>{{$r->month}}</th>
+        <th>{{$r->typeView()}}</th>
         <th>{{$r->created_at}}</th>
-        <th>{{$r->type}}</th>
-        <!-- <th>TIPO</th> -->
+        <th>{{$r->updated_at}}</th>
+        <th>{{$r->creator->name}}</th>        
     </tr>
     @endforeach
 </table>

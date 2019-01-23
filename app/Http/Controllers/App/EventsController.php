@@ -54,6 +54,9 @@ class EventsController extends Controller
 
         $event->delete();
 
+        if($re->receipts) {
+            Receipt::where('event_id', $re->id)->delete();
+        }
         return response()->json(true);
     }
 
@@ -90,13 +93,7 @@ class EventsController extends Controller
             'participants' => $participants]
         );
 
-    }
-
-    public function createParticipants(Request $re) {
-
-        
-
-    }
+    }    
 
     public function createParticipant(Request $re) {
 
@@ -110,7 +107,6 @@ class EventsController extends Controller
         if($participant == NULL) return response()->json('message', 'Error al buscar participante', 401);
         
         $participant->status = $re->status;        
-
         $participant->event_id = $re->event_id;
         $participant->user_id = $re->user_id;
         $participant->cost = $re->cost;
