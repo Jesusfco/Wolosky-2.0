@@ -8,7 +8,7 @@ class Parking extends Model
 {
              
     protected $fillable = [
-        'user_id','creator_id', 'check_in','check_out','date_entry','amount','status'
+        'user_id','creator_id', 'check_in','check_out','date_entry','amount','paid'
         ];
 
     public function user() {
