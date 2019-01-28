@@ -5,6 +5,7 @@ namespace Wolosky\Http\Controllers\App;
 use Illuminate\Http\Request;
 use Wolosky\Http\Controllers\Controller;
 use Wolosky\Parking;
+use JWTAuth;
 
 class ParkingController extends Controller
 {
@@ -14,7 +15,8 @@ class ParkingController extends Controller
     }
 
     public function get(Request $re) {
-
+        $parkings = Parking::with('user')->get();
+        return response()->json($parkings);
     }
 
     public function show($id) {

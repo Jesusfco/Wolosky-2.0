@@ -156,3 +156,9 @@ Route::post('event/createParticipants', 'App\EventsController@createParticipants
 Route::post('event/createParticipant', 'App\EventsController@createParticipant');
 Route::post('event/createReceipt', 'App\EventsController@createReceipt');
 
+//Parkingss
+Route::post('parkings', 'App\ParkingController@get');
+Route::post('parkings/create', 'App\ParkingController@store');
+Route::get('parkings/show/{id}', 'App\ParkingController@show');
+Route::post('parkings/update/{id}', 'App\ParkingController@update');
+Route::get('parkings/delete/{id}', 'App\ParkingController@delete');
