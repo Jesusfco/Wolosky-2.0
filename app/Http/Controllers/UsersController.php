@@ -561,4 +561,10 @@ class UsersController extends Controller
         return response()->json($path);
 
     }
+
+    public function sugest(Request $re) {
+        $users =  User::select('id', 'name')->where('name', 'LIKE', "%$re->name%")
+                        ->limit(7)->orderBy('name', 'ASC')->get();
+        return response()->json($users);
+    }
 }

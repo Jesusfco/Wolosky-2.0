@@ -35,6 +35,7 @@ Route::post('user/safeDelete/{id}', 'UsersController@checkSafeDelete');
 Route::delete('user/delete/{id}', 'UsersController@deleteUser');
 
 Route::post('user/saveUserImg', 'UsersController@saveUserImg');
+Route::post('user/sugest', 'UsersController@sugest');
 
 //SCHEDULES USER
 Route::get('user/schedules/{id}', 'UsersController@getSchedules');

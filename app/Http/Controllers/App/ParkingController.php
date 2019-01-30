@@ -15,15 +15,25 @@ class ParkingController extends Controller
     }
 
     public function get(Request $re) {
-        $parkings = Parking::with('user')->get();
+        $parkings = Parking::where([
+            ['created_at', '>', $re->from . " 00:00:00"],
+            ['created_at', '<', $re->to . " 29:59:59"],
+            ['user_id', 'LIKE', "%" . $re->id],
+        ])->orderBy('created_at', 'DESC')->with(['user:id,name', 'creator:id,name'])->get();
+        // ->paginate($request->items);
+
         return response()->json($parkings);
     }
 
     public function show($id) {
-        $parking = Parking::find($id); 
+
+        $parking = Parking::where('id',$id)->with(['user:id,name', 'creator:id,name'])->first(); 
+
         if($parking == null) 
             return response()->json(['message' => 'Parking No Found'], 401);                
+
         return response()->json($parking);
+
     }
 
     public function store(Request $re) {
@@ -33,9 +43,7 @@ class ParkingController extends Controller
         $parking->user_id = $re->user_id;
         $parking->creator_id = $creator->id;
         $parking->check_in = $re->check_in;
-        $parking->date_entry = $re->date_entry;        
-        $parking->status = $re->status;
-
+        $parking->date_entry = $re->date_entry;                
         $parking->amount = $re->amount;
         $parking->check_out = $re->check_out;
         $parking->save();
@@ -49,7 +57,7 @@ class ParkingController extends Controller
         $parking = Parking::find($re->id);                
         $parking->check_in = $re->check_in;
         $parking->date_entry = $re->date_entry;        
-        $parking->status = $re->status;
+        $parking->paid = $re->paid;
 
         $parking->amount = $re->amount;
         $parking->check_out = $re->check_out;
