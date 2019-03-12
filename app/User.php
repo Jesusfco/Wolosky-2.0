@@ -87,6 +87,7 @@ class User extends Authenticatable {
         return $this->hasOne('Wolosky\Salary', 'id', 'salary_id');
     }
 
+
     public function monthly_payment() {
         return $this->hasOne('Wolosky\MonthlyPayment', 'id', 'monthly_payment_id');
     }
@@ -94,6 +95,5 @@ class User extends Authenticatable {
     public function receipts() {
         return $this->hasMany('Wolosky\Receipt', 'user_id', 'id');
     }
-
 
 }

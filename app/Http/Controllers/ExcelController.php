@@ -15,6 +15,7 @@ use Wolosky\Event;
 use Wolosky\Util\DaySchedule;
 use Illuminate\Support\Facades\DB;
 use Excel;
+use Carbon;
 
 class ExcelController extends Controller
 {
@@ -62,6 +63,15 @@ class ExcelController extends Controller
             $users->where('status', 1);  
         else if(!$re->active && $re->inactive)
             $users->where('status', 2);  
+
+        if($re->age1 != NULL && $re->age2 != NULL) {
+
+            $from = Carbon::now();
+            $to = ($from->year - ($re->age1))."-$from->month-$from->day";
+            $from = ($from->year - ($re->age2))."-$from->month-$from->day";            
+            $users->whereBetween('birthday', [$from, $to ]);
+        }
+            
 
         $users =  $users->orderBy('status', 'ASC')->orderBy('name', 'ASC')->get();        
 
