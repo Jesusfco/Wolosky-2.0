@@ -67,13 +67,37 @@ class ExcelController extends Controller
         if($re->age1 != NULL && $re->age2 != NULL) {
 
             $from = Carbon::now();
-            $to = ($from->year - ($re->age1))."-$from->month-$from->day";
-            $from = ($from->year - ($re->age2))."-$from->month-$from->day";            
+            $to = ($from->year - $re->age1)."-$from->month-$from->day";
+            $from = ($from->year - ($re->age2+1))."-$from->month-$from->day";                
             $users->whereBetween('birthday', [$from, $to ]);
         }
-            
+
+        if($re->hours1 != NULL && $re->hours2 != NULL)             
+            $users->with('schedules');                
 
         $users =  $users->orderBy('status', 'ASC')->orderBy('name', 'ASC')->get();        
+        
+        if($re->hours1 != NULL && $re->hours2 != NULL)  {
+
+            for($i=0; $i < count($users); $i++) {
+                $users[$i]->setHours();                                                        
+            }
+
+            $users2 = [];
+
+            foreach($users as $us) {
+
+                // echo "$us->name - horas: $us->hours" . "<br>";
+
+                if($us->hours >= $re->hours1 && $us->hours <= $re->hours2) {
+                    $users2[] = $us;
+                }
+            }
+
+            $users = $users2;
+
+            // return;
+        }
 
         Excel::create('Usuarios', function($excel) use ($users){
 

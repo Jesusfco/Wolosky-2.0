@@ -14,7 +14,7 @@ class Schedule extends Model {
         'check_in',
         'check_out',
         'user_id',        
-        'active'
+        
     ];
 
     // public $timestamps = true;

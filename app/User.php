@@ -4,6 +4,7 @@ namespace Wolosky;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Carbon;
 
 class User extends Authenticatable {
 
@@ -94,6 +95,48 @@ class User extends Authenticatable {
 
     public function receipts() {
         return $this->hasMany('Wolosky\Receipt', 'user_id', 'id');
+    }
+                
+    public function setHours() {
+
+        $hours = 0;
+        $minutes = 0;
+
+        foreach($this->schedules as $sche) {
+            
+            $check_in = explode(":",$sche->check_in);
+            $check_out = explode(":",$sche->check_out);
+
+            $h1 = (int)$check_in[0];
+            $m1 = (int)$check_in[1];
+           
+            $h2 = (int)$check_out[0];
+            $m2 = (int)$check_out[1];
+
+            $h = $h2 - $h1;
+            $m = $m2 - $m1;
+
+            
+
+            if($m >= 0) {
+                $hours += $h;
+                $minutes += $m;
+            } else {
+                $hours += $h - 1;
+                $minutes += ($m + 60);
+            }
+
+            
+
+        }
+        
+        for($rr = 0; $rr < $minutes; $rr+=60){
+            $hours ++;
+        }
+        
+        $this->hours = $hours;
+        
+
     }
 
 }
