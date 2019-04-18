@@ -13,6 +13,8 @@
 
 Route::get('/', 'VisitorsController@index');
 Route::get('/noticias', 'VisitorsController@noticias');
+Route::get('/checar', function(){ return view('home/checar'); });
+Route::post('/checar', 'VisitorsController@checar');
 Route::get('/noticias/{id}', 'VisitorsController@articulo');
 Route::get('/quienes', function () {
     return view('home/quienes');
@@ -41,6 +43,7 @@ Route::get('schedules', 'VisitorsController@schedules');
 
 
 Auth::routes();
+Route::get('logout', 'Auth\LoginController@logout');
 Route::get('home', function(){
     return redirect('admin');
 });

@@ -14,10 +14,15 @@ use Wolosky\User;
 use Wolosky\Receipt;
 use Wolosky\Photo;
 use Wolosky\Schedule;
+use Mail;
+use Wolosky\Mail\ContactMail;
 
 class VisitorsController extends Controller
 {
 
+    public function checar(Request $re) {
+        return $re->mensaje;
+    }
     public function schedules() {
         Schedule::where('active', 0)->delete();
         return 'SCHEDULES DELETED WHERE ACTIVE = 0';
@@ -85,20 +90,15 @@ class VisitorsController extends Controller
 
     public function mail(Request $request)
     {
-        $_message = $request->mensaje;
-        $_email = $request->correo;
-        $_name = $request->nombre;
-        echo $_email;
-        $_toSend = "Nombre: " . $_name . "\nE-mail: " . $_email . "\n\nMensaje:\n" . $_message;
-        $to = "gimnasiawolosky@gmail.com";
-        $subject = "Nuevo contacto: " . $_name . " - " . $_email;
-        $headers = "From: $_email" . "\r\n" .
-            "CC: " . $_email;
-
-        if (mail($to, $subject, $_toSend, $headers)) {
-            return back()->with('msj', 'La noticia ha sido creada con exito');
-        } else {
-            return back()->with('error', 'Los datos no de guardaron');
-        }
+        
+        $data = (object) NULL;
+        $data->email = $request->correo;
+        $data->name = $request->nombre;
+        $data->message = $request->mensaje;
+                       
+        Mail::send(new ContactMail($data));
+                
+        return back()->with('msj', 'Mensaje enviado, en breve se le contestara');
+        
     }
 }

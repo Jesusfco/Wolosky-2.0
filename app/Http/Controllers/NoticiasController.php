@@ -7,7 +7,7 @@ use Wolosky\Noticia;
 use Wolosky\Photo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
+use Image;
 use File;
 
 
