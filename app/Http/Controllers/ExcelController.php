@@ -22,6 +22,10 @@ class ExcelController extends Controller
 
     public function __construct(){ 
         $this->middleware('adminCashier'); 
+        // Please add the code before your file download code
+
+        // ob_end_clean();
+        // ob_start();
     }    
 
     public function users(Request $re) {        
