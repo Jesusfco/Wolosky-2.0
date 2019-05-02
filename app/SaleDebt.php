@@ -8,10 +8,17 @@ class SaleDebt extends Model
 {
     protected $table = 'sale_debt';
     protected $fillable = [
-        'user_id', 'sale_id','sta||tus', 'total'
+        'user_id', 'sale_id','status'
     ];
     
     public function user() {
-        return $this->hasOne('Wolosky\User', 'id', 'user_id');
+        return $this->hasOne('Wolosky\User', 'id', 'user_id')->withDefault(function ($user) {
+            $user->name = 'Usuario Inexistente';            
+        });
+    }
+
+    public function receipts()
+    {
+        return $this->hasMany('Wolosky\Receipt', 'sale_id', 'sale_id');
     }
 }

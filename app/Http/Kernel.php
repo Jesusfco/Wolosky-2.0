@@ -20,7 +20,7 @@ class Kernel extends HttpKernel
         \Wolosky\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
 
-        // \Wolosky\Http\Middleware\Cors::class,
+        \Wolosky\Http\Middleware\Cors::class,
 
     ];
 
