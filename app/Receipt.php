@@ -19,7 +19,7 @@ class Receipt extends Model
         'year',
         'type',   
         'payment_type',  
-        'payment' 
+        'payment', 
     ];
 
     public function user() {

@@ -27,7 +27,7 @@ class Sale extends Model
 
     public function description()
     {
-        return $this->hasMany('App\SaleDescription', 'sale_id', 'id');
+        return $this->hasMany('Wolosky\SaleDescription', 'sale_id', 'id');
     }
 
     public function getTotal() {
