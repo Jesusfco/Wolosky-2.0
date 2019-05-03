@@ -17,8 +17,18 @@ class SaleDebt extends Model
         });
     }
 
+    public function sale() {
+        return $this->belongsTo('Wolosky\Sale');
+    }
+
     public function receipts()
     {
         return $this->hasMany('Wolosky\Receipt', 'sale_id', 'sale_id');
+    }
+
+    public function delete() {        
+        $this->sale()->delete();
+        $this->receipts()->delete();
+        parent::delete();
     }
 }

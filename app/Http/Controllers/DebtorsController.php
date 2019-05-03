@@ -23,20 +23,8 @@ class DebtorsController extends Controller
                             ['created_at', '<', $request->to . " 00:00:00"],
                             ['user_id', 'LIKE', "%" . $request->id],
                         ])->orderBy('created_at', 'DESC')
+                        ->with(['sale.description', 'user'])
                         ->paginate($request->items);
-
-        $users =  User::all();
-
-        for($x = 0; $x < count($debts); $x++){
-
-            for($y = 0; $y < count($users); $y++){
-                
-                if($debts[$x]->user_id == $users[$y]->id ){
-                    $debts[$x]->user_name = $users[$y]->name;
-                    break;
-                }            
-            }
-        }    
 
         return response()->json($debts);    
 
@@ -61,31 +49,29 @@ class DebtorsController extends Controller
             $debt->status = false;
             $debt->save();
             
-            $sale->total = $debt->total;
-            $sale->save();
-
-            return response()->json($debt);
+            Receipt::where('sale_id', $sale->id)->delete();            
 
         } else {
 
             $debt->status = true;
             $debt->save();
             
-            $sale->total = 0;
-            $sale->save();
-
-            return response()->json($debt);
+            $receipt = new Receipt();
+            $receipt->user_id = $debt->user_id;
+            $receipt->sale_id = $debt->sale_id;
+            $receipt->amount = $sale->getTotal();
+            $receipt->payment_type = 1;
+            $receipt->save();                        
 
         }
+
+        return response()->json($debt);
 
     }
 
     public function delete(Request $request) {
 
-        $debt = SaleDebt::find($request->id);
-        $sale = Sale::find($debt->sale_id);
-        SaleDescription::where('sale_id', $sale->id)->delete();
-        $sale->delete();
+        $debt = SaleDebt::find($request->id);        
         $debt->delete();
         
         return response()->json(true);
