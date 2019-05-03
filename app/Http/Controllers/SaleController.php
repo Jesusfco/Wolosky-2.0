@@ -34,12 +34,13 @@ class SaleController extends Controller
             $this->decrementStock($description);            
 
         }    
+
+        SaleDescription::insert($array);
         
         if($sale->type == 3) {            
             $debt = new SaleDebt();
-            $debt->user_id =  $saleDebt->user_id;
-            $debt->sale_id = $saleDebt->sale_id;
-            $debt->total = $saleDebt->total;
+            $debt->user_id =  $request->saleDebt['user_id'];
+            $debt->sale_id = $sale->id;            
             $debt->status = 1;        
             $debt->save();  
         } else {
@@ -58,36 +59,7 @@ class SaleController extends Controller
                 
         return response()->json($sale);
 
-    }
-
-    public function storeSaleDebt(Request $request) {
-
-        $user = JWTAuth::parseToken()->authenticate();     
-
-        $saleRequest =   json_decode(json_encode($request->sale), FALSE);            
-        $saleDebt =   json_decode(json_encode($request->saleDebt), FALSE);
-
-        $saleRequest->total = 0;
-        $sale = $this->newSale($saleRequest, $user);   
-
-        $saleDebt->sale_id = $sale->id;
-        $this->createDebt($saleDebt);        
-
-        $array = [];
-        foreach($request->sale['description'] as $description){
-            
-            $description['sale_id'] = $sale->id;            
-            unset($description['product']);
-            unset($description['modify']);
-            $array[] = $description;
-            
-            $this->decrementStock($description);            
-
-        }    
-        
-        return response()->json(true);
-
-    }
+    }    
 
     public function newSale($request, $user){
         $sale = new sale();                
@@ -107,21 +79,20 @@ class SaleController extends Controller
         
         foreach($request->sales as $sale){
 
-            $description = $sale['description'];
-            $sale = json_decode(json_encode($sale), FALSE);
-            $sale = $this->newSale($sale, $user);
-            $this->updateCash($sale);
-            // array_push($salesReturn, $sale);
-            
-            foreach($description as $x){
-         
-                $this->newSaleDescription($x, $sale);                
-                $this->decrementStock($x);
+            $sale = (object) $sale;
 
-            }
+            $re = new Request();
+            $re->created_at = $sale->created_at;
+            $re->description = $sale->description;
+            $re->receipts = $sale->receipts;
+            if(isset($sale->saleDebt))
+                $re->saleDebt = $sale->saleDebt;
+            $re->type = $sale->type;
             
-        }
-        return response()->json('sale description');
+            $this->storeSale($re);            
+        }        
+
+        return response()->json(true);
         
     }    
 
@@ -129,8 +100,9 @@ class SaleController extends Controller
         
         $date = $this->today();
         
-        $sales = DB::table('sale')->where('created_at', 'LIKE', $date . "%")
+        $sales = Sale::where('created_at', 'LIKE', $date . "%")
                         ->orderBy('created_at', 'DESC')
+                        ->with('description')
                         ->get();                 
         
         $sales = $this->pushDescription($sales);
@@ -143,53 +115,20 @@ class SaleController extends Controller
         
         $user = JWTAuth::parseToken()->authenticate(); 
         
-        if(isset($request->to))
-        $sales = DB::table('sale')->whereBetween('created_at', [$request->from . " 00:00:00", $request->to . " 23:59:59"])
+        
+        $sales = Sale::whereBetween('created_at', [$request->from . " 00:00:00", $request->to . " 23:59:59"])
                         ->orderBy('created_at', 'DESC')
-                        ->get();
-        else {
-            $sales = DB::table('sale')->where('created_at', 'LIKE', $request->from . "%")
-                            ->orderBy('created_at', 'DESC')
-                            ->get();
-        } 
-
-        $sales = $this->pushDescription($sales);
+                        ->with('description:price,quantity,sale_id')
+                        ->paginate($request->per_page);                
         
         return response()->json($sales);
     }
 
-    public function pushDescription($sales){
-
-        $z = count($sales);
-        
-        $description = SaleDescription::whereBetween('sale_id', 
-                                            [$sales[$z-1]->id, $sales[0]->id])
-                                            ->get();
-
-        for($x = 0; $x < count($sales); $x++){
-            
-            $sales[$x]->description = [];
-
-            foreach($description as $desc){
-
-                if( $sales[$x]->id == $desc->sale_id){
-                    
-                    $sales[$x]->description[] = $desc;
-
-                }
-
-            }
-
-        }
-
-        return $sales;
-        
-    }
-
+   
     public function showSale($id){
         
-        $sale = Sale::find($id);
-        $sale->description = SaleDescription::where('sale_id', $id)->get();                                
+        
+        $sale = Sale::where('id', $id)->with(['description.product', 'creator', 'receipts.creator', 'saleDebt'])->first();                                
 
         return response()->json($sale);
     }

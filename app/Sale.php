@@ -20,6 +20,10 @@ class Sale extends Model
         });
     }
 
+    public function saleDebt() {
+        return $this->hasOne('Wolosky\SaleDebt', 'sale_id', 'id');
+    }
+
     public function receipts()
     {
         return $this->hasMany('Wolosky\Receipt', 'sale_id', 'id');
