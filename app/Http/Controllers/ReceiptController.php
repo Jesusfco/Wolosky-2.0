@@ -16,15 +16,19 @@ class ReceiptController extends Controller
         $this->middleware('admin', ['only' => ['update', 'delete']]); 
     }
         
-    public function get(Request $request){
+    public function get(Request $re){
         
         $receipts = Receipt::where([
-                                    ['created_at', '>', $request->from . " 00:00:00"],
-                                    ['created_at', '<', $request->to . " 29:59:59"],
-                                    ['user_id', 'LIKE', "%" . $request->id],
-                                ])->orderBy('created_at', 'DESC')->with(['user:id,name', 'creator:id,name'])
-                                ->paginate($request->items);
 
+                                    // ['created_at', '<', $this->nextMonth()],
+                                    // ['created_at', '>', $this->thisMonth()],
+                                    ['created_at', '>', $re->from . " 00:00:00"],
+                                    ['created_at', '<', $re->to . " 23:59:59"],
+                                    // ['user_id', 'LIKE', "%" . $re->id],
+                                ])->orderBy('created_at', 'DESC')->with(['user:id,name', 'creator:id,name'])
+                                ->paginate($re->items)
+                                ;
+            // $receipts->enableQueryLog();
         return response()->json($receipts);                                
                 
     }
@@ -35,7 +39,7 @@ class ReceiptController extends Controller
         $notificactionUser = Array();
 
         $user = User::where(['user_type_id' => 1, 'status' => 1])->get();
-        $receipments =  Receipt::where([
+        $receipts =  Receipt::where([
                                 ['created_at', '<', $this->nextMonth()],
                                 ['created_at', '>', $this->thisMonth()],
                                 ['type', '=', 1]
@@ -47,9 +51,9 @@ class ReceiptController extends Controller
             
             $user[$x]->receipt = false;            
 
-            for($y = 0; count($receipments) > $y; $y++){
+            for($y = 0; count($receipts) > $y; $y++){
 
-                if($receipments[$y]->user_id == $user[$x]->id){
+                if($receipts[$y]->user_id == $user[$x]->id){
 
                     $user[$x]->receipt = true;
                     
