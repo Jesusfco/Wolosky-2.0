@@ -18,7 +18,7 @@ class ResetPasswordController extends Controller
         $user = User::where('email', 'LIKE', $re->email)->first();
 
        if($user == NULL) {
-           return response()->json('msj', 'Correo Inexistente',  404);           
+           return response()->json(false);           
        }
 
        $this->deleteTokenWithEmail($re->email);
@@ -52,7 +52,7 @@ class ResetPasswordController extends Controller
 
         if($t == NULL) return response()->json(false);
 
-        // $this->deleteTokenWithEmail($t->email);
+        $this->deleteTokenWithEmail($t->email);
 
         $user = User::where('email', 'LIKE', $t->email)->first();        
         $user->password = bcrypt($re->password);
