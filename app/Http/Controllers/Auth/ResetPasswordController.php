@@ -4,36 +4,60 @@ namespace Wolosky\Http\Controllers\Auth;
 
 use Wolosky\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Wolosky\User;
+use Wolosky\Reset;
+use Wolosky\Mail\ResetMail;
+use Mail;
+use Illuminate\Http\Request;
+
 
 class ResetPasswordController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Password Reset Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling password reset requests
-    | and uses a simple trait to include this behavior. You're free to
-    | explore this trait and override any methods you wish to tweak.
-    |
-    */
+   public function reset(Request $re) {
 
-    use ResetsPasswords;
+        $user = User::where('email', 'LIKE', $re->email)->first();
 
-    /**
-     * Where to redirect users after resetting their password.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/admin';
+       if($user == NULL) {
+           return response()->json('msj', 'Correo Inexistente',  404);           
+       }
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest');
+       $this->deleteTokenWithEmail($re->email);
+       $token = New Reset();       
+       $token->save2($user->email);
+
+       $data = [];
+       $data['user'] = $user;
+       $data['token'] = $token;
+
+       Mail::send(new ResetMail($data));
+
+       return response()->json(true);
+
+   }
+
+   private function deleteTokenWithEmail($email) {
+    Reset::where('email', 'LIKE', $email)->delete();
+   }
+
+   public function checkToken(Request $re) {
+        $t = Reset::find($re->token);
+        if($t == NULL) return response()->json(false);
+
+        return response()->json(true);
+   }
+
+   public function changePassword(Request $re) {
+
+        $t = Reset::find($re->token);
+
+        if($t == NULL) return response()->json(false);
+
+        // $this->deleteTokenWithEmail($t->email);
+
+        $user = User::where('email', 'LIKE', $t->email)->first();        
+        $user->password = bcrypt($re->password);
+        $user->save();
+        
+        return response()->json(true);
     }
 }

@@ -24,8 +24,8 @@ class ExcelController extends Controller
         $this->middleware('adminCashier'); 
         // Please add the code before your file download code
 
-        // ob_end_clean();
-        // ob_start();
+        ob_end_clean();
+        ob_start();
     }    
 
     public function users(Request $re) {        

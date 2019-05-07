@@ -20,6 +20,10 @@ use Illuminate\Http\Request;
 Route::post('login', 'LoginController@signin');
 Route::get('login/check', 'LoginController@checkAuth');
 
+Route::post('resetPassword', 'Auth\ResetPasswordController@reset');
+Route::post('validateResetToken', 'Auth\ResetPasswordController@checkToken');
+Route::post('setPassword', 'Auth\ResetPasswordController@changePassword');
+
 //USUARIOS
 
 Route::post('userSearch', 'UsersController@get');
