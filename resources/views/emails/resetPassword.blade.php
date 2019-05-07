@@ -7,7 +7,7 @@
     <title></title>
 </head>
 <body>
-    <img src="{{ url('images/Wolosky-Logo.png') }}" width="50px">    
+    <img src="{{ url('images/logo-mail.png') }}" width="150px">    
     <p>Hola, {{ $data['user']->name}} :</p>
     <p>   	         
         Recibimos una solicitud para restablecer tu contraseña de Wolosky.<br>
