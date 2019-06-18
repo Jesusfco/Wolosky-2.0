@@ -19,7 +19,7 @@
             </center>             
         </div>
     
-        <div class="parallax"><img src="images/index/portada.jpg" alt="Unsplashed background img 1"  style="margin-top:0px;"></div>
+        <div class="parallax"><img src="images/index/portada1.jpg" alt="Unsplashed background img 1"  style="margin-top:0px;"></div>
     </div>
 <br>
 
@@ -123,9 +123,7 @@
         <p class="center">Santo Domingo C.P. 29000</p>
         <p class="center">Tuxtla Gutiérrex, Chiapas</p>
     </div>
-
-    <br><br>
-    <img src="images/index/logo1.jpg" id="logo1">
+   
      
 </div>  
   
