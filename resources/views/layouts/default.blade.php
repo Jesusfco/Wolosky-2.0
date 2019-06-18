@@ -60,6 +60,17 @@
                 <li><a href='{{ url('/contacto')}}'>     Contacto      </a></li>
                 <li><a href='{{ url('/login')}}'>     Login      </a></li>
                 <img class="splashBack" src="{{ url('images/nav-splash.jpg')}}">
+
+                {{-- <li><img class="logoNavMobile" src="{{ url('images/Wolosky-Logo.png')}}"></li>
+
+                <li><a href='{{ url('/')}}'> <i class="material-icons">home</i>        Inicio       </a></li> <br>
+                <li><a href='{{ url('/quienes')}}'> <i class="material-icons">lightbulb_outline</i>      Quienes Somos</a></li>
+                <li><a href='{{ url('/noticias')}}'> <i class="material-icons">event_note</i>      Noticias     </a></li>
+                <li><a href='{{ url('/equipo')}}'> <i class="material-icons">group</i>       Equipo       </a></li>
+                <li><a href='{{ url('/contacto')}}'> <i class="material-icons">mail</i>     Contacto      </a></li>
+                <li><a href='{{ url('/login')}}'> <i class="material-icons">security</i>     Login      </a></li>
+                <li><img class="splashBack" src="{{ url('images/nav-splash.jpg')}}"></li> --}}
+
             </ul>      
             <a href='#' data-activates='nav-mobile' class='right button-collapse'><i class='material-icons white-text'>menu</i></a>    
         </div>
