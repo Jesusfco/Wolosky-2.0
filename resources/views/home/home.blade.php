@@ -2,6 +2,7 @@
 
     @section('css')  
         <link rel="stylesheet" type="text/css" href="css/index.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
     @endsection
 
     @section('title')  
@@ -10,7 +11,7 @@
     
 @section('content')        
     
-    <div id="padreParallax" class="parallax-container">    
+    <div id="padreParallax" class="parallax-container" style="100vh">    
       <div class="container" id="hijoParallax">                
             <h1 class="portada1" align="center" style="margin-top: 0px;" >Academia de Gimnasia Wolosky</h1>        
             <h3 id="fade" class="thin slogan" align="center">Una academia de gimnasia con mas de 19 años de experiencia</h3>   
@@ -23,9 +24,10 @@
     </div>
 <br>
 
-    <div class="blogContent">
+    <h2 class="center-align  " id="last_not_title"><i class="material-icons small">event_note</i> Ultimas Noticias <i class="material-icons small">event_note</i></h2>
 
-    
+    <div class="blogContent ">
+        
         @foreach($noticias as $n)
             <div class='blog'>
 
@@ -43,8 +45,8 @@
         @endforeach
     </div>
           
-    
-    <div class="container row queEs blue darken-4 z-depth-4">
+    <br><br><br>
+    <div class="container row queEs blue darken-4 z-depth-4 " id="queEsLaGimnasia">
         <div class="col s12 m8" style="padding: 0px;">
             <img src="images/index/gimnasia.jpg">
         </div>
@@ -112,13 +114,13 @@
 
 <div class="row">
     <br><br>
-    <h2 class="center light">UBICACIÓN</h2>
+    <h2 class="center light " id="ubicationTitle">UBICACIÓN</h2>
     <br>
     <div class="maps">
       <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7640.8387130153105!2d-93.1219049!3d16.7557992!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000%3A0x8e812b55b7fa66f5!2sWolosky+Gimnasia+Artistica!5e0!3m2!1ses!2smx!4v1465791139473" width="1200" height="100%" frameborder="0" style="border:0"   allowfullscreen class="mapa" scaleControl= "false" navigationControl="false"></iframe>
     </div>
     <br>
-    <div class="direccion">
+    <div class="direccion" id="ubicationDescription">
         <p class="center">Avenida 2 poniente 338, Colonia Centro</p>
         <p class="center">Santo Domingo C.P. 29000</p>
         <p class="center">Tuxtla Gutiérrex, Chiapas</p>
@@ -127,7 +129,8 @@
      
 </div>  
   
-  <div class="container row queEs blue darken-4 z-depth-4">
+<div id="schedule">
+  <div class="container row queEs blue darken-4 z-depth-4 ">
         <div class="col s12 l8" style="padding: 0px;">
             <img src="images/index/ubicacion1.jpg">
         </div>
@@ -144,10 +147,14 @@
             </div>
         </div>
   </div>
+</div>
   <br><br>
 
 @endsection
 
-    @section('scripts')    
-        <script src="js/index.js"></script>    
-    @endsection
+@section('scripts')    
+    
+    <script src="{{ url('assets/js/jquery.waypoints.min.js')}}"></script>    
+    <script src="js/index.js"></script>    
+
+@endsection

@@ -34,6 +34,7 @@
       <link href='https://fonts.googleapis.com/css?family=Dancing+Script:400,700' rel='stylesheet' type='text/css'>
 
       <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      
 
 </head>
 <body>
@@ -51,13 +52,14 @@
                 <li><a href='{{ url('/login')}}' class='white-text thin'>     Login      </a></li>
             </ul>
             <ul id='nav-mobile' class='side-nav'>        
+                <img class="logoNavMobile" src="{{ url('images/Wolosky-Logo.png')}}">
                 <li><a href='{{ url('/')}}'>        Inicio       </a></li> 
                 <li><a href='{{ url('/quienes')}}'>      Quienes Somos</a></li>
                 <li><a href='{{ url('/noticias')}}'>       Noticias     </a></li>
                 <li><a href='{{ url('/equipo')}}'>       Equipo       </a></li>
                 <li><a href='{{ url('/contacto')}}'>     Contacto      </a></li>
                 <li><a href='{{ url('/login')}}'>     Login      </a></li>
-                
+                <img class="splashBack" src="{{ url('images/nav-splash.jpg')}}">
             </ul>      
             <a href='#' data-activates='nav-mobile' class='right button-collapse'><i class='material-icons white-text'>menu</i></a>    
         </div>

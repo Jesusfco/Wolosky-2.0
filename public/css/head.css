@@ -1,18 +1,28 @@
- .icon-wolosky { 
- 	font-size: 60px; 
- } 	
-
- .subrayado  { 
-    background-image: url("cenefa.png");
-    background-size: 100% 100%; 
+ .icon-wolosky {
+     font-size: 60px;
  }
-
-@media screen and (max-width: 800px)  { 
-
-    .subrayado  { 
-        background-image: url("cenefa.png");
-        background-size: 1000px auto;
-    }
-}
-
-
+ 
+ .subrayado {
+     background-image: url("cenefa.png");
+     background-size: 100% 100%;
+ }
+ 
+ @media screen and (max-width: 800px) {
+     .subrayado {
+         background-image: url("cenefa.png");
+         background-size: 1000px auto;
+     }
+ }
+ 
+ #nav-mobile .splashBack {
+     position: absolute;
+     bottom: 0;
+     width: 100%;
+     height: 250px;
+ }
+ 
+ .logoNavMobile {
+     width: 75%;
+     display: block;
+     margin: 10px auto;
+ }
