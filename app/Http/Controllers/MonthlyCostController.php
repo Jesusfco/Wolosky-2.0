@@ -62,4 +62,11 @@ class MonthlyCostController extends Controller
         return response()->json(true);
 
     }
+
+    public function show($id) {
+                
+        return response()->json(MonthlyPrices::find($id));
+
+    }
+    
 }
