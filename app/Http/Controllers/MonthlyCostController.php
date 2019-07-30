@@ -4,6 +4,8 @@ namespace Wolosky\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Wolosky\MonthlyPrices;
+use Wolosky\MonthlyPayment;
+use Wolosky\User;
 
 class MonthlyCostController extends Controller
 {
@@ -68,5 +70,21 @@ class MonthlyCostController extends Controller
         return response()->json(MonthlyPrices::find($id));
 
     }
-    
+
+    public function getStudentsSchedules() {
+        $users = User::where([
+            ['user_type_id', 1],
+            ['status', 1]
+            ])->with(['schedules', 'monthlyPayment'])->get();
+        return response()->json($users);
+    }
+
+    public function updateMonthlyPayment(Request $re) {
+        foreach($re->array as $monthly) {
+            MonthlyPayment::where('id', $monthly['id'])->update(['amount' => $monthly['amount'] ]);
+        }
+
+        return response()->json(true);
+    }
+
 }

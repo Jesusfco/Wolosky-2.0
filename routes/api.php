@@ -146,9 +146,11 @@ Route::post('debtors/delete', 'DebtorsController@delete');
 
 //MONTHLY-COST
 Route::get('monthly-cost', 'MonthlyCostController@get');
-Route::get('monthly-cost/{id}', 'MonthlyCostController@show');
+Route::get('monthly-cost/show/{id}', 'MonthlyCostController@show');
+Route::get('monthly-cost/studentSchedules', 'MonthlyCostController@getStudentsSchedules');
 Route::post('monthly-cost/create', 'MonthlyCostController@store');
 Route::post('monthly-cost/update', 'MonthlyCostController@update');
+Route::post('monthly-cost/updateMonthlyPayment', 'MonthlyCostController@updateMonthlyPayment');
 Route::delete('monthly-cost/{id}', 'MonthlyCostController@delete');
 
 // Events

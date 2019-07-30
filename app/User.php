@@ -72,6 +72,10 @@ class User extends Authenticatable {
             return 'Baja';
     }   
 
+    public function monthlyPayment(){
+        return $this->hasOne('Wolosky\MonthlyPayment', 'id', 'monthly_payment_id');
+    }
+
     public function records(){
         return $this->hasMany('Wolosky\Record', 'user_id', 'id');
     }
