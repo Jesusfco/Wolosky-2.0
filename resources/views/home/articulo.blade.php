@@ -4,6 +4,13 @@
     <title>{{ $noticias->titulo }} - Wolosky Noticias - Gimnasia Artística - Tuxtla Gutierrez, Chiapas</title>
 @endsection        
 @section('css')  
+    <meta property="og:url"                content="{{ url('noticias', $noticias->id)}}" />
+    <meta property="og:type"               content="article" />
+    <meta property="fb:app_id"               content="1087647381316356" />
+    <meta property="og:title"              content="{{ $noticias->titulo }}" />
+    <meta property="og:description"        content="{{ $noticias->resumen }}" />
+    <meta property="og:image"              content="{{ url('images/noticias/' . $noticias->id . '/' . $noticias->img) }}" />
+
     <link rel='stylesheet' type='text/css' href='../css/noticias.css'>
 
     <link rel="stylesheet" type="text/css" href="{{ asset('gallery/css/blueimp-gallery.css') }}">
