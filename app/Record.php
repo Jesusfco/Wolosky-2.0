@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Record extends Model {
 
     protected $fillable = [
-        'check_in',
-        'check_Out',
+        'checkIn',
+        'checkOut',
         'worked_hours',
         'extra_hours',        
         'date', 
@@ -22,7 +22,7 @@ class Record extends Model {
     public $timestamps = false;
     
     public function user() {
-        return $this->hasOne('Wolosky\User', 'id', 'user_id');
+        return $this->belongsTo('Wolosky\User');
     }
 
 }

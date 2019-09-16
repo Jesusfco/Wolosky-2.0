@@ -11,6 +11,8 @@
 |
 */
 
+Route::get('/test', 'VisitorsController@test');
+
 Route::get('/', 'VisitorsController@index');
 Route::get('/noticias', 'VisitorsController@noticias');
 Route::get('/checar', function(){ return view('home/checar'); });

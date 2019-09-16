@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Wolosky\User;
 use Wolosky\Schedule;
 use Wolosky\Receipt;
+use Wolosky\Record;
 use Wolosky\Sales;
 use Wolosky\SaleDebt;
 use Wolosky\Product;
@@ -287,6 +288,28 @@ class ExcelController extends Controller
 
     }
 
+    public function records(Request $re) {
+        
+        $records = Record::whereBetween('date', [$re->from, $re->to])
+        ->orderBy('date', 'DESC')->whereHas('user', function ($query) use ($re) {
+
+            $query->where('name', 'LIKE', "%$re->name%");
+
+            if($re->type == 1) //TRABAJADORES
+                $query->whereBetween('user_type_id', [2,4]);
+
+            if($re->type == 2) //GIMNASTAS
+                $query->where('user_type_id', 1);
+
+        })->with(['user:name,id,user_type_id,status'])->get();
+
+        Excel::create('Asistencias_'. $re->from . "_" . $re->to, function($excel) use ($records){
+            $excel->sheet('hoja1', function($sheet) use ($records){
+                $sheet->loadView('excel/records')->with(['records' => $records]);
+            });
+        })->export('xls');
+    }
+
     public function expenses(Request $request){
 
         $expenses = Expense::where([
@@ -356,16 +379,16 @@ class ExcelController extends Controller
         if(isset($request->to))
         $sales = DB::table('sale')
                         ->whereBetween('created_at', [$request->from, $request->to . " 23:59:59"])
-                        ->orderBy('created_at', 'DESC')
+                        ->orderBy('created_at', 'DESC')->with('description')
                         ->get();
         else {
             $sales = DB::table('sale')
                         ->where('created_at', 'LIKE', $request->from . "%")
-                        ->orderBy('created_at', 'DESC')
+                        ->orderBy('created_at', 'DESC')->with('description')
                         ->get();
         } 
 
-        $sales = $this->pushDescription($sales);
+        
 
         $users = User::where('user_type_id', '>', 2)->get();
 
@@ -421,26 +444,7 @@ class ExcelController extends Controller
 
     }
 
-    public function pushDescription($sales){
-        $z = count($sales);
-        
-        $description = DB::table('sale_description')
-                                    ->whereBetween('sale_id', [$sales[$z-1]->id, $sales[0]->id])                                    
-                                    ->get();
-        
-        for($x = 0; $x < count($sales); $x++){
-            $sales[$x]->description = [];
-            foreach($description as $desc){
-
-                if( $sales[$x]->id == $desc->sale_id){
-                    $sales[$x]->description[] = $desc;
-                }
-
-            }
-        }
-
-        return $sales;
-    }
+    
 
     public function getInventory(Request $request) {
         

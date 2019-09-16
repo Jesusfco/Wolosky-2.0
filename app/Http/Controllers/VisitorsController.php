@@ -14,6 +14,7 @@ use Wolosky\User;
 use Wolosky\Receipt;
 use Wolosky\Photo;
 use Wolosky\Schedule;
+use Wolosky\Record;
 use Mail;
 use Wolosky\Mail\ContactMail;
 
@@ -101,4 +102,14 @@ class VisitorsController extends Controller
         return back()->with('msj', 'Mensaje enviado, en breve se le contestara');
         
     }
+
+    public function test() {
+
+        $records = Record::whereHas('user', function ($query) {
+            $query->where('name', 'LIKE', "%jav%");
+        })->with('user')->get();
+        return $records;
+
+    }
+
 }

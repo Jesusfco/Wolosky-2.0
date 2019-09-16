@@ -124,6 +124,7 @@ Route::delete('expenses/{id}', 'ExpensesController@delete');
 
 // EXPORT EXCEL
 Route::get('excel/users', 'ExcelController@users');
+Route::post('excel/records', 'ExcelController@records');
 Route::get('excel/receipt', 'ExcelController@receipt');
 Route::get('excel/expenses', 'ExcelController@expenses');
 Route::get('excel/debtors', 'ExcelController@debtors');
