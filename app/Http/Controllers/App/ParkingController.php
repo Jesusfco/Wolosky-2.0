@@ -18,8 +18,9 @@ class ParkingController extends Controller
         $parkings = Parking::where([
             ['created_at', '>', $re->from . " 00:00:00"],
             ['created_at', '<', $re->to . " 29:59:59"],
-            ['user_id', 'LIKE', "%" . $re->id],
-        ])->orderBy('created_at', 'DESC')->with(['user:id,name', 'creator:id,name'])->get();
+        ])->whereHas('user', function ($query) use ($re) {
+            $query->where('name', 'LIKE', "%$re->name%");
+        })->orderBy('created_at', 'DESC')->with(['user:id,name', 'creator:id,name'])->get();
         // ->paginate($request->items);
 
         return response()->json($parkings);

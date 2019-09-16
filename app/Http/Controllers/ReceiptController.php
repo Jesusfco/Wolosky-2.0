@@ -18,17 +18,15 @@ class ReceiptController extends Controller
         
     public function get(Request $re){
         
-        $receipts = Receipt::where([
-
-                                    // ['created_at', '<', $this->nextMonth()],
-                                    // ['created_at', '>', $this->thisMonth()],
-                                    ['created_at', '>', $re->from . " 00:00:00"],
-                                    ['created_at', '<', $re->to . " 23:59:59"],
-                                    // ['user_id', 'LIKE', "%" . $re->id],
-                                ])->orderBy('created_at', 'DESC')->with(['user:id,name', 'creator:id,name'])
-                                ->paginate($re->items)
-                                ;
-            // $receipts->enableQueryLog();
+        $receipts = Receipt::where([                                    
+                            ['created_at', '>', $re->from . " 00:00:00"],
+                            ['created_at', '<', $re->to . " 23:59:59"],                                    
+                        ])->whereHas('user', function ($query) use ($re) {
+                            $query->where('name', 'LIKE', "%$re->name%");
+                        })
+                        ->orderBy('created_at', 'DESC')->with(['user:id,name', 'creator:id,name'])
+                        ->paginate($re->items);
+            
         return response()->json($receipts);                                
                 
     }

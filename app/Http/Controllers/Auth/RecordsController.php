@@ -23,4 +23,23 @@ class RecordsController extends Controller
 
         return response()->json($records);
     }
+
+    
+    public function delete(Request $re) {
+        
+        Record::whereBetween('date', [$re->from, $re->to])
+        ->whereHas('user', function ($query) use ($re) {
+            $query->where('name', 'LIKE', "%$re->name%");            
+
+            if($re->type == 1) //TRABAJADORES
+                $query->whereBetween('user_type_id', [2,4]);
+
+            if($re->type == 2) //GIMNASTAS
+                $query->where('user_type_id', 1);
+        })->delete();
+    
+
+        return response()->json(true);
+        
+    }
 }

@@ -91,6 +91,7 @@ Route::post('workers-payment/update', 'Auth\PaymentsController@update');
 
 // Asistencioas
 Route::post('records', 'Auth\RecordsController@list');
+Route::post('records/delete', 'Auth\RecordsController@delete');
 
 // Punto de venta Route
 

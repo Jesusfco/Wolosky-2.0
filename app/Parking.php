@@ -12,7 +12,7 @@ class Parking extends Model
         ];
 
     public function user() {
-        return $this->hasOne('Wolosky\User', 'id', 'user_id')->withDefault([
+        return $this->belongsTo('Wolosky\User')->withDefault([
             'name' => 'Usuario Desconocido',
         ]);
     }

@@ -15,41 +15,31 @@ class SchedulesController extends Controller
         if($re->type == 1) {
 
             $users = User::where([
-                ['user_type_id', 1],
-                ['status', 1],
-                ])->select('id', 'name', 'user_type_id')
+                    ['user_type_id', 1],
+                    ['status', 1],
+                    ['name', 'LIKE',"%$re->name%"],
+                    ])->select('id', 'name', 'user_type_id')
                 ->orderBy('name', 'ASC')->get();
 
         } else {
 
-            $users = User::where('status', 1)->whereBetween('user_type_id', [2,4])->select('id', 'name', 'user_type_id')
+            $users = User::where('status', 1)->where('name', 'LIKE',"%$re->name%")
+                    ->whereBetween('user_type_id', [2,4])
+                    ->select('id', 'name', 'user_type_id')
                 ->get();
 
         }
         
 
-        $schedules = Schedule::all();
-
-        for($i = 0; $i < count($schedules); $i++) {
-
-            foreach($users as $u) {
-
-                if($u->id == $schedules[$i]->user_id){
-                    $schedules[$i]->verify = true;
-                    break;
-                }
-
+        $schedules = Schedule::whereHas('user', function ($query) use ($re) {
+            $query->where('name', 'LIKE', "%$re->name%");
+            $query->where('status', 1);
+            if($re->type == 1) {
+                $query->where('user_type_id', 1);                
+            } else {
+                $query->whereBetween('user_type_id', [2,4]);
             }
-
-        }
-
-        for($i = 0; $i < count($schedules); $i++) { 
-            if(!isset($schedules[$i]->verify)) {
-                $schedules[$i] = null;
-
-                // unset($schedules[$i]);
-            }
-        }
+        })->get();        
 
         return response()->json(['users' => $users, 'schedules' => $schedules]);
     }
