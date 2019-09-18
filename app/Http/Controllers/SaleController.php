@@ -55,6 +55,7 @@ class SaleController extends Controller
             $receipt->amount = $re->amount;
             $receipt->type = 0;
             $receipt->save();
+            $sale->receipt = $receipt;
         }
                 
         return response()->json($sale);

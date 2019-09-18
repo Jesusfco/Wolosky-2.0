@@ -21,11 +21,15 @@ class ReceiptController extends Controller
         $receipts = Receipt::where([                                    
                             ['created_at', '>', $re->from . " 00:00:00"],
                             ['created_at', '<', $re->to . " 23:59:59"],                                    
-                        ])->whereHas('user', function ($query) use ($re) {
-                            $query->where('name', 'LIKE', "%$re->name%");
-                        })
-                        ->orderBy('created_at', 'DESC')->with(['user:id,name', 'creator:id,name'])
-                        ->paginate($re->items);
+                        ])->orderBy('created_at', 'DESC')
+                        ->with(['user:id,name', 'creator:id,name', 'event:id,name']);
+
+        if($re->name != NULL)
+            $receipts = $receipts->whereHas('user', function ($query) use ($re) {
+                $query->where('name', 'LIKE', "%$re->name%");
+            });
+
+        $receipts = $receipts->paginate($re->items);
             
         return response()->json($receipts);                                
                 
@@ -116,6 +120,7 @@ class ReceiptController extends Controller
         
         $receipt->month = $request->month;            
         $receipt->days = $request->days;                    
+        $receipt->description = $request->description;                    
                 
         if($request->payment_type == false){
             $cash = Cash::find(1);

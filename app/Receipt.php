@@ -45,7 +45,7 @@ class Receipt extends Model
         else if ($this->type == 2)
             return"INSCRIPCION";
         else if($this->type == 3)
-            return"DIAS";
+            return"OTRO";
         else if($this->type == 4)
             return"UNIFORME";   
         else if($this->type == 5)
