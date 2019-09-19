@@ -10,11 +10,13 @@ class Expense extends Model
     
             
     protected $fillable = [
-    'amount','creator_id', 'description', 'name'
+    'amount','creator_id', 'description', 'name', 'from_cashbox'
     ];
 
     public function creator() {
-        return $this->hasOne('Wolosky\User', 'id', 'creator_id');
+        return $this->hasOne('Wolosky\User', 'id', 'creator_id')->withDefault([
+            'name' => 'Usuario Desconocido',
+        ]);
     }
    
 }

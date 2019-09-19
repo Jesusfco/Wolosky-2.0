@@ -12,7 +12,9 @@ class Event extends Model
         ];
 
     public function creator() {
-        return $this->hasOne('Wolosky\User', 'id', 'creator_id');
+        return $this->hasOne('Wolosky\User', 'id', 'creator_id')->withDefault([
+            'name' => 'Usuario Desconocido',
+        ]);
     }
 
     public function participants() {

@@ -113,8 +113,8 @@ Route::post('sales/sugestDebt' , 'SaleController@sugestDebt');
 
 //Cashhh
 
-Route::post('cash', 'CashController@update');
-Route::get('cutout', 'CashController@cutout');
+Route::post('cash', 'App\CashController@update');
+Route::get('cutout', 'App\CashController@cutout');
 
 //EXPENSES
 Route::post('expenses', 'ExpensesController@get');
