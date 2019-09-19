@@ -188,7 +188,46 @@ class ExcelController extends Controller
 
     public function schedules(Request $re) {
 
-        $data = json_decode($re->data, TRUE);            
+        $data = json_decode($re->data, TRUE);  
+        
+        if($re->from != NULL && $re->to != NULL) {
+
+            
+            for($i = 0; $i < count($data); $i++){
+
+                $data[$i]['users'] = [];
+
+                
+                foreach($data[$i]['schedules'] as $sche){
+                    
+                    foreach($sche['users'] as $user){
+
+                        
+                        $unique = true;
+                        foreach($data[$i]['users'] as $u){
+                            if($u['user_id'] == $user['user_id']) $unique = false;
+                        }
+
+                        if($unique)
+                            $data[$i]['users'][] = $user;
+                    }
+                }
+            }
+
+            $send = ['data' => $data, 'from' => $re->from, 'to' => $re->to];
+            Excel::create('Horarios', function($excel) use ($send){
+
+                $excel->sheet('Horarios', function($sheet) use ($send){
+    
+                    $sheet->loadView('excel/schedulesFromTo')->with(['data' => $send]);
+    
+                });
+    
+            })->export('xls');
+
+            return;
+
+        }
 
         Excel::create('Horarios', function($excel) use ($data){
 
@@ -201,71 +240,7 @@ class ExcelController extends Controller
         })->export('xls');
 
 
-        return view('excel.schedules', [
-            'data' => $data
-        ]);
-
-        if($re->type == 1) {
-
-            $users = User::where([
-                ['user_type_id', 1],
-                ['status', 1],
-                ])->select('id', 'name', 'user_type_id')
-                ->orderBy('name', 'ASC')->get();
-
-        } else {
-
-            $users = User::where('status', 1)->whereBetween('user_type_id', [2,4])->select('id', 'name', 'user_type_id')
-                ->get();
-
-        }
-        
-        $schedules = Schedule::where('active', true)->get();
-
-        for($i = 0; $i < count($schedules); $i++) {
-
-            foreach($users as $u) {
-
-                if($u->id == $schedules[$i]->user_id){
-                    $schedules[$i]->verify = true;
-                    break;
-                }
-
-            }
-
-        }
-
-        for($i = 0; $i < count($schedules); $i++) { 
-            if(!isset($schedules[$i]->verify)) {
-                $schedules[$i] = null;
-
-                // unset($schedules[$i]);
-            }
-        }
-
-
-        if($re->type == 1) 
-            $tipo = 'ALUMNOS';
-        else 
-            $tipo = 'TRABAJADORES';
-
-        $dataAnalisis = $this->organizeSchedulePerDay($schedules, $users);
-
-        $i = 1;
-        foreach($dayScheduleArray as $day){
-
-            $day->
-            $i++;
-        }
-        return $dataAnalisis;
-
-        Excel::create('Horarios_'. $tipo, function($excel) use ($dataAnalisis){
-            $excel->sheet('hoja 1', function($sheet) use ($dataAnalisis){
-
-                $sheet->loadView('excel/schedules')->with(['dataAnalisis' => $dataAnalisis]);
-
-            });
-        })->export('xls');
+       
 
 
     }

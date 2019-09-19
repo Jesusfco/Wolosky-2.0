@@ -39,7 +39,15 @@ class SchedulesController extends Controller
             } else {
                 $query->whereBetween('user_type_id', [2,4]);
             }
-        })->get();        
+        });
+        
+        if($re->from != NULL && $re->to != NULL) 
+            $schedules = $schedules->where([
+                ['check_in', '>=', $re->from],
+                ['check_out', '<=', $re->to],
+            ]);
+        
+        $schedules = $schedules->get();
 
         return response()->json(['users' => $users, 'schedules' => $schedules]);
     }
