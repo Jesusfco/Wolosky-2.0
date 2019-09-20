@@ -134,7 +134,13 @@ class SaleController extends Controller
         return response()->json($sale);
     }
     
+    public function delete(Request $re) {
+        $sale = Sale::find($re->id);
 
+        if($sale->type <= 2) {
+            
+        }
+    }
     public function sugestDebt(Request $request) {
         $users = User::where('name', 'LIKE', '%'. $request->keyword .'%')->select('id','name')->get();
         return response()->json($users);
