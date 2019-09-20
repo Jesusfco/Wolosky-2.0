@@ -133,21 +133,7 @@ class SaleController extends Controller
 
         return response()->json($sale);
     }
-
-    public function today(){
-        $date = getdate()['year'] . '-';
-
-        if(getdate()['mon'] < 10) 
-            $date .= '0' . getdate()['mon'] . '-';
-        else { $date .= getdate()['mon'] . '-'; } 
-
-        if(getdate()['mday'] < 10 )
-            $date .= '0' . getdate()['mday'];
-        else { $date .= getdate()['mday']; }
-
-        return $date;
-
-    }
+    
 
     public function sugestDebt(Request $request) {
         $users = User::where('name', 'LIKE', '%'. $request->keyword .'%')->select('id','name')->get();
