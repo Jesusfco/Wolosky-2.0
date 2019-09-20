@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CashboxHistory extends Model
 {
-    // public $timestamps = false;
+    public $timestamps = false;
 
     protected $fillable = [
         'amount', 'creator_id', 'cashbox_id', 'allow', 'created_at'

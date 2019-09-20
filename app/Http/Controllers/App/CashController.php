@@ -8,6 +8,7 @@ use Wolosky\Cash;
 use Wolosky\CashboxHistory;
 use Wolosky\Receipt;
 use Wolosky\Expense;
+use JWTAuth;
 
 class CashController extends Controller
 {
@@ -16,10 +17,21 @@ class CashController extends Controller
     public function update(Request $request)
     {
         $cash = Cash::find(1);
+
+        $history = new CashboxHistory();
+        $history->creator_id = JWTAuth::parseToken()->authenticate()->id;
+        $history->amount = $cash->amount;
+        $history->allow = $request->cash;
+        $history->cashbox_id = 1;
+        $history->save();
+
         $cash->amount = $request->cash;
         $cash->save();
 
-        return response()->json($cash);
+        return response()->json([
+            'cash' => $cash,
+            'history' => $history
+        ]);
     }
 
     public function cutout()
@@ -27,30 +39,29 @@ class CashController extends Controller
 
         $history = CashboxHistory::latest()->with('creator')->first();
         if($history == NULL) return response()->json(false);
-            
-        
-        // return response()->json($history);
+
         $from = $history->created_at;
-        $receipts = Receipt::where('created_at', '>', $from)
-                            ->orderBy('created_at', 'DESC')
-                            ->get();                 
+
+        $receipts = Receipt::where([
+                ['created_at', '>', $from],
+                ['payment_type', 0]
+            ])->orderBy('created_at', 'DESC')->with('user:id,name')->get();                 
 
         $expenses = Expense::where([
-                                ['created_at', '>', $from],                
-                            ])->orderBy('created_at', 'DESC')->with('creator')
-                            ->get();        
+                        ['created_at', '>', $from],                
+                        ['from_cashbox', true],                
+                    ])->orderBy('created_at', 'DESC')->with('creator:id,name')
+                    ->get();        
 
         $totalReceipt = 0;
         $totalExpense = 0;
         
-        foreach($receipts as $r){
-            if(!$r->payment_type)
-                $totalReceipt += $r->amount;
+        foreach($receipts as $r) {            
+            $totalReceipt += $r->amount;
         }
 
-        foreach($expenses as $r){
-            if(!$r->payment_type)
-                $totalExpense += $r->amount;
+        foreach($expenses as $r) {         
+            $totalExpense += $r->amount;
         }
 
         return response()->json([
@@ -62,18 +73,4 @@ class CashController extends Controller
             ]);
     }
 
-    public function today(){
-        $date = getdate()['year'] . '-';
-
-        if(getdate()['mon'] < 10) 
-            $date .= '0' . getdate()['mon'] . '-';
-        else { $date .= getdate()['mon'] . '-'; } 
-
-        if(getdate()['mday'] < 10 )
-            $date .= '0' . getdate()['mday'];
-        else { $date .= getdate()['mday']; }
-
-        return $date;
-
-    }
 }
