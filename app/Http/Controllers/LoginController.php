@@ -3,12 +3,13 @@
 namespace Wolosky\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Wolosky\CashboxHistory;
+use Wolosky\Product;
 use Wolosky\User;
 use Wolosky\Cash;
-use Illuminate\Support\Facades\Auth;
-use Tymon\JWTAuth\Exceptions\JWTException;
-//use JWTAuth;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use JWTAuth;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -46,6 +47,8 @@ class LoginController extends Controller
             'token' => $token,
             'user' => $user,
             'cash' => Cash::find(1)->amount,
+            'cash_history_last' => CashboxHistory::latest()->with('creator')->first(),
+            'products' => Product::orderBy('name', 'ASC')->get()
 
         ],200);
     }
@@ -59,6 +62,8 @@ class LoginController extends Controller
         return response()->json([
             'user' => $user,
             'cash' => Cash::find(1)->amount,
+            'cash_history_last' => CashboxHistory::latest()->with('creator')->first(),
+            'products' => Product::orderBy('name', 'ASC')->get()
         ]);
 
     }
