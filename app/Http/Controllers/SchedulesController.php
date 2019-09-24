@@ -34,17 +34,16 @@ class SchedulesController extends Controller
         $schedules = Schedule::whereHas('user', function ($query) use ($re) {
             $query->where('name', 'LIKE', "%$re->name%");
             $query->where('status', 1);
-            if($re->type == 1) {
+            if($re->type == 1) 
                 $query->where('user_type_id', 1);                
-            } else {
-                $query->whereBetween('user_type_id', [2,4]);
-            }
+            else 
+                $query->whereBetween('user_type_id', [2,4]);            
         });
         
         if($re->from != NULL && $re->to != NULL) 
             $schedules = $schedules->where([
-                ['check_in', '>=', $re->from],
-                ['check_out', '<=', $re->to],
+                ['check_in', '<=', $re->from],
+                ['check_out', '>=', $re->to],
             ]);
         
         $schedules = $schedules->get();
