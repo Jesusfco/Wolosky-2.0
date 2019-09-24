@@ -102,7 +102,7 @@ Route::get('inventory/{id}', 'ProductController@show');
 Route::delete('inventory/delete/{id}', 'ProductController@delete');
 
 Route::post('sale', 'SaleController@storeSale');
-Route::post('sale', 'SaleController@storeSale');
+Route::post('sale/delete', 'SaleController@delete');
 Route::post('saleDebt', 'SaleController@storeSaleDebt');
 
 Route::post('sale/outService', 'SaleController@storeSaleOutService');
