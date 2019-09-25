@@ -2,6 +2,7 @@
 
 namespace Wolosky\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Wolosky\Sale;
 use Wolosky\SaleDescription;
@@ -13,6 +14,7 @@ use Wolosky\Receipt;
 
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\DB;
+use Wolosky\CashboxHistory;
 
 class SaleController extends Controller
 {
@@ -137,15 +139,28 @@ class SaleController extends Controller
     public function delete(Request $re) {
         $sale = Sale::find($re->id);
 
-        if($re->type == 1) 
-            Receipt::where('sale_id', $sale->id)->delete();
+        if($re->type == 1) {
+            
+            $history = CashboxHistory::latest()->with('creator')->first();
+
+            $receipt = Receipt::where('sale_id', $sale->id)->get()->first();
+
+            if(Carbon::parse($sale->created_at)->gte(Carbon::parse($history->created_at)) &&
+                $receipt->payment_type == 0){
+                Cash::substract($sale->getTotal());
+            }
+
+            
+
+        }
+            
         
-        $sale->delete();
+        // $sale->delete();
 
         return response()->json(true);
 
     }
-    
+
     public function sugestDebt(Request $request) {
         $users = User::where('name', 'LIKE', '%'. $request->keyword .'%')->select('id','name')->get();
         return response()->json($users);
