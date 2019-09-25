@@ -140,22 +140,25 @@ class SaleController extends Controller
         $sale = Sale::find($re->id);
 
         if($re->type == 1) {
-            
-            $history = CashboxHistory::latest()->with('creator')->first();
 
             $receipt = Receipt::where('sale_id', $sale->id)->get()->first();
 
-            if(Carbon::parse($sale->created_at)->gte(Carbon::parse($history->created_at)) &&
-                $receipt->payment_type == 0){
-                Cash::substract($sale->getTotal());
-            }
+            if($receipt != NULL) {
 
+                $history = CashboxHistory::latest()->with('creator')->first();
             
+                if(Carbon::parse($sale->created_at)->gte(Carbon::parse($history->created_at)) &&
+                    $receipt->payment_type == 0){
+                    Cash::substract($sale->getTotal());
+                }
+                
+                $receipt->delete();
+
+            }                        
 
         }
-            
-        
-        // $sale->delete();
+                    
+        $sale->delete();
 
         return response()->json(true);
 

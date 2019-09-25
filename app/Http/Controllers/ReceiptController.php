@@ -2,12 +2,14 @@
 
 namespace Wolosky\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Wolosky\Receipt;
 use Wolosky\User;
 use Wolosky\MonthlyPayment;
 use Wolosky\Cash;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Wolosky\CashboxHistory;
 
 class ReceiptController extends Controller
 {   
@@ -145,9 +147,26 @@ class ReceiptController extends Controller
 
     }
 
-    public function delete($id){        
-        Receipt::find($id)->delete();
+    public function delete($id){   
+        
+        $receipt = Receipt::find($id);
+
+        if($receipt != NULL) {
+
+            $history = CashboxHistory::latest()->first();
+        
+            if(Carbon::parse($receipt->created_at)->gte(Carbon::parse($history->created_at)) &&
+                $receipt->payment_type == 0){ 
+
+                Cash::substract($receipt->amount);
+
+            }
+        }
+
+        $receipt->delete();
+
         return response()->json(true);
+        
     }
 
     public function show($id){
