@@ -45,7 +45,7 @@ class ExcelController extends Controller
             if($re->typeT && $re->typeO)                
                 $users->whereIn('user_type_id', [1,2,3,4]);                                            
             else if(!$re->typeT && $re->typeO)  
-                $users->whereIn('user_type_id', [1,5,6,7]);
+                $users->whereIn('user_type_id', [1,5,6]);
             else if(!$re->typeT && !$re->typeO)  
                 $users->where('user_type_id', 1);
         } else {
@@ -53,9 +53,7 @@ class ExcelController extends Controller
             if($re->typeT && !$re->typeO)                 
                 $users->whereIn('user_type_id', [2,3,4]);            
             else if(!$re->typeT && $re->typeO) 
-                $users->whereIn('user_type_id', [5,6,7]);
-            else 
-                return back();            
+                $users->whereIn('user_type_id', [5,6]);                    
         }               
                     
         if($re->genderM && !$re->genderF){            
@@ -84,15 +82,12 @@ class ExcelController extends Controller
         
         if($re->hours1 != NULL && $re->hours2 != NULL)  {
 
-            for($i=0; $i < count($users); $i++) {
-                $users[$i]->setHours();                                                        
-            }
+            for($i=0; $i < count($users); $i++) 
+                $users[$i]->setHours();                                                                    
 
             $users2 = [];
 
-            foreach($users as $us) {
-
-                // echo "$us->name - horas: $us->hours" . "<br>";
+            foreach($users as $us) {                
 
                 if($us->hours >= $re->hours1 && $us->hours <= $re->hours2) {
                     $users2[] = $us;
@@ -100,8 +95,7 @@ class ExcelController extends Controller
             }
 
             $users = $users2;
-
-            // return;
+            
         }
 
         Excel::create('Usuarios', function($excel) use ($users){

@@ -25,23 +25,90 @@ class UsersController extends Controller
         $this->middleware('admin', ['only' => ['deleteUser', 'createSalary']]); 
     }
 
-    public function get(Request $request)
+    private function searchUsersWithFilter($re) {
+        $users = User::whereNotNull('id');
+
+        if($re->typeA == "true") $re->typeA = true; else $re->typeA = false;
+        if($re->typeT == "true") $re->typeT = true; else $re->typeT = false;
+        if($re->typeO == "true") $re->typeO = true; else $re->typeO = false;
+        if($re->genderM == "true") $re->genderM = true; else $re->genderM = false;
+        if($re->genderF == "true") $re->genderF = true; else $re->genderF = false;
+        if($re->active == "true") $re->active = true; else $re->active = false;
+        if($re->inactive == "true") $re->inactive = true; else $re->inactive = false;
+
+        if($re->typeA)  {            
+            if($re->typeT && $re->typeO)                
+                $users->whereIn('user_type_id', [1,2,3,4]);                                            
+            else if(!$re->typeT && $re->typeO)  
+                $users->whereIn('user_type_id', [1,5,6]);
+            else if(!$re->typeT && !$re->typeO)  
+                $users->where('user_type_id', 1);
+        } else {
+            
+            if($re->typeT && !$re->typeO)                 
+                $users->whereIn('user_type_id', [2,3,4]);            
+            else if(!$re->typeT && $re->typeO) 
+                $users->whereIn('user_type_id', [5,6]);
+            // else 
+                // return back();            
+        }               
+                    
+        if($re->genderM && !$re->genderF)            
+            $users->where('gender', 1);  
+        else if(!$re->genderM && $re->genderF)
+            $users->where('gender', 2);          
+
+        if($re->active && !$re->inactive) 
+            $users->where('status', 1);  
+        else if(!$re->active && $re->inactive)
+            $users->where('status', '>=',2);
+              
+
+        if($re->age1 != NULL && $re->age2 != NULL) {
+
+            $from = Carbon::now();
+            $to = ($from->year - $re->age1)."-$from->month-$from->day";
+            $from = ($from->year - ($re->age2+1))."-$from->month-$from->day";                
+            $users->whereBetween('birthday', [$from, $to ]);
+        }
+
+        return $users->orderBy('status', 'ASC')->orderBy('name', 'ASC');        
+        
+        // if($re->hours1 != NULL && $re->hours2 != NULL)             
+        //     $users->with('schedules');                        
+
+        // $users =  $users->orderBy('status', 'ASC')->orderBy('name', 'ASC');        
+        
+        // -------- FILTRADO EN HORAS POR SEMANA ---------
+        // if($re->hours1 != NULL && $re->hours2 != NULL)  { 
+        //     for($i=0; $i < count($users); $i++) 
+        //         $users[$i]->setHours();                                                                    
+        //     $users2 = [];
+        //     foreach($users as $us) {                
+        //         if($us->hours >= $re->hours1 && $us->hours <= $re->hours2) {
+        //             $users2[] = $us;
+        //         }
+        //     }
+        //     $users = $users2;
+        // }
+    }
+
+    public function get(Request $re)
     {
         $creator = JWTAuth::parseToken()->authenticate();
 
         if($creator->user_type_id >= 6){
             
-            $users = User::where('name', 'LIKE', '%'. $request->searchWord .'%')
+            $users = $this->searchUsersWithFilter($re)->where('name', 'LIKE', '%'. $re->searchWord .'%')
                         ->select('id', 'name', 'phone', 'gender', 'user_type_id', 'status')
-                        ->orderBy('status', 'ASC')
-                        ->orderBy('name', 'ASC')
-                        
-                        ->paginate($request->items);
+                        // ->orderBy('status', 'ASC')
+                        // ->orderBy('name', 'ASC')                        
+                        ->paginate($re->items);
 
         } else if($creator->user_type_id == 3 || $creator->user_type_id == 4 ){
 
             $users =  User::where([
-                            ['name', 'LIKE', '%'. $request->searchWord .'%'],
+                            ['name', 'LIKE', '%'. $re->searchWord .'%'],
                             ['user_type_id', '=', 1],
                             ])
                             ->select('id', 'name', 'phone', 'gender', 'user_type_id', 'status')
@@ -50,7 +117,7 @@ class UsersController extends Controller
                             ->orderBy('name', 'ASC')
                             
                             
-                            ->paginate($request->items);
+                            ->paginate($re->items);
         }
 
         return response()->json($users);
@@ -214,6 +281,20 @@ class UsersController extends Controller
         if($user->user_type_id >= 2 && $user->user_type_id <= 4) {            
             if($user->salary_id == NULL) {
                 $user->salary_id = $this->createSalary($request->salary);
+            } else {
+                $user->salary->amount =  $request->salary['amount'];
+                $user->salary->bonus =  $request->salary['bonus'];
+                $user->salary->salary_type_id =  $request->salary['salary_type_id'];
+                $user->salary->save();
+            }
+        }
+
+        if($user->user_type_id == 1) {            
+            if($user->monthly_payment_id == NULL) {
+                $user->monthly_payment_id = $this->createMonthlyPayment($request->monthly_payment);
+            } else {
+                $user->monthly_payment->amount =  $request->monthly_payment['amount'];                
+                $user->monthly_payment->save();
             }
         }
 
