@@ -12,26 +12,30 @@
     </tr>
 
     
-            @foreach($data['data'] as $day) 
-
-                @if(count($day['users']) > 0)
+           
 
                 <table>
                     <tr>
-                        <th>DÍA {{$day['day']}}</th>
+                        @foreach($data['data'] as $day)                             
+                            <th>{{$day['day_name']}}</th>                            
+                        @endforeach
+                    </tr>                    
+
+                    @foreach($data['names'] as $users) 
+                    <tr>                                                    
+                        @foreach($users as $user)
+                            @if($user != NULL)
+                                <td>{{ $user }}</td>
+                            @else
+                                <td>hola</td>
+                            @endif
+                        @endforeach
                     </tr>
-
-                    @foreach($day['users'] as $user)
-                        <tr><td>{{ $user['user_name'] }}</td></tr>
                     @endforeach
-
-                </table>
-
-                @endif
-
-            @endforeach
-            
-    
+                </table>   
+                
+                {{-- <tr>{{$data['names']}} --}}
+                
 
 </body>
 </html>

@@ -180,35 +180,81 @@ class ExcelController extends Controller
         return $dayScheduleArray;
     }
 
+    private function organizeSchedulePerHour($data){
+        for($i = 0; $i < count($data); $i++){
+
+            $data[$i]['users'] = [];                
+            
+            foreach($data[$i]['schedules'] as $sche){                    
+
+                foreach($sche['users'] as $user){
+                    
+                    $unique = true;
+                    foreach($data[$i]['users'] as $u)
+                        if($u['user_id'] == $user['user_id']) 
+                            $unique = false;
+
+                    if($unique)
+                        $data[$i]['users'][] = $user;
+
+                }
+            }
+        }
+        return $data;
+    }
+
+    private function getSpecialArray($data) {
+        $array = [];
+
+        //Encontrar el valor maximo
+        $max = 0;
+        $counter = [];
+        foreach($data as $d) {
+            $count = count($d['users']);
+            if($count > $max) $max = $count;            
+            $counter[] = $count;
+        }
+
+        
+        for($i = 0; $i < $max; $i++) {
+            
+            $element = [];
+
+            if(isset($data[0]['users'][$i])) $element[] = $data[0]['users'][$i];
+            else $element[] = NULL;
+
+            if(isset($data[1]['users'][$i])) $element[] = $data[1]['users'][$i];
+            else $element[] = NULL;
+
+            if(isset($data[2]['users'][$i])) $element[] = $data[2]['users'][$i];
+            else $element[] = NULL;
+
+            if(isset($data[3]['users'][$i])) $element[] = $data[3]['users'][$i];
+            else $element[] = NULL;
+
+            if(isset($data[4]['users'][$i])) $element[] = $data[4]['users'][$i];
+            else $element[] = NULL;
+
+            if(isset($data[5]['users'][$i])) $element[] = $data[5]['users'][$i];
+            else $element[] = NULL;
+
+            $array[] = $element;
+        }
+
+        return $array;
+    }
+
     public function schedules(Request $re) {
 
         $data = json_decode($re->data, TRUE);  
         
         if($re->from != NULL && $re->to != NULL) {
-
             
-            for($i = 0; $i < count($data); $i++){
+            $data = $this->organizeSchedulePerHour($data);
+            $names = $this->getSpecialArray($data);
+            // return $names;
+            $send = ['data' => $data, 'from' => $re->from, 'to' => $re->to, 'names' => $names];
 
-                $data[$i]['users'] = [];
-
-                
-                foreach($data[$i]['schedules'] as $sche){
-                    
-                    foreach($sche['users'] as $user){
-
-                        
-                        $unique = true;
-                        foreach($data[$i]['users'] as $u){
-                            if($u['user_id'] == $user['user_id']) $unique = false;
-                        }
-
-                        if($unique)
-                            $data[$i]['users'][] = $user;
-                    }
-                }
-            }
-
-            $send = ['data' => $data, 'from' => $re->from, 'to' => $re->to];
             Excel::create('Horarios', function($excel) use ($send){
 
                 $excel->sheet('Horarios', function($sheet) use ($send){
