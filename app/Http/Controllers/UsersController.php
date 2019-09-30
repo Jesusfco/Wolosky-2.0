@@ -37,9 +37,9 @@ class UsersController extends Controller
         if($re->inactive == "true") $re->inactive = true; else $re->inactive = false;
 
         if($re->typeA)  {            
-            if($re->typeT && $re->typeO)                
-                $users->whereIn('user_type_id', [1,2,3,4]);                                            
-            else if(!$re->typeT && $re->typeO)  
+            // if($re->typeT && $re->typeO)                
+            //     $users->whereIn('user_type_id', [1,2,3,4]);                                            
+            if(!$re->typeT && $re->typeO)  
                 $users->whereIn('user_type_id', [1,5,6]);
             else if(!$re->typeT && !$re->typeO)  
                 $users->where('user_type_id', 1);
@@ -73,7 +73,7 @@ class UsersController extends Controller
         }
 
         return $users->orderBy('status', 'ASC')->orderBy('name', 'ASC');        
-        
+
         // if($re->hours1 != NULL && $re->hours2 != NULL)             
         //     $users->with('schedules');                        
 
