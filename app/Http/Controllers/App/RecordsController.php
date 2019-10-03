@@ -1,6 +1,6 @@
 <?php
 
-namespace Wolosky\Http\Controllers\Auth;
+namespace Wolosky\Http\Controllers\App;
 
 use Illuminate\Http\Request;
 use Wolosky\Http\Controllers\Controller;
@@ -25,7 +25,7 @@ class RecordsController extends Controller
     }
 
     
-    public function delete(Request $re) {
+    public function deleteBetweenDates(Request $re) {
         
         Record::whereBetween('date', [$re->from, $re->to])
         ->whereHas('user', function ($query) use ($re) {
@@ -38,8 +38,44 @@ class RecordsController extends Controller
                 $query->where('user_type_id', 1);
         })->delete();
     
-
         return response()->json(true);
         
+    }
+
+    public function show($id) {
+        $record = Record::where('id', $id)->with('user')->first();
+        return response()->json($record);
+    }
+
+    public function create(Request $re) {
+
+        $record = new Record();
+        $record->checkIn = $re->checkIn;
+        $record->checkOut = $re->checkOut;
+        $record->user_id = $re->user_id;
+        $record->save();
+
+        return response()->json($record);
+
+    }
+
+    public function update($id, Request $re) {
+        
+        $record = Record::find($id);
+
+        $record->checkIn = $re->checkIn;
+        $record->checkOut = $re->checkOut;
+        $record->date = $re->date;
+        $record->save();
+
+        return response()->json($record);
+
+    }
+
+    public function delete($id) {
+        
+        Record::find( $id)->delete();       
+        return response()->json(true);
+
     }
 }

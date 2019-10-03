@@ -90,8 +90,11 @@ Route::get('workers-payment/delete/{id}', 'Auth\PaymentsController@destroy');
 Route::post('workers-payment/update', 'Auth\PaymentsController@update');
 
 // Asistencioas
-Route::post('records', 'Auth\RecordsController@list');
-Route::post('records/delete', 'Auth\RecordsController@delete');
+Route::post('records', 'App\RecordsController@list');
+Route::get('record/show/{id}', 'App\RecordsController@show');
+Route::post('record/update/{id}', 'App\RecordsController@update');
+Route::get('record/delete/{id}', 'App\RecordsController@delete');
+Route::post('records/delete', 'App\RecordsController@deleteBetweenDates');
 
 // Punto de venta Route
 
