@@ -68,4 +68,6 @@ Route::post('admin/noticias/{id}', 'NoticiasController@update');
 
 Route::get('/admin', 'HomeController@index');
 
+Route::get('barcode', 'PDFController@getProductsWithCodeBar');
+
 // Route::get('/migrate', 'VisitorsController@migration');

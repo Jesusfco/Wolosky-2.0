@@ -7,6 +7,7 @@ use Wolosky\MonthlyPayment;
 use Wolosky\User;
 use Wolosky\Schedule;
 use Wolosky\Salary;
+use Wolosky\Product;
 use Wolosky\Payment;
 use Wolosky\Reference;
 use Wolosky\RecordUserStatus;
@@ -94,5 +95,15 @@ class PDFController extends Controller
                                 ['user' => $user, 
                                 'schedules' => $schedules, ]);
             return $pdf->download('Horarios_De_' . $user->name . '.pdf');
+    }
+
+    public function productsForSale() {
+        $products = Product::orderBy('name', 'ASC')->get();
+
+        // return view('pdf.products')->with('products', $products);
+
+        $pdf = PDF::loadView('pdf.products', 
+            ['products' => $products,]);
+        return $pdf->download('Productos_Wolosky.pdf');
     }
 }
