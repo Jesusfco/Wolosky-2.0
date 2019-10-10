@@ -144,6 +144,7 @@ Route::get('excel/event/receipts/{id}', 'ExcelController@eventReceipts');
 Route::get('pdf/user', 'PDFController@userResume');
 Route::get('pdf/scheduleUser', 'PDFController@personalSchedule');
 Route::get('pdf/productsForSale', 'PDFController@productsForSale');
+Route::get('pdf/userCredential/{id}', 'PDFController@userCredential');
 
 //Debtors
 Route::post('debtors', 'DebtorsController@get');

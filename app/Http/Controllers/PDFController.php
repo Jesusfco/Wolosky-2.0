@@ -106,4 +106,9 @@ class PDFController extends Controller
             ['products' => $products,]);
         return $pdf->download('Productos_Wolosky.pdf');
     }
+
+    public function userCredential($id){
+        $user = User::find($id);
+        return view('pdf.credentialStudent')->with('user', $user);
+    }
 }
