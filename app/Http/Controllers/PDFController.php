@@ -109,6 +109,11 @@ class PDFController extends Controller
 
     public function userCredential($id){
         $user = User::find($id);
-        return view('pdf.credentialStudent')->with('user', $user);
+        // return view('pdf.credentialStudent')->with('user', $user);
+
+        $pdf = PDF::loadView('pdf/credentialStudent', 
+            // ['user' => $user,]);
+            ['user' => $user,])->setPaper('a4', 'landscape');
+        return $pdf->stream('Alumno' . $user->name .'.pdf');
     }
 }

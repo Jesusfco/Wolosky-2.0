@@ -5,6 +5,7 @@ namespace Wolosky;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Carbon;
+use Illuminate\Support\Facades\URL;
 
 class User extends Authenticatable {
 
@@ -99,6 +100,11 @@ class User extends Authenticatable {
 
     public function receipts() {
         return $this->hasMany('Wolosky\Receipt', 'user_id', 'id');
+    }
+
+    public function getImgPath() {
+        
+        return URL::path('images/app/users/' + $this->img);
     }
                 
     public function setHours() {
