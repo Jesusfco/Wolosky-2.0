@@ -8,7 +8,6 @@ use Wolosky\Schedule;
 
 class SchedulesController extends Controller
 {
-
     
     public function getStudents(Request $re) {
 
@@ -30,7 +29,6 @@ class SchedulesController extends Controller
 
         }
         
-
         $schedules = Schedule::whereHas('user', function ($query) use ($re) {
             $query->where('name', 'LIKE', "%$re->name%");
             $query->where('status', 1);
@@ -51,16 +49,7 @@ class SchedulesController extends Controller
                     ['check_in', '>=', $re->from],
                     ['check_in', '<', $re->to],
                 ]);
-            });
-            //     ['check_in', '>=', $re->from],
-            //     ['check_in', '<=', $re->to],
-            //     ['check_out', '<=', $re->to],
-            // ]);
-            // $schedules = $schedules->where([
-            //     ['check_in', '>=', $re->from],
-            //     ['check_in', '<=', $re->to],
-            //     ['check_out', '<=', $re->to],
-            // ]);
+            });            
         
         $schedules = $schedules->get();
 
