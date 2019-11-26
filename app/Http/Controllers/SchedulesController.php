@@ -41,10 +41,26 @@ class SchedulesController extends Controller
         });
         
         if($re->from != NULL && $re->to != NULL) 
-            $schedules = $schedules->where([
-                ['check_in', '<=', $re->from],
-                ['check_out', '>=', $re->to],
-            ]);
+            $schedules = $schedules->where(function($query) use ($re) {
+                $query->where([
+                    ['check_out', '<=', $re->to],
+                    ['check_out', '>', $re->from]
+                ]);
+
+                $query->orWhere([                    
+                    ['check_in', '>=', $re->from],
+                    ['check_in', '<', $re->to],
+                ]);
+            });
+            //     ['check_in', '>=', $re->from],
+            //     ['check_in', '<=', $re->to],
+            //     ['check_out', '<=', $re->to],
+            // ]);
+            // $schedules = $schedules->where([
+            //     ['check_in', '>=', $re->from],
+            //     ['check_in', '<=', $re->to],
+            //     ['check_out', '<=', $re->to],
+            // ]);
         
         $schedules = $schedules->get();
 
