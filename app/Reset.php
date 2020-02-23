@@ -12,6 +12,9 @@ class Reset extends Model
         'email', 'token'
     ];
 
+
+    private $token_lenght = 50;
+
     public $timestamps = false;
     public $incrementing = false;
     protected $primaryKey = 'token';
@@ -30,7 +33,7 @@ class Reset extends Model
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < $this->token_lenght; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;
