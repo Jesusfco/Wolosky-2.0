@@ -9,12 +9,12 @@ class Record extends Model {
     protected $fillable = [
         'checkIn',
         'checkOut',
-        'worked_hours',
-        'extra_hours',        
+        'time_worked',
+        'time_extra',        
         'date', 
         'observation',
-        'status',
-        'confirmation',
+        'type',
+        // 'confirmation',
         'user_id'
     ];
 
@@ -22,7 +22,9 @@ class Record extends Model {
     public $timestamps = false;
     
     public function user() {
-        return $this->belongsTo('Wolosky\User');
+        return $this->belongsTo('Wolosky\User')->withDefault([
+            'name' => 'Usuario Desconocido',
+        ]);
     }
 
 }

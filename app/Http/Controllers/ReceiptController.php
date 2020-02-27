@@ -37,7 +37,7 @@ class ReceiptController extends Controller
                 
     }
 
-    public function getAnalisis(){
+    public function getDebtorsAnalisis(Request $re){
 
         $notificacionCount = 0;
         $notificactionUser = Array();

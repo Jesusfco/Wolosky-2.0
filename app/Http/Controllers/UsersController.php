@@ -100,7 +100,7 @@ class UsersController extends Controller
         if($creator->user_type_id >= 6){
             
             $users = $this->searchUsersWithFilter($re)->where('name', 'LIKE', '%'. $re->searchWord .'%')
-                        ->select('id', 'name', 'phone', 'gender', 'user_type_id', 'status')
+                        ->select('id', 'name', 'birthday', 'gender', 'user_type_id', 'status')
                         // ->orderBy('status', 'ASC')
                         // ->orderBy('name', 'ASC')                        
                         ->paginate($re->items);
@@ -111,7 +111,7 @@ class UsersController extends Controller
                             ['name', 'LIKE', '%'. $re->searchWord .'%'],
                             ['user_type_id', '=', 1],
                             ])
-                            ->select('id', 'name', 'phone', 'gender', 'user_type_id', 'status')
+                            ->select('id', 'name', 'birthday', 'gender', 'user_type_id', 'status')
                             
                             ->orderBy('status', 'ASC')
                             ->orderBy('name', 'ASC')

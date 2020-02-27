@@ -24,6 +24,8 @@ Route::post('resetPassword', 'Auth\ResetPasswordController@reset');
 Route::post('validateResetToken', 'Auth\ResetPasswordController@checkToken');
 Route::post('setPassword', 'Auth\ResetPasswordController@changePassword');
 
+Route::get('dashboard', 'App\UtilController@dashboard');
+
 //USUARIOS
 
 Route::post('userSearch', 'UsersController@get');
@@ -65,6 +67,7 @@ Route::post('user/updateSalary', 'UsersController@updateSalary');
 
 //RECIBOS CONTROLLADORES
 Route::post('receipt/get', 'ReceiptController@get');
+Route::post('receipt/getDebtorsAnalisis', 'ReceiptController@getDebtorsAnalisis');
 Route::post('receipt', 'ReceiptController@create');
 Route::post('receipt/update', 'ReceiptController@update');
 Route::get('receipt/show/{id}', 'ReceiptController@show');
@@ -72,7 +75,7 @@ Route::delete('receipt/delete/{id}', 'ReceiptController@delete');
 Route::post('receipt/checkUnique', 'ReceiptController@checkLastReceipt');
 
 
-Route::get('receipt/analisis', 'ReceiptController@getAnalisis');
+// Route::get('receipt/analisis', 'ReceiptController@getAnalisis');
 
 
 Route::post('receipt/sugestUser', 'ReceiptController@sugestUser');
