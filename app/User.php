@@ -149,4 +149,27 @@ class User extends Authenticatable {
 
     }
 
+    public function getCodeBar(){
+        // C128B Codebar Format
+        if($this->curp == NULL)
+            return $this->id;
+        return $this->curp;
+    }
+
+    public function referencePhone($x) {
+        $lenght = count($this->references);
+        // return $this->references[0];
+        $founds = 0;
+        if($lenght > 0){
+            for($i = 0; $i < $lenght; $i++) {
+                if($this->references[$i]->phone != NULL) {
+                    if($founds == $x) return $this->references[$i]->phone;
+                    $founds++;
+                }
+            }
+        }
+
+        return "";
+    }
+
 }
