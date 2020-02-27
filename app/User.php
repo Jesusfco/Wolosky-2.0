@@ -102,6 +102,12 @@ class User extends Authenticatable {
         return $this->hasMany('Wolosky\Receipt', 'user_id', 'id');
     }
 
+    public function lastMonthly() {
+        
+        return $this->hasOne('Wolosky\Receipt', 'user_id', 'id')->latest();
+        
+    }
+
     public function getImgPath() {
         
         return URL::path('images/app/users/' + $this->img);

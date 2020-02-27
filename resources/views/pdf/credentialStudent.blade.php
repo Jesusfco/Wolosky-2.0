@@ -161,7 +161,7 @@
 </head>
 <body>        
             
-    @for($i = 0; $i <=0; $i++)
+    @for($i = 0; $i <= 0; $i++)
     <div class="w3-row w3-border">
 
         <table class="w3-table  principalTable">

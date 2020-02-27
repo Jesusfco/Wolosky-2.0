@@ -3,6 +3,8 @@
 namespace Wolosky\Http\Controllers;
 
 use Carbon\Carbon;
+// use Illuminate\Database\Eloquent\Builder;
+// use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\Request;
 use Wolosky\Receipt;
 use Wolosky\User;
@@ -37,61 +39,49 @@ class ReceiptController extends Controller
                 
     }
 
-    public function getDebtorsAnalisis(Request $re){
-
-        $notificacionCount = 0;
-        $notificactionUser = Array();
-
-        $user = User::where(['user_type_id' => 1, 'status' => 1])->get();
-        $receipts =  Receipt::where([
-                                ['created_at', '<', $this->nextMonth()],
-                                ['created_at', '>', $this->thisMonth()],
-                                ['type', '=', 1]
-                            ])->get();
-
-        $montly = MonthlyPayment::where('amount', 0)->get();
+    public function getDebtorsAnalisis(Request $re){        
         
-        for($x = 0; count($user) > $x; $x++){
-            
-            $user[$x]->receipt = false;            
+        $pendUsers = User::where([
+                    ['user_type_id','=', 1], 
+                    ['status','=', 1]
+                ])->with(['monthly_payment', 'receipts' => function($query) use ($re) {
+                    $query->where('type',  1)->orderBy('created_at', 'DESC');                    
+                }])->whereDoesntHave('receipts', function($query) use ($re){                    
+                    $query->where([
+                        ['type',  1],                                
+                        ['year', '=', $re->year],
+                        ['month',  '=',$re->month],
+                    ]);        
+                })->orderBy('name', 'ASC')
+                ->select('id', 'user_type_id', 'name', 'birthday', 'monthly_payment_id')
+                ->get();
 
-            for($y = 0; count($receipts) > $y; $y++){
+        $regularUsers = User::where([
+            ['user_type_id','=', 1], 
+            ['status','=', 1]
+        ])->with(['monthly_payment', 'receipts' => function($query) use ($re) {
+            $query->where([
+                ['type',  1],                                
+                ['year', '=', $re->year],
+                ['month',  '=',$re->month],
+            ]);   
+        }])->whereHas('receipts', function($query) use ($re){                    
+            $query->where([
+                ['type',  1],                                
+                ['year', '=', $re->year],
+                ['month',  '=',$re->month],
+            ]);        
+        })->orderBy('name', 'ASC')
+        ->select('id', 'user_type_id', 'name', 'birthday', 'monthly_payment_id')
+        ->get();
 
-                if($receipts[$y]->user_id == $user[$x]->id){
-
-                    $user[$x]->receipt = true;
-                    
-                    break;
-
-                }                                
-
-            }
-
-            if($user[$x]->receipt == false)
-                foreach($montly as $w){
-                    if($w->id == $user[$x]->monthly_payment_id){
-                        $user[$x]->receipt = true;
-                        break;
-                    }
-                }
-
-            if($user[$x]->receipt == false){
-                $notificacionCount++;
-
-                $us = new User();
-                $us->id = $user[$x]->id;
-                $us->name = $user[$x]->name;
-
-                $notificactionUser[] = $us;
-            }
-        }
-
-        return response()->json([
-            'count' => $notificacionCount, 
-            'users' => $notificactionUser
+        
+        return response()->json([            
+            'pendUsers' => $pendUsers,
+            'regularUsers' => $regularUsers,
             ]);
 
-    }//Final de fucntion
+    }
 
     public function sugestUser(Request $request){
         $users = User::where([
