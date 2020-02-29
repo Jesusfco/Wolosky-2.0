@@ -53,6 +53,10 @@ class RecordsController extends Controller
         $record->checkIn = $re->checkIn;
         $record->checkOut = $re->checkOut;
         $record->user_id = $re->user_id;
+        $record->type = $re->type;
+        $record->time_worked = $re->time_worked;
+        $record->time_extra = $re->time_extra;
+        $record->observation = $re->observation;
         $record->save();
 
         return response()->json($record);
@@ -66,6 +70,10 @@ class RecordsController extends Controller
         $record->checkIn = $re->checkIn;
         $record->checkOut = $re->checkOut;
         $record->date = $re->date;
+        $record->type = $re->type;
+        $record->time_worked = $re->time_worked;
+        $record->time_extra = $re->time_extra;
+        $record->observation = $re->observation;
         $record->save();
 
         return response()->json($record);
@@ -74,7 +82,7 @@ class RecordsController extends Controller
 
     public function delete($id) {
         
-        Record::find( $id)->delete();       
+        Record::find($id)->delete();       
         return response()->json(true);
 
     }

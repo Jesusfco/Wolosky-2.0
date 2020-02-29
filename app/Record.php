@@ -27,4 +27,10 @@ class Record extends Model {
         ]);
     }
 
+    public function typeView() {
+        if($this->type == 0) return 'Normal';
+        if($this->type == 1) return 'Entrada/Salida fuera de rango';
+        return 'Sin horario relacionado';
+    }
+
 }
