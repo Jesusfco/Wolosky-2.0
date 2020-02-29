@@ -303,6 +303,53 @@ class ExcelController extends Controller
 
     }
 
+    public function monthlyDebtor(Request $re) {
+
+        $pendUsers = User::where([
+            ['user_type_id','=', 1], 
+            ['status','=', 1]
+        ])->with(['monthly_payment', 'receipts' => function($query) use ($re) {
+            $query->where('type',  1)->orderBy('created_at', 'DESC');                    
+        }])->whereDoesntHave('receipts', function($query) use ($re){                    
+            $query->where([
+                ['type',  1],                                
+                ['year', '=', $re->year],
+                ['month',  '=',$re->month],
+            ]);        
+        })->orderBy('name', 'ASC')
+        ->select('id', 'user_type_id', 'name', 'birthday', 'monthly_payment_id')
+        ->get();
+
+        $regularUsers = User::where([
+            ['user_type_id','=', 1], 
+            ['status','=', 1]
+        ])->with(['monthly_payment', 'receipts' => function($query) use ($re) {
+            $query->where([
+                ['type',  1],                                
+                ['year', '=', $re->year],
+                ['month',  '=',$re->month],
+            ]);   
+        }])->whereHas('receipts', function($query) use ($re){                    
+            $query->where([
+                ['type',  1],                                
+                ['year', '=', $re->year],
+                ['month',  '=',$re->month],
+            ]);        
+        })->orderBy('name', 'ASC')
+        ->select('id', 'user_type_id', 'name', 'birthday', 'monthly_payment_id')
+        ->get();
+
+        $array = ['debtors' => $pendUsers, 'regular' => $regularUsers ];
+        Excel::create('Mensualidades Pendientes_ Mes'. $re->month . "_Año" . $re->year, function($excel) use ($array){
+            $excel->sheet('Alumnos Pendientes', function($sheet) use ($array) {
+                $sheet->loadView('excel/monthlyDebtor1')->with(['users' => $array[ 'debtors']]);
+            });
+            $excel->sheet('Alumnos Regulares', function($sheet) use ($array) {
+                $sheet->loadView('excel/monthlyDebtor2')->with(['users' => $array ['regular']]);
+            });
+        })->export('xls');
+    }
+
     public function records(Request $re) {
         
         $records = Record::whereBetween('date', [$re->from, $re->to])

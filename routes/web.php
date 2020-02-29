@@ -11,7 +11,7 @@
 |
 */
 
-// Route::get('/test/{id}', 'PDFController@userCredential');
+Route::get('/test', 'VisitorsController@test');
 
 Route::get('/', 'VisitorsController@index');
 Route::get('/noticias', 'VisitorsController@noticias');

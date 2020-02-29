@@ -105,10 +105,11 @@ class VisitorsController extends Controller
 
     public function test() {
 
-        $records = Record::whereHas('user', function ($query) {
-            $query->where('name', 'LIKE', "%jav%");
-        })->with('user')->get();
-        return $records;
+        
+        $fp = fopen('results.json', 'w');
+        fwrite($fp, json_encode("hola"));
+        fclose($fp);
+        return json_encode("hola");
 
     }
 

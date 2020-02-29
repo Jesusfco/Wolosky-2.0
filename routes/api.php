@@ -142,6 +142,7 @@ Route::post('excel/schedules', 'ExcelController@schedules');
 Route::get('excel/event/participants/{id}', 'ExcelController@participantsEvent');
 Route::get('excel/event/participantsInf/{id}', 'ExcelController@participantsInf');
 Route::get('excel/event/receipts/{id}', 'ExcelController@eventReceipts');
+Route::get('excel/monthlyDebtor', 'ExcelController@monthlyDebtor');
 
 //Exportaciones PDF
 Route::get('pdf/user', 'PDFController@userResume');
