@@ -25,6 +25,7 @@ Route::post('validateResetToken', 'Auth\ResetPasswordController@checkToken');
 Route::post('setPassword', 'Auth\ResetPasswordController@changePassword');
 
 Route::get('dashboard', 'App\UtilController@dashboard');
+Route::post('dashboard/details', 'App\UtilController@dashboardDetails');
 
 //USUARIOS
 
