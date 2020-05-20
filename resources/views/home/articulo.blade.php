@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.visitor')
         
 @section('title')
     <title>{{ $articulo->titulo }} - Wolosky Noticias - Gimnasia Artística - Tuxtla Gutierrez, Chiapas</title>
@@ -61,10 +61,15 @@
             </div>
         </div>
 
-        <div style="display: none;">{{ $youtu = $articulo->youtube}}</div>
+        <div style="display: none;"></div>
+        @if($articulo->youtube != NULL)
         <div class='col s12 l8 offset-l2'> 
-          <div class='video-container'><?php echo $youtu; ?></div>
+          <div class='video-container'>
+            {!! $articulo->getYoutubeFrame() !!}
+            </div>
         </div>
+
+        @endif
 
         <!--Facebooks Scripts       -->
         <div id='fb-root'></div>

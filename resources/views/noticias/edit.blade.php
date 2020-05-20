@@ -5,7 +5,7 @@
     
 
     <div class="panel panel-default" id="principal">
-        <div class="panel-heading"><h2>Noticias >> Editar</h2></div>
+      <h5><a href="/admin/noticias">Noticias</a> / Editar</h5>
         @if(session()->has('msj'))
             <div class="alert alert-success alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

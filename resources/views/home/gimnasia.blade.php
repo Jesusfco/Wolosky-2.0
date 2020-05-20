@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.visitor')
      
 @section('title')
     <title>¿Qué es la gimnasia? - Wolosky - Gimnasia Artística - Tuxtla Gutierrez, Chiapas</title>

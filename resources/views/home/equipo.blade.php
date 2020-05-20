@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.visitor')
  @section('title')
     <title>Equipo Wolosky - Gimnasia Artística - Tuxtla Gutierrez, Chiapas</title>
 @endsection

@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.visitor')
      
 @section('title')
     <title>Contacto Wolosky - Gimnasia Artística - Tuxtla Gutierrez, Chiapas</title>

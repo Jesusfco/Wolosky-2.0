@@ -61,7 +61,7 @@ class NoticiasController extends Controller
         $file_route = time().'_'. $img->getClientOriginalName();
 
 
-        $noticias = new \Wolosky\Noticia();
+        $noticias = new Noticia();
         $noticias->titulo = $request->titulo;
         $noticias->resumen = $request->resumen;
         $noticias->fecha= $request->fecha;
@@ -78,7 +78,7 @@ class NoticiasController extends Controller
         ->save("images/noticias/" . $noticias->id . '/' . $file_route);
 
         if($noticias->save()) { 
-            return back()->with('msj', 'La noticia ha sido creada con exito');
+            return redirect('admin/noticias')->with('success', 'La noticia ha sido creada con exito');
         } else { 
             return back()->with('error', 'Los datos no de guardaron');
         }                                
@@ -146,7 +146,7 @@ class NoticiasController extends Controller
         $noticias->youtube = $request->youtube;
 
         if($noticias->save()) {
-            return back()->with('msj', 'La noticia ha sido modificada con exito');
+            return back()->with('success', 'La noticia ha sido modificada con exito');
         } else {
             return back()->with('error', 'Los datos no de guardaron');
         }
@@ -158,9 +158,8 @@ class NoticiasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
-    {
-        $id =  $request->id;
+    public function destroy($id)
+    {        
         $n = Noticia::find($id);
         Photo::where('noticia_id', $n->id)->delete();
         File::deleteDirectory('images/noticias/' . $n->id);

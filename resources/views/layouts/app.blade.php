@@ -9,88 +9,74 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Wolosky Panel</title>
+    <title>@yield('title') - Wolosky Panel</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link href="{{url('/css/aplicationDefault.css')}}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{{ url('css/materialize.min.css')}}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="{{ asset('css/panel.css') }}" type="text/css" rel="stylesheet" media="screen,projection"/>    
     <link rel="stylesheet" type="text/css" href="{{ url('fonts2/style.css')}}">
     @yield('styles')
 
 <!-- Scripts -->
     <script>
-        window.Laravel = <?php echo json_encode([
-            'csrfToken' => csrf_token(),
-        ]); ?>
+        // window.Laravel = {{ json_encode([ 'csrfToken' => csrf_token(),  ])}}         
     </script>
 </head>
 <body>
-<div id="app">
-    <nav class="navbar navbar-default navbar-fixed-top" style="margin-bottom: 0">
-        <div class="container">
-            <div class="navbar-header">
 
-                <!-- Collapsed Hamburger -->
-                <button type="button" class="navbar-toggle " id="menuBoton">
-                    <span class="glyphicon glyphicon-th-list" ></span>
-                </button>
+    @include('layouts.menuAdmin')
 
-                <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <span class='icon-wolosky' style="font-size:50px; color: white; display: block; margin-top: -12px"></span>
-                </a>
-            </div>
+    <div class="flex "> 
+               
+      <div class="panelNavFake"></div>                
 
-            <div class="collapse navbar-collapse" id="app-navbar-collapse">
-
-                <!-- Right Side Of Navbar -->
-                <ul class="nav navbar-nav navbar-right">
-                    <!-- Authentication Links -->
-                    @if (Auth::guest())
-                        <li><a href="{{ url('/login') }}">Login</a></li>
-
-                    @else
-                        <li id="notification"><a href=""> <span class="glyphicon glyphicon-inbox"></span></a></li>
-                        <li id="logout">
-                            <a href="{{ route('logout') }}"
-                               onclick="event.preventDefault();
-                                     document.getElementById('logout-form').submit();">
-                                Cerrar Sesión <span class="glyphicon glyphicon-off"></span>
-                            </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                            </form>
-                        </li>
-
-                    @endif
-                </ul>
-
-
-            </div>
-        </div>
-    </nav>
-
-    <br><br>
-    @if(Auth::guest())
-        <br><br>
+      <div class="container">
         @yield('content')
-    @else
-
-            @include('layouts.menuAdmin')
+      </div>
+    </div>
+    
 
     <br>
-        <div class="spacePadding">
-            @yield('content')
-        </div>
 
-    @endif
 
-</div>
 
-<!-- Scripts -->
-<script src="{{ url('/js/app.js') }}"></script>
-<script src="{{ url('/js/Aplication/aplicationDefault.js') }}"></script>
-@yield('scripts')
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> --}}
+    {{-- <script src="{{ url('js/materialize.min.js')}}"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="{{ asset('assets/sweet/sweetalert.min.js')}}"></script>
+    <script src="{{ asset('js/admin/delete.js')}}"></script>
+    <script>
+
+        function toogleMenu() {
+        $("#panelNav").toggleClass("active")
+        }
+
+
+        const actualUrl = "{{ url()->current() }}"
+        const baseUrl = "{{ url('/') }}"
+
+            $(document).ready(function(){                
+                // $('select').formSelect();
+                // $('.fixed-action-btn').floatingActionButton();
+                $('.tooltipped').tooltip();
+            })
+            
+            @if(session('msj'))    
+                M.toast({html: '{{session('msj')}}', displayLength: 5000})        
+            @endif
+
+            @if(session('error'))    
+                M.toast({html: '{{session('error')}}', classes: 'red', displayLength: 6500})        
+            @endif
+            @if(session('success'))    
+                M.toast({html: "{{ session('success') }}", classes: 'green', displayLength: 6500})        
+            @endif
+
+    </script>
+
+    @yield('scripts')
 </body>
 </html>

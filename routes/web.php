@@ -52,10 +52,10 @@ Route::get('home', function(){
 
 Route::get('recordss', 'Auth\PaymentsController@insertRecords');
 
-Route::get('admin/noticias/list', 'NoticiasController@index');
+Route::get('admin/noticias', 'NoticiasController@index');
 Route::get('admin/noticias/create', 'NoticiasController@create');
 Route::post('admin/noticias/create', 'NoticiasController@store');
-Route::get('admin/noticias/destroy', 'NoticiasController@destroy');
+Route::get('admin/noticias/delete/{id}', 'NoticiasController@destroy');
 Route::get('noticias/{id}/edit', 'NoticiasController@edit');
 Route::get('noticias/{id}/uploadPhotos', 'NoticiasController@uploadPhotos');
 Route::post('noticias/{id}/upload', 'NoticiasController@storePhoto');

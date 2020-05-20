@@ -1,0 +1,69 @@
+.flex {
+    display: flex;
+  }
+
+.container2 {
+    width: 90%; margin: 0 auto;
+}
+.panelNav {
+width: 200px;
+height: 100vh;
+position: fixed;
+/* background-image: url(" {{ url('img/backgroundMenu.jpg') }} "); */
+background-position: center;
+background-size: cover; 
+box-shadow: 3px 0px 3px 0px rgba(0,0,0,0.38);
+}
+
+.panelNav span {
+font-size: 16px;
+}
+.panelNavFake {
+width: 200px;
+height: 100vh;
+}
+
+.navLinks a{ color: white }
+.navLinks li {margin-bottom: 10px; font-size: 16px; transition: .3s; padding-left: 10px}
+
+.navLinks li.active { border-left:  #43c0d9 solid 2px }
+.navLinks li.active a { color : #43c0d9 }
+.navLinks li:hover > a { color: #43c0d9 !important}
+
+.authData { position: absolute; bottom: 30px; left: 20px; width:  240px; color: white}
+.authData p { margin: 4px}
+
+.menuIconContainer  {
+    display: none;
+}
+@media only screen and (max-width: 600px) { 
+    .panelNavFake { display: none}
+    .panelNav {
+        transform: translateX(-110%);
+        transition: .7s;
+        width: 250px;
+    }
+
+    .navLinks li { font-size: 20px}
+    .authData { bottom: 50px;}
+    .panelNav.active {
+        transform: translateX(0);
+        z-index: 10;
+        box-shadow: 40px 0px 30px 200px rgba(0,0,0,0.5);
+    }
+
+    .menuIconContainer {
+        display:  block;
+        position: fixed;
+        top: 0;
+        right: 0;
+        background: black;
+        color: white;        
+        z-index: 11;  
+    }
+
+    .menuIconContainer span {
+        font-size: 30px;
+        padding: 10px;
+    }
+}

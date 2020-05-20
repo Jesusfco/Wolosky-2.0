@@ -1,41 +1,38 @@
-<div id="panel">
-    <br>
-    <div id="panelMargen">
-        <br>
-        <div id="userKey"><h2>{{ substr(Auth::user()->name,0,1)}}</h2> </div>
-        <h3>{{ substr(Auth::user()->name,0,9) }}.</h3>
 
-        <!--<h4 id="adminLevel">
-            Administrador
-            <span class="glyphicon glyphicon-user" aria-hidden="true" id="chess"></span>
-        </h4>-->
-        <hr>
+<div class="menuIconContainer" onclick="toogleMenu()" >
+  <span class="material-icons">menu</span>
+</div>
 
+<div class="panelNav " id="panelNav" style="background-image: url( {{ url('images/navBackground.jpg') }} )">
 
-        <h4>
-            <span class="glyphicon glyphicon-text-background" aria-hidden="true" id="chess"></span>
-            Noticias
-        </h4>
-        <ul>
-            <a href="{{ url('admin/noticias/create')}}">
-                <li>Crear Nota</li>
-            </a>
-            <a href="{{ url('admin/noticias/list')}}">
-                <li>Lista de Noticias</li>
-            </a>
-        </ul>
-        
-        <hr>
+  <div class="container2">
+    <br><br>
+    
+    <a href="{{ url('/') }}">
+      <img width="90%" src="{{ url('images/logo-mail.png')}}"> 
+    </a>
+    
+    <br><br>
 
-        <h4><span class="glyphicon glyphicon-cog" aria-hidden="true" id="chess"></span>
-            Ajustes
-        </h4>
+  <ul class="navLinks">                    
+    
+    <li class="@if(Request::is('admin/noticias*')) active @endif">
+      <a href="{{ url('admin/noticias') }}">
+      <span class="material-icons">people</span>
+      Noticias</a></li>
+    
+    
+    {{-- <li><a href="{{ url('app/perfil') }}">Mi Perfil</a></li> --}}
+    <li><a href="{{ url('logout') }}">
+      <span class="material-icons">power_off</span>
+      Cerrar Sesión</a></li>
+  </ul>
+  </div>
 
-        <ul>
-            <li>Contraseñas</li>
-
-
-        </ul>
-
+    <div class="authData container">
+      <p><i class="material-icons">face</i> 
+        {{ Auth::user()->name }}</p>            
+      <p><i class="material-icons">perm_contact_calendar</i>
+        {{ Auth::user()->user_type() }}</p>
     </div>
 </div>

@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.visitor')
 
     @section('css')  
         <link rel="stylesheet" type="text/css" href="css/index.css">
