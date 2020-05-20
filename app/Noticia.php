@@ -21,4 +21,10 @@ class Noticia extends Model
 //        $m = $query->where('TEXTO', 'LIKE', "%$name%")->union($n)->get();
         return $query->where('titulo', 'LIKE', "%$name%");
     }
+
+    public function getImgUrl() {
+        $file = str_replace(' ', '%20', $this->imagen);
+        return url('images/noticias/' . $this->id . '/' . $file);
+        
+    }
 }

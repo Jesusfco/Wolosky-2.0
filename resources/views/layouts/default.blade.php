@@ -43,22 +43,32 @@
         <div class='nav-wrapper container'>      
             <a id='logo-container' href='{{ url('/')}}' ><span class='icon-wolosky'></span></a>
             <ul class='right hide-on-med-and-down' >        
-                <li><a href='{{ url('/')}}' class='white-text thin'>        Inicio       </a></li> 
-                <li><a href='{{ url('/quienes')}}' class='white-text thin'>      Quienes Somos</a></li>
-                <li><a href='{{ url('/noticias')}}' class='white-text thin'>       Noticias     </a></li>
-                <li><a href='{{ url('/equipo')}}' class='white-text thin'>       Equipo       </a></li>
-                <li><a href='{{ url('/contacto')}}' class='white-text thin'>     Contacto  </a></li>
+                <li class="@if(Request::is('/'))active @endif">
+                    <a href='{{ url('/')}}' class='white-text thin'>        Inicio       </a></li> 
+                <li class="@if(Request::is('/quienes'))active @endif">
+                    <a href='{{ url('/quienes')}}' class='white-text thin'>      Quienes Somos</a></li>
+                <li class="@if(Request::is('/noticias*'))active @endif">
+                    <a href='{{ url('/noticias')}}' class='white-text thin'>       Noticias     </a></li>
+                <li class="@if(Request::is('/equipo'))active @endif">
+                    <a href='{{ url('/equipo')}}' class='white-text thin'>       Equipo       </a></li>
+                <li class="@if(Request::is('/contacto'))active @endif">
+                    <a href='{{ url('/contacto')}}' class='white-text thin'>     Contacto  </a></li>
                 
-                <li><a href='{{ url('/login')}}' class='white-text thin'>     Login      </a></li>
+                
             </ul>
             <ul id='nav-mobile' class='side-nav'>        
                 <img class="logoNavMobile" src="{{ url('images/Wolosky-Logo.png')}}">
-                <li><a href='{{ url('/')}}'>        Inicio       </a></li> 
-                <li><a href='{{ url('/quienes')}}'>      Quienes Somos</a></li>
-                <li><a href='{{ url('/noticias')}}'>       Noticias     </a></li>
-                <li><a href='{{ url('/equipo')}}'>       Equipo       </a></li>
-                <li><a href='{{ url('/contacto')}}'>     Contacto      </a></li>
-                <li><a href='{{ url('/login')}}'>     Login      </a></li>
+                <li class="@if(Request::is('/'))active @endif">
+                    <a href='{{ url('/')}}'>        Inicio       </a></li> 
+                <li class="@if(Request::is('/quienes'))active @endif">
+                    <a href='{{ url('/quienes')}}'>      Quienes Somos</a></li>
+                <li class="@if(Request::is('/noticias*'))active @endif">
+                    <a href='{{ url('/noticias')}}'>       Noticias     </a></li>
+                <li class="@if(Request::is('/equipo'))active @endif">
+                    <a href='{{ url('/equipo')}}'>       Equipo       </a></li>
+                <li class="@if(Request::is('/contacto'))active @endif">
+                    <a href='{{ url('/contacto')}}'>     Contacto      </a></li>
+                
                 <img class="splashBack" src="{{ url('images/nav-splash.jpg')}}">
 
                 {{-- <li><img class="logoNavMobile" src="{{ url('images/Wolosky-Logo.png')}}"></li>
@@ -68,7 +78,7 @@
                 <li><a href='{{ url('/noticias')}}'> <i class="material-icons">event_note</i>      Noticias     </a></li>
                 <li><a href='{{ url('/equipo')}}'> <i class="material-icons">group</i>       Equipo       </a></li>
                 <li><a href='{{ url('/contacto')}}'> <i class="material-icons">mail</i>     Contacto      </a></li>
-                <li><a href='{{ url('/login')}}'> <i class="material-icons">security</i>     Login      </a></li>
+                
                 <li><img class="splashBack" src="{{ url('images/nav-splash.jpg')}}"></li> --}}
 
             </ul>      
@@ -80,51 +90,83 @@
     @section('content')
     @show
      
- <footer class="page-footer">
+<footer class="page-footer">
 
+    <div class="row">
+        
+        <!-- Redes Sociales -->
+        <div class="col s12 l6">
+        
+            <div class="redes">
 
-<div class="row">
-<!-- Redes Sociales -->
+                <h2 class="light flow-text">Siguenos en:</h2>
 
-<div class="col s12 ">
-  <center>
-	<!-- <span class="icon-wolosky logofooter" ></span> -->
-</center>
-<div class="redes">
-    <h2 class="light flow-text">Siguenos en:</h2>
+                <div class="redesimagenes">
+                    <a href="https://www.facebook.com/Gimnasia-Artistica-WOLOSKY-101212723267687/?fref=ts" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Facebook!">
+                        <img src="{{ url('images/footer/facebook.png')}}" class="hvr-grow-shadow">
+                    </a>
 
-  <div class="redesimagenes">
-    <a href="https://www.facebook.com/Gimnasia-Artistica-WOLOSKY-101212723267687/?fref=ts" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Facebook!">
-    	<img src="{{ url('images/footer/facebook.png')}}" class="hvr-grow-shadow">
+                    <a href="https://twitter.com/rebewolosky" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Twitter!">
+                        <img src="{{ url('images/footer/twitter.png')}}">
+                    </a>  
+                    <a href="https://www.instagram.com/woloskygimnasia/" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Instagram!">
+                        <img src="{{ url('images/footer/instagram.png')}}">
+                    </a>
+                    <a href="https://www.youtube.com/user/WoloskyGym" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Youtube!">
+                        <img src="{{url('images/footer/youtube.png')}}">
+                    </a>
+                    <a href="https://api.whatsapp.com/send?phone=5219615936833" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Enviame un mensaje!">
+                        <img src="{{url('images/footer/whats.png')}}">
+                    </a>
+
+                </div>  
+            </div>
+        </div>
+
+        <div class="col s12 l3">
+            <h5>Contacto</h5>
+            <p class="thin">Avenida 2 poniente #338, Colonia C.P. 29000. Tuxtla Gutiérrez, Chiapas</p>
+        </div>
+
+        <div class="col s12 l3">
+            <h5>Links</h5>
+            <ul class='' >        
+                <li><a href='{{ url('/') }}' class='white-text thin'>        Inicio       </a></li> 
+                <li><a href='{{ url('/quienes') }}' class='white-text thin'>      Quienes Somos</a></li>
+                <li><a href='{{ url('/noticias') }}' class='white-text thin'>       Noticias     </a></li>
+                <li><a href='{{ url('/equipo') }}' class='white-text thin'>       Equipo       </a></li>
+                <li><a href='{{ url('/contacto') }}' class='white-text thin'>     Contacto  </a></li>                                
+                <li><a href='{{ url('/login') }}' class='white-text thin'>     Login  </a></li>                                
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="footer-copyright black">
+        <div class="container">
+                Gimnasia Wolosky© <?php echo date("Y");?>
+            <a class="grey-text text-lighten-4 right" href="http://roguezservices.com/">Made by <img src="http://roguezservices.com/img/logoNav.png"></a>
+        </div>
+    </div>
+
+</footer>
+
+@if(!Request::is('/noticias*')) 
+    <a href="https://api.whatsapp.com/send?phone=5219615936833" class="tooltipped whatsFloating" data-position="left" data-delay="50" data-tooltip="!Contáctame!">
+        <img src="{{ url('images/whatsapp.png')}}">
     </a>
-
-    <a href="https://twitter.com/rebewolosky" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Twitter!">
-    	<img src="{{ url('images/footer/twitter.png')}}">
-    </a>  
-    <a href="https://www.instagram.com/woloskygimnasia/" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Instagram!">
-    	<img src="{{ url('images/footer/instagram.png')}}">
-    </a>
-    <a href="https://www.youtube.com/user/WoloskyGym" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Youtube!">
-    	<img src="{{url('images/footer/youtube.png')}}">
-    </a>
-
-  </div>  
-</div>
-</div>
-
-	<div class="col s12 l4">
-	</div>
-
-</div>
-
-<div class="footer-copyright black">
-      <div class="container">
-            Gimnasia Wolosky© <?php echo date("Y");?>
-          <a class="grey-text text-lighten-4 right" href="http://roguezservices.com/">Made by <img src="http://roguezservices.com/img/logoNav.png"></a>
-      </div>
-</div>
-
+@endif
 <style>
+    .whatsFloating {
+        position: fixed;
+        right: 25px;
+        bottom: 25px;
+    }
+
+    .whatsFloating img {
+        width: 120px;
+        display: block
+    }
     .footer-copyright .right {
         display:flex;
     }
@@ -133,6 +175,18 @@
         position: relative;
         top: 5px;
         margin-left: 20px;
+    }
+
+    @media (max-width: 900px) {
+        footer * {
+            text-align: center
+        }
+        .whatsFloating{ 
+            right: 15px;
+            bottom: 15px;
+        }
+        .whatsFloating img { width: 80px }
+
     }
 </style>
 

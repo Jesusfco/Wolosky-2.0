@@ -32,7 +32,7 @@
             <div class='blog'>
 
                     <a href='noticias/{{ $n->id }}'> 
-                        <img class='responsive-img' id="agrandamiento" src='images/noticias/{{ $n->id }}/{{ $n->imagen }}'></a> 
+                        <img class='responsive-img' id="agrandamiento" src='{{ $n->getImgUrl() }}'></a> 
                     <a href='noticias/{{ $n->id }}'>
                     <h5 class='center tituloNoticia black-text'>"{{ $n->titulo }}"</h5>
                     </a>
@@ -123,7 +123,7 @@
     <div class="direccion" id="ubicationDescription">
         <p class="center">Avenida 2 poniente 338, Colonia Centro</p>
         <p class="center">Santo Domingo C.P. 29000</p>
-        <p class="center">Tuxtla Gutiérrex, Chiapas</p>
+        <p class="center">Tuxtla Gutiérrez, Chiapas</p>
     </div>
    
      

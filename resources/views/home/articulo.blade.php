@@ -1,15 +1,15 @@
 @extends('layouts.default')
         
 @section('title')
-    <title>{{ $noticias->titulo }} - Wolosky Noticias - Gimnasia Artística - Tuxtla Gutierrez, Chiapas</title>
+    <title>{{ $articulo->titulo }} - Wolosky Noticias - Gimnasia Artística - Tuxtla Gutierrez, Chiapas</title>
 @endsection        
 @section('css')  
-    <meta property="og:url"                content="{{ url('noticias', $noticias->id)}}" />
+    <meta property="og:url"                content="{{ url('noticias', $articulo->id)}}" />
     <meta property="og:type"               content="article" />
     <meta property="fb:app_id"               content="1087647381316356" />
-    <meta property="og:title"              content="{{ $noticias->titulo }}" />
-    <meta property="og:description"        content="{{ $noticias->resumen }}" />
-    <meta property="og:image"              content="{{ url('images/noticias/' . $noticias->id . '/' . $noticias->imagen) }}" />
+    <meta property="og:title"              content="{{ $articulo->titulo }}" />
+    <meta property="og:description"        content="{{ $articulo->resumen }}" />
+    <meta property="og:image"              content="{{ $articulo->getImgUrl() }}" />
 
     <link rel='stylesheet' type='text/css' href='../css/noticias.css'>
 
@@ -24,7 +24,7 @@
 
 <div id="app">           
 
-<input type="hidden" value="{{$noticias->id}}" id="galleryId">
+<input type="hidden" value="{{$articulo->id}}" id="galleryId">
 <input type="hidden" value="{{url('/')}}" id="homePath">
 
     <div class="row z-depth-5 content">
@@ -33,35 +33,35 @@
         <div class='col s12 l10 offset-l1'>
             <blockquote>
                 <h1 class='thin black-text titulo'> 
-                    {{ $noticias->titulo }}
+                    {{ $articulo->titulo }}
                 </h1>
                 <div class='col s1'>
                       <i class='small material-icons'>today</i> 
                 </div>
                 <div class='fecha' >
-                    <p class='fecha'>{{ $noticias->fecha }}</p>
+                    <p class='fecha'>{{ $articulo->fecha }}</p>
                 </div>
             </blockquote>
         </div>
                 
          <div class='col s12 l10 offset-l1'>
-            <img class='materialboxed' src='../images/noticias/{{ $noticias->id }}/{{ $noticias->imagen }}' width='100%'>
+            <img class='materialboxed' src='{{ $articulo->getImgUrl() }}' width='100%'>
         </div>
 
         <div class='row col s12 l8 offset-l1'>
             <blockquote>
-            {{ $noticias->resumen }}
+            {{ $articulo->resumen }}
             </blockquote>
         </div>
 
         <div class='row'>
             <div class='col s12  l10 offset-l1'>
-                <div style="display: none;">{{ $texto = $noticias->texto }}</div>
+                <div style="display: none;">{{ $texto = $articulo->texto }}</div>
                 <?php echo $texto; ?>
             </div>
         </div>
 
-        <div style="display: none;">{{ $youtu = $noticias->youtube}}</div>
+        <div style="display: none;">{{ $youtu = $articulo->youtube}}</div>
         <div class='col s12 l8 offset-l2'> 
           <div class='video-container'><?php echo $youtu; ?></div>
         </div>
@@ -78,7 +78,7 @@
 
 
         <div class='row col s12 l8 offset-l2'>
-            <div class='fb-like' data-href='http://www.woloskygimnasia.com/noticias/{{ $noticias->id }}' data-layout='standard' data-action='like' data-size='small' data-show-faces='true' data-share='true'></div>
+            <div class='fb-like' data-href='http://www.woloskygimnasia.com/noticias/{{ $articulo->id }}' data-layout='standard' data-action='like' data-size='small' data-show-faces='true' data-share='true'></div>
         </div>
 
 
@@ -107,19 +107,19 @@
         <div class='row'>
             <div class='col s12 l8 offset-l2'>
                 <!-- Facebooks comentarios -->
-                <div class='fb-comments' data-href='http://www.woloskygimnasia.com/noticias/{{ $noticias->id }}.php' data-numposts='5'></div>
+                <div class='fb-comments' data-href='http://www.woloskygimnasia.com/noticias/{{ $articulo->id }}.php' data-numposts='5'></div>
             </div>
         </div>
         
-        @if(isset($not))
+        @if(isset($noticias))
         <div class="row social hide-on-large-only hide-on-small-only">
             <h4>Mas Noticias</h4>
-        @foreach($not as $n)
+        @foreach($noticias as $n)
         
             <div class="col m6">
             <a href="{{ $n->id}}">
                 <div class="interes">
-                    <img src="../images/noticias/{{ $n->id }}/{{ $n->imagen }}" class="responsive-img">
+                    <img src="{{ $n->getImgUrl() }}" class="responsive-img">
                 </div> 
             </a>
             <h5> {{ $n->titulo}} </h5>
@@ -140,11 +140,11 @@
         </div>
         <h4>Mas Noticias</h4>
         
-        @if(isset($not))
-        @foreach($not as $n)
+        @if(isset($noticias))
+        @foreach($noticias as $n)
             <a href="{{ $n->id}}">
                 <div class="interes">
-                    <img src="../images/noticias/{{ $n->id }}/{{ $n->imagen }}" class="responsive-img">
+                    <img src="{{ $n->getImgUrl() }}" class="responsive-img">
                 </div> 
             </a>
             <h5> {{ $n->titulo}} </h5>

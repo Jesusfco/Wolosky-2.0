@@ -82,10 +82,10 @@ class VisitorsController extends Controller
     }
     public function articulo($id)
     {
-        $noticias = Noticia::find($id);
-        $articulos = Noticia::limit(4)->select('titulo','id','imagen')->inRandomOrder()->get();
+        $articulo = Noticia::find($id);
+        $noticias = Noticia::limit(4)->select('titulo','id','imagen')->inRandomOrder()->get();
 
-        return view('home/articulo')->with(['noticias'=> $noticias, 'not' => $articulos]);
+        return view('home/articulo')->with(['articulo'=> $articulo, 'noticias' => $noticias]);
     }
 
 
