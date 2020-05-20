@@ -58,7 +58,7 @@ class NoticiasController extends Controller
         ini_set('memory_limit','256M');
         //Se carga la imagen a la carpeta
         $img = $request->file('imagen');
-        $file_route = time().'_'. $img->getClientOriginalName();
+        $file_route = 'principal.'. $img->getClientOriginalExtension();
 
 
         $noticias = new Noticia();
@@ -120,29 +120,23 @@ class NoticiasController extends Controller
         if($request->file('imagen')) {
             ini_set('memory_limit','256M');
             $img = $request->file('imagen');
-            $file_route = time().'_'. $img->getClientOriginalName();
+            $file_route = 'principal.'. $img->getClientOriginalExtension();
 
-
+            File::delete('images/noticias/' . $id . '/' .$noticias->imagen);
 
             Image::make($request->file('imagen'))
                   ->fit(900,600)
                   ->save('images/noticias/' . $id . '/' . $file_route);
 
-            File::delete('images/noticias/' . $id . '/' .$noticias->imagen);
 
             $noticias->imagen = $file_route;
 
-        }
-
-        //Detectamos saltos de linea y automatizamos <br>
-//        $texto = $request->texto;
-//        $texto = rawurlencode($texto);
-//        $texto = rawurldecode(str_replace("%0D%0A","<br>",$texto));
+        }        
 
         $noticias->titulo = $request->titulo;
         $noticias->resumen = $request->resumen;
         $noticias->fecha= $request->fecha;
-        $noticias->texto = $request->texto;;
+        $noticias->texto = $request->texto;
         $noticias->youtube = $request->youtube;
 
         if($noticias->save()) {
