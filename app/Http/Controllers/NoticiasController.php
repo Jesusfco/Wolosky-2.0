@@ -50,7 +50,6 @@ class NoticiasController extends Controller
             'resumen' => 'required',
             'fecha' => 'required',
             'texto' => 'required',
-            'youtube' => 'required',
             'imagen' => 'required|image'
 
         ]);
@@ -111,7 +110,6 @@ class NoticiasController extends Controller
             'resumen' => 'required',
             'fecha' => 'required',
             'texto' => 'required',
-            'youtube' => 'required',
         ]);
 
         $noticias = Noticia::find($id);
