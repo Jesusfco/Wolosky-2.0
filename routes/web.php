@@ -25,9 +25,7 @@ Route::get('/quienes', function () {
 Route::get('/gimnasia', function () {
     return view('home/gimnasia');
 });
-Route::get('/equipo', function () {
-    return view('home/equipo');
-});
+Route::get('/equipo', 'VisitorsController@team');
 Route::get('/contacto', function () {
     return view('home/contacto');
 });
@@ -37,12 +35,6 @@ Route::get('/suscribete', function () {
 
 Route::post('/mensaje', 'VisitorsController@mail');
 
-Route::get('schedules', 'VisitorsController@schedules');
-// Route::get('records', 'VisitorsController@records');
-
-// Route::get('setYear', 'VisitorsController@setYear');
-
-
 
 Auth::routes();
 Route::get('logout', 'Auth\LoginController@logout');
@@ -50,12 +42,7 @@ Route::get('home', function(){
     return redirect('admin');
 });
 
-Route::get('recordss', 'Auth\PaymentsController@insertRecords');
 
-Route::get('admin/noticias', 'NoticiasController@index');
-Route::get('admin/noticias/create', 'NoticiasController@create');
-Route::post('admin/noticias/create', 'NoticiasController@store');
-Route::get('admin/noticias/delete/{id}', 'NoticiasController@destroy');
 Route::get('noticias/{id}/edit', 'NoticiasController@edit');
 Route::get('noticias/{id}/uploadPhotos', 'NoticiasController@uploadPhotos');
 Route::post('noticias/{id}/upload', 'NoticiasController@storePhoto');
@@ -63,11 +50,25 @@ Route::post('noticias/{id}/deletePhoto' , 'NoticiasController@deletePhoto');
 Route::get('noticias/{id}/getPhotos', 'VisitorsController@getPhotos');
 Route::post('admin/noticias/{id}', 'NoticiasController@update');
 
-// Route::get('order', 'NoticiasController@order');
+Route::prefix('admin')->group(function () { 
 
+    Route::get('noticias', 'NoticiasController@index');
+    Route::get('noticias/create', 'NoticiasController@create');
+    Route::post('noticias/create', 'NoticiasController@store');
+    Route::get('noticias/delete/{id}', 'NoticiasController@destroy');
 
+    Route::get('equipo', 'Web\TeamController@index');
+    Route::get('equipo/create', 'Web\TeamController@create');
+    Route::post('equipo/create', 'Web\TeamController@store');
+    Route::get('equipo/edit/{id}', 'Web\TeamController@edit');
+    Route::post('equipo/edit/{id}', 'Web\TeamController@update');
+    Route::get('equipo/delete/{id}', 'Web\TeamController@destroy');
+
+});
+
+// NO SIRVE
 Route::get('/admin', 'HomeController@index');
 
-Route::get('barcode', 'PDFController@getProductsWithCodeBar');
 
-// Route::get('/migrate', 'VisitorsController@migration');
+
+

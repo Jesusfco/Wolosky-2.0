@@ -20,6 +20,11 @@
       <a href="{{ url('admin/noticias') }}">
       <span class="material-icons">people</span>
       Noticias</a></li>
+
+    <li class="@if(Request::is('admin/equipo*')) active @endif">
+      <a href="{{ url('admin/equipo') }}">
+      <span class="material-icons">people</span>
+      Equipo</a></li>
     
     
     {{-- <li><a href="{{ url('app/perfil') }}">Mi Perfil</a></li> --}}

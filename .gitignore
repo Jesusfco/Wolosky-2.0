@@ -12,4 +12,5 @@ yarn-error.log
 .env
 *.zip
 public/images/app/users/*
+public/images/equipo/*
 public/images/noticias/*

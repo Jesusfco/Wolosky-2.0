@@ -17,17 +17,12 @@ use Wolosky\Schedule;
 use Wolosky\Record;
 use Mail;
 use Wolosky\Mail\ContactMail;
+use Wolosky\Team;
 
 class VisitorsController extends Controller
 {
 
-    public function checar(Request $re) {
-        return $re->mensaje;
-    }
-    public function schedules() {
-        Schedule::where('active', 0)->delete();
-        return 'SCHEDULES DELETED WHERE ACTIVE = 0';
-    }
+     
 
     public function migration(){
         // 
@@ -101,6 +96,13 @@ class VisitorsController extends Controller
                 
         return back()->with('msj', 'Mensaje enviado, en breve se le contestara');
         
+    }
+
+    function team(){
+
+        $array = Team::where('active', true)->get();
+        return view('home/equipo')->with('team', $array);
+
     }
 
     public function test() {
