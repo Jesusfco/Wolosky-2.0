@@ -20,6 +20,6 @@ class Schedule extends Model {
     // public $timestamps = true;
 
     public function user() {
-        return $this->belongsTo('Wolosky\User');
+        return $this->belongsTo('Wolosky\User')->withDefault();
     }
 }

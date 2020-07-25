@@ -27,6 +27,12 @@ Route::post('setPassword', 'Auth\ResetPasswordController@changePassword');
 Route::get('dashboard', 'App\UtilController@dashboard');
 Route::post('dashboard/details', 'App\UtilController@dashboardDetails');
 
+// FingerPrintDesktopController
+Route::prefix('finger-print-desktop')->group(function () {  
+    Route::get('init-data', 'App\FingerPrintDesktopController@getInitData');
+    Route::post('put-record', 'App\FingerPrintDesktopController@putRecord');
+});
+
 //USUARIOS
 
 Route::post('userSearch', 'UsersController@get');
